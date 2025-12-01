@@ -137,9 +137,8 @@ public class GlobalLocalization
                 LanguageDictionary[localizationID][basicLocalization.name]
                     .TryAdd(basicTranslate.key, basicTranslate.translate);
 
-                if (!string.IsNullOrEmpty(basicTranslate.tooltip))
-                    LanguageDictionary[localizationID][basicLocalization.name]
-                        .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
+                LanguageDictionary[localizationID][basicLocalization.name]
+                    .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
             }
 
             langKeyList.TryAdd(localizationID, new());
