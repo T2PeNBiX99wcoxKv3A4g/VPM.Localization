@@ -20,8 +20,6 @@ namespace io.github.ykysnk.Localization
 
         protected virtual void OnValidate()
         {
-            // Maybe fix random data lost issue or doing nothing
-            DontDestroyOnLoad(this);
             if (string.IsNullOrEmpty(displayName))
                 displayName = DefaultDisplayName;
             OnLanguageUpdated?.Invoke();

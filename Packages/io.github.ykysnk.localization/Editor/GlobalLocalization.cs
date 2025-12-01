@@ -108,8 +108,15 @@ public class GlobalLocalization
 
         var langDisplayNames = new Dictionary<string, Dictionary<string, string>>();
         var langKeyList = new Dictionary<string, List<string>>();
+        var basicLocalizations = AssetDatabase.FindAssets($"t:{nameof(BasicLocalization)}").Select(x =>
+        {
+            var path = AssetDatabase.GUIDToAssetPath(x);
+            return AssetDatabase.LoadAssetAtPath<BasicLocalization>(path);
+        }).ToArray();
 
-        foreach (var basicLocalization in Resources.FindObjectsOfTypeAll<BasicLocalization>())
+        Utils.Log(nameof(GlobalLocalization), $"Found {basicLocalizations.Length} {nameof(BasicLocalization)} assets!");
+
+        foreach (var basicLocalization in basicLocalizations)
         {
             var localizationID = basicLocalization.localizationID;
 
