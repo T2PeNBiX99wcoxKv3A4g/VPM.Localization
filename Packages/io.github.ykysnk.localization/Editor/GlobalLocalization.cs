@@ -108,6 +108,8 @@ public class GlobalLocalization
 
         var langDisplayNames = new Dictionary<string, Dictionary<string, string>>();
         var langKeyList = new Dictionary<string, List<string>>();
+
+        // Refs: https://discussions.unity.com/t/how-can-i-find-all-instances-of-a-scriptable-object-in-the-project-editor/198002/3
         var basicLocalizations = AssetDatabase.FindAssets($"t:{nameof(BasicLocalization)}").Select(x =>
         {
             var path = AssetDatabase.GUIDToAssetPath(x);
