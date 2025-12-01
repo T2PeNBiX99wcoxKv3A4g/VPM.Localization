@@ -23,10 +23,10 @@ MonoBehaviour:
     tooltip: "\u30C6\u30AD\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059"
   - key: label.localization_id
     translate: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3ID"
-    tooltip: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3ID"
+    tooltip: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3\u306E\u56FA\u6709ID"
   - key: label.display_name
     translate: "\u8868\u793A\u540D"
-    tooltip: "\u8868\u793A\u540D"
+    tooltip: "\u8A00\u8A9E\u306E\u8868\u793A\u540D"
   - key: label.translates
     translate: "\u7FFB\u8A33"
-    tooltip: "\u7FFB\u8A33"
+    tooltip: "\u7FFB\u8A33\u30EA\u30B9\u30C8"

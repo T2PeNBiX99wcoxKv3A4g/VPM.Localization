@@ -23,10 +23,10 @@ MonoBehaviour:
     tooltip: A text
   - key: label.localization_id
     translate: Localization ID
-    tooltip: Localization ID
+    tooltip: The unique ID of localization
   - key: label.display_name
     translate: Display Name
-    tooltip: Display Name
+    tooltip: Display name of language
   - key: label.translates
     translate: Translates
-    tooltip: Translates
+    tooltip: Translate list
