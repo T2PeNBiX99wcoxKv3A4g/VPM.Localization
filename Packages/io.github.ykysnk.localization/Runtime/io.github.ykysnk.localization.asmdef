@@ -1,14 +1,17 @@
 {
-  "name": "io.github.ykysnk.localization",
-  "references": [
-    "VRC.SDKBase"
-  ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "autoReferenced": true,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "defineConstraints": [],
-  "optionalUnityReferences": []
+    "name": "io.github.ykysnk.localization",
+    "rootNamespace": "io.github.ykysnk.Localization",
+    "references": [
+        "VRC.SDKBase",
+        "io.github.ykysnk.utils"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

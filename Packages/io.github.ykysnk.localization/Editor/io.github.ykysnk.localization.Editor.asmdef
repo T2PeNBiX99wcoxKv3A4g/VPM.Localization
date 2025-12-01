@@ -1,16 +1,22 @@
 {
   "name": "io.github.ykysnk.localization.Editor",
+  "rootNamespace": "io.github.ykysnk.Localization",
   "references": [
     "VRC.SDKBase",
     "VRC.SDKBase.Editor",
+    "io.github.ykysnk.utils",
+    "io.github.ykysnk.utils.Editor",
     "io.github.ykysnk.localization"
   ],
-  "includePlatforms": [],
+  "includePlatforms": [
+    "Editor"
+  ],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
-  "autoReferenced": true,
   "overrideReferences": false,
   "precompiledReferences": [],
+  "autoReferenced": true,
   "defineConstraints": [],
-  "optionalUnityReferences": []
+  "versionDefines": [],
+  "noEngineReferences": false
 }
