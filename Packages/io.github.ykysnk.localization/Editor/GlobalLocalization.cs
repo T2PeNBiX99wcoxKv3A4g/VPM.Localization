@@ -13,6 +13,8 @@ namespace io.github.ykysnk.Localization.Editor;
 [PublicAPI]
 public class GlobalLocalization
 {
+    public delegate void LocalizationUpdated();
+
     public const string TooltipExt = ".tooltip";
     public const string LanguageLabelKey = "label.language";
     public const string DefaultLangKey = "en-US";
@@ -28,6 +30,8 @@ public class GlobalLocalization
     public static readonly Dictionary<string, GUIContent> GuiContents = new();
 
     static GlobalLocalization() => Load();
+
+    public static event LocalizationUpdated? OnLocalizationReload;
 
     public static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
         ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
@@ -171,6 +175,7 @@ public class GlobalLocalization
         _languageKeyNames = tempLanguageKeyNames;
 
         langKeyList.Clear();
+        OnLocalizationReload?.Invoke();
         BasicLocalization.OnLanguageUpdated += Load;
     }
 }
