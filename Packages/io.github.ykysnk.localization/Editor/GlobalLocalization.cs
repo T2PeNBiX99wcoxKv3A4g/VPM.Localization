@@ -105,7 +105,7 @@ public static class GlobalLocalization
             SetSelectedLanguage(localizationID, keyList[newIndex]);
     }
 
-    [MenuItem("Tools/Localization/Reload Languages")]
+    [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
     private static void Load()
     {
         BasicLocalization.OnLanguageUpdated -= Load;
