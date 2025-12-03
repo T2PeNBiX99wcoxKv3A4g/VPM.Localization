@@ -7,14 +7,14 @@ namespace io.github.ykysnk.Localization.Editor;
 [PublicAPI]
 public class UpdateHelper
 {
-    public delegate void UpdateLabel(string newLabel);
+    public delegate void Callback(string newLabel);
 
     private static readonly Dictionary<string, UpdateHelper> UpdateHelpers = new();
-    private readonly UpdateLabel _callback;
+    private readonly Callback _callback;
     private readonly string _localizationID;
     private readonly string _localizeKey;
 
-    private UpdateHelper(string localizationID, string localizeKey, UpdateLabel callback)
+    private UpdateHelper(string localizationID, string localizeKey, Callback callback)
     {
         _localizationID = localizationID;
         _localizeKey = localizeKey;
@@ -23,7 +23,7 @@ public class UpdateHelper
         GlobalLocalization.OnLocalizationChanged += OnLocalizationChanged;
     }
 
-    public static void Register(string localizationID, string localizeKey, UpdateLabel callback)
+    public static void Register(string localizationID, string localizeKey, Callback callback)
     {
         var fullKey = $"{localizationID}.{localizeKey}";
         UpdateHelpers.Remove(fullKey);
@@ -31,7 +31,7 @@ public class UpdateHelper
         UpdateHelpers.Add(fullKey, helper);
     }
 
-    public static void Register(string localizationID, SerializedProperty property, UpdateLabel callback) =>
+    public static void Register(string localizationID, SerializedProperty property, Callback callback) =>
         Register(localizationID,
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}",
             callback);
