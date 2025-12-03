@@ -105,10 +105,12 @@ public static class GlobalLocalization
             SetSelectedLanguage(localizationID, keyList[newIndex]);
     }
 
+    private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
+
     [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
     private static void Load()
     {
-        BasicLocalization.OnLanguageUpdated -= Load;
+        BasicLocalization.OnLocalizationFileUpdated -= OnLocalizationFileUpdated;
         LanguageDictionary.Clear();
         GuiContents.Clear();
 
@@ -178,6 +180,6 @@ public static class GlobalLocalization
 
         langKeyList.Clear();
         OnLocalizationReload?.Invoke();
-        BasicLocalization.OnLanguageUpdated += Load;
+        BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
     }
 }

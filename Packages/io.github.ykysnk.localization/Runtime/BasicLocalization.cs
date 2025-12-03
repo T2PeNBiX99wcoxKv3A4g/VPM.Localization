@@ -7,7 +7,7 @@ namespace io.github.ykysnk.Localization
     [CreateAssetMenu(fileName = "BasicLocalization", menuName = "Localization/Basic Localization")]
     public class BasicLocalization : ScriptableObject
     {
-        public delegate void LanguageUpdated();
+        public delegate void LocalizationFileUpdated(string localizationID, string localizationName);
 
         private const string DefaultDisplayName = "English";
 
@@ -22,9 +22,9 @@ namespace io.github.ykysnk.Localization
         {
             if (string.IsNullOrEmpty(displayName))
                 displayName = DefaultDisplayName;
-            OnLanguageUpdated?.Invoke();
+            OnLocalizationFileUpdated?.Invoke(localizationID, name);
         }
 
-        public static event LanguageUpdated? OnLanguageUpdated;
+        public static event LocalizationFileUpdated? OnLocalizationFileUpdated;
     }
 }
