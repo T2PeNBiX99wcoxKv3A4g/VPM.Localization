@@ -36,12 +36,6 @@ public class UpdateHelper
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}",
             callback);
 
-    private void EventUnregister()
-    {
-        GlobalLocalization.OnLocalizationReload -= OnLocalizationReload;
-        GlobalLocalization.OnLocalizationChanged -= OnLocalizationChanged;
-    }
-
     private void OnLocalizationReload()
     {
         _callback(GlobalLocalization.S(_localizationID, _localizeKey));
