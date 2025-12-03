@@ -75,4 +75,11 @@ public class LocalizationHelper
     public GUIContent G(SerializedProperty property) =>
         G(
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
+
+    public string Tooltip(string key, string? defaultValue = null) => S(key + GlobalLocalization.TooltipExt);
+    public string TooltipF(string key, params object?[] args) => Sf(key + GlobalLocalization.TooltipExt, args);
+
+    public string Tooltip(SerializedProperty property) => S(
+        $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",
+        "");
 }

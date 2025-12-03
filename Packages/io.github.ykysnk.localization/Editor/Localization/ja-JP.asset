@@ -29,19 +29,19 @@ MonoBehaviour:
     tooltip: "\u8A00\u8A9E\u306E\u8868\u793A\u540D"
   - key: label.basic_localization.translates
     translate: "\u7FFB\u8A33\u30EA\u30B9\u30C8"
-    tooltip: "\u7FFB\u8A33\u30EA\u30B9\u30C8"
+    tooltip: 
   - key: label.basic_translate.key
     translate: "\u7FFB\u8A33ID"
-    tooltip: 
+    tooltip: "\u7FFB\u8A33\u306E\u56FA\u6709ID"
   - key: label.basic_translate.translate
     translate: "\u7FFB\u8A33"
     tooltip: 
   - key: label.basic_translate.tooltip
-    translate: "\u30D2\u30F3\u30C8"
+    translate: "\u30C4\u30FC\u30EB\u30C1\u30C3\u30D7"
     tooltip: 
   - key: label.basic_translate.copy
     translate: "\u30B3\u30D4\u30FC"
-    tooltip: 
+    tooltip: "\u7FFB\u8A33\u30C7\u30FC\u30BF\u3092\u30B3\u30D4\u30FC\u3059\u308B\u3002"
   - key: label.basic_translate.paste
     translate: "\u30DA\u30FC\u30B9\u30C8"
-    tooltip: 
+    tooltip: "\u7FFB\u8A33\u30C7\u30FC\u30BF\u3092\u8CBC\u308A\u4ED8\u3051\u3002"

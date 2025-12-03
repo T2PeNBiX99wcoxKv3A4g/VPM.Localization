@@ -29,19 +29,19 @@ MonoBehaviour:
     tooltip: Display name of language
   - key: label.basic_localization.translates
     translate: Translates
-    tooltip: Translate list
+    tooltip: 
   - key: label.basic_translate.key
     translate: Translate ID
-    tooltip: 
+    tooltip: The unique ID of translate
   - key: label.basic_translate.translate
     translate: Translate
     tooltip: 
   - key: label.basic_translate.tooltip
-    translate: Hint
+    translate: Tooltip
     tooltip: 
   - key: label.basic_translate.copy
     translate: Copy
-    tooltip: 
+    tooltip: Copy the translate datas.
   - key: label.basic_translate.paste
     translate: Paste
-    tooltip: 
+    tooltip: Paste the translate datas.

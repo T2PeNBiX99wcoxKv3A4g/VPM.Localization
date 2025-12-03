@@ -7,7 +7,7 @@ namespace io.github.ykysnk.Localization.Editor;
 [PublicAPI]
 public class UpdateHelper
 {
-    public delegate void Callback(string newLabel);
+    public delegate void Callback(string newLabel, string newTooltip);
 
     private static readonly Dictionary<string, UpdateHelper> UpdateHelpers = new();
     private readonly Callback _callback;
@@ -38,7 +38,8 @@ public class UpdateHelper
 
     private void OnLocalizationReload()
     {
-        _callback(GlobalLocalization.S(_localizationID, _localizeKey));
+        _callback(GlobalLocalization.S(_localizationID, _localizeKey),
+            GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
     }
 
     private void OnLocalizationChanged(string id, string newLanguage)

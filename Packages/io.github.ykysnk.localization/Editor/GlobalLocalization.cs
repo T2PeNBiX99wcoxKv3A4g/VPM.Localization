@@ -56,17 +56,13 @@ public static class GlobalLocalization
     {
         var theKey = key ?? Null;
 
-        if (!LanguageDictionary.TryGetValue(localizationID, out var contents))
+        if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
             return defaultValue ?? theKey;
 
-        if (!contents.TryGetValue(GetSelectedLanguage(localizationID), out var languageContents))
-            return contents.TryGetValue(DefaultLangKey, out var languageContents2)
-                ? languageContents2.GetValueOrDefault(theKey, defaultValue ?? theKey)
-                : defaultValue ?? theKey;
-
-        var englishContents = contents.GetValueOrDefault(DefaultLangKey, new());
-        return languageContents.GetValueOrDefault(theKey,
-            englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
+        var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
+        var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
+        var get = contents.GetValueOrDefault(theKey, englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
+        return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
     }
 
     public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
@@ -105,10 +101,17 @@ public static class GlobalLocalization
             {
                 SetSelectedLanguage(localizationID, keyList[keyNames.IndexOf(s)]);
                 return s;
-            }, s => s);
+            }, s => s)
+        {
+            tooltip = S(localizationID, LanguageLabelKey + TooltipExt)
+        };
 
         element.Add(languagePopup);
-        UpdateHelper.Register(localizationID, LanguageLabelKey, label => languagePopup.label = label);
+        UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
+        {
+            languagePopup.label = label;
+            languagePopup.tooltip = tooltip;
+        });
     }
 
     public static string NameToLocalizationName(string name)

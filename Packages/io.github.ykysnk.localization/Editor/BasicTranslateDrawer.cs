@@ -42,29 +42,45 @@ public class BasicTranslateDrawer : PropertyDrawer
         var keyField = visualTree.Q<TextField>("key");
 
         keyField.label = LocalizationKeyID.S();
+        keyField.tooltip = LocalizationKeyID.Tooltip();
         keyField.RegisterCallback<ChangeEvent<string>>(evt => keyProperty.stringValue = evt.newValue);
         keyField.BindProperty(keyProperty);
 
-        LocalizationKeyID.Register(label => keyField.label = label);
+        LocalizationKeyID.Register((label, tooltip) =>
+        {
+            keyField.label = label;
+            keyField.tooltip = tooltip;
+        });
 
         var translateField = visualTree.Q<TextField>("translate");
 
         translateField.label = LocalizationTranslateID.S();
+        translateField.tooltip = LocalizationTranslateID.Tooltip();
         translateField.RegisterCallback<ChangeEvent<string>>(evt => translateProperty.stringValue = evt.newValue);
         translateField.BindProperty(translateProperty);
 
-        LocalizationTranslateID.Register(label => translateField.label = label);
+        LocalizationTranslateID.Register((label, tooltip) =>
+        {
+            translateField.label = label;
+            translateField.tooltip = tooltip;
+        });
 
         var tooltipField = visualTree.Q<TextField>("tooltip");
 
         tooltipField.label = LocalizationTooltipID.S();
+        tooltipField.tooltip = LocalizationTooltipID.Tooltip();
         tooltipField.RegisterCallback<ChangeEvent<string>>(evt => tooltipProperty.stringValue = evt.newValue);
         tooltipField.BindProperty(tooltipProperty);
 
-        LocalizationTooltipID.Register(label => tooltipField.label = label);
+        LocalizationTooltipID.Register((label, tooltip) =>
+        {
+            tooltipField.label = label;
+            tooltipField.tooltip = tooltip;
+        });
 
         var copyButton = visualTree.Q<Button>("copy");
         copyButton.text = LocalizationCopyID.S();
+        copyButton.tooltip = LocalizationCopyID.Tooltip();
         copyButton.clicked += () =>
         {
             var copyBasicTranslate = new BasicTranslate
@@ -77,10 +93,15 @@ public class BasicTranslateDrawer : PropertyDrawer
             EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(copyBasicTranslate);
         };
 
-        LocalizationCopyID.Register(label => copyButton.text = label);
+        LocalizationCopyID.Register((label, tooltip) =>
+        {
+            copyButton.text = label;
+            copyButton.tooltip = tooltip;
+        });
 
         var pasteButton = visualTree.Q<Button>("paste");
         pasteButton.text = LocalizationPasteID.S();
+        pasteButton.tooltip = LocalizationPasteID.Tooltip();
         pasteButton.clicked += () =>
         {
             try
@@ -96,7 +117,11 @@ public class BasicTranslateDrawer : PropertyDrawer
             }
         };
 
-        LocalizationPasteID.Register(label => pasteButton.text = label);
+        LocalizationPasteID.Register((label, tooltip) =>
+        {
+            pasteButton.text = label;
+            pasteButton.tooltip = tooltip;
+        });
 
         root.Add(visualTree);
         return root;
