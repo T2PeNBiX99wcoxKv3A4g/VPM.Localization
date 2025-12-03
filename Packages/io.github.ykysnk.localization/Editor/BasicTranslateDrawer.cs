@@ -45,17 +45,23 @@ public class BasicTranslateDrawer : PropertyDrawer
         keyField.RegisterCallback<ChangeEvent<string>>(evt => keyProperty.stringValue = evt.newValue);
         keyField.BindProperty(keyProperty);
 
+        LocalizationKeyID.Register(label => keyField.label = label);
+
         var translateField = visualTree.Q<TextField>("translate");
 
         translateField.label = LocalizationTranslateID.S();
         translateField.RegisterCallback<ChangeEvent<string>>(evt => translateProperty.stringValue = evt.newValue);
         translateField.BindProperty(translateProperty);
 
+        LocalizationTranslateID.Register(label => translateField.label = label);
+
         var tooltipField = visualTree.Q<TextField>("tooltip");
 
         tooltipField.label = LocalizationTooltipID.S();
         tooltipField.RegisterCallback<ChangeEvent<string>>(evt => tooltipProperty.stringValue = evt.newValue);
         tooltipField.BindProperty(tooltipProperty);
+
+        LocalizationTooltipID.Register(label => tooltipField.label = label);
 
         var copyButton = visualTree.Q<Button>("copy");
         copyButton.text = LocalizationCopyID.S();
@@ -70,6 +76,8 @@ public class BasicTranslateDrawer : PropertyDrawer
 
             EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(copyBasicTranslate);
         };
+
+        LocalizationCopyID.Register(label => copyButton.text = label);
 
         var pasteButton = visualTree.Q<Button>("paste");
         pasteButton.text = LocalizationPasteID.S();
@@ -88,20 +96,9 @@ public class BasicTranslateDrawer : PropertyDrawer
             }
         };
 
-        GlobalLocalization.OnLocalizationReload += UpdateLabels;
-        GlobalLocalization.OnLocalizationChanged += (_, _) => { UpdateLabels(); };
+        LocalizationPasteID.Register(label => pasteButton.text = label);
 
         root.Add(visualTree);
-
         return root;
-
-        void UpdateLabels()
-        {
-            keyField.label = LocalizationKeyID.S();
-            translateField.label = LocalizationTranslateID.S();
-            tooltipField.label = LocalizationTooltipID.S();
-            copyButton.text = LocalizationCopyID.S();
-            pasteButton.text = LocalizationPasteID.S();
-        }
     }
 }

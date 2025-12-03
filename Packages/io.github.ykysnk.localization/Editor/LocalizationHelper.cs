@@ -40,6 +40,12 @@ public class LocalizationHelper
     public void SelectLanguageElement(VisualElement element) =>
         GlobalLocalization.SelectLanguageElement(_localizationID, element);
 
+    public void UpdateRegister(string localizeKey, UpdateHelper.UpdateLabel callback) =>
+        UpdateHelper.Register(_localizationID, localizeKey, callback);
+
+    public void UpdateRegister(SerializedProperty property, UpdateHelper.UpdateLabel callback) =>
+        UpdateHelper.Register(_localizationID, property, callback);
+
     public string S(string key, string? defaultValue = null) => GlobalLocalization.S(_localizationID, key, defaultValue);
 
     public string Sf(string key, params object[] args)

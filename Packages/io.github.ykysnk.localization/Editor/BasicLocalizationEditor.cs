@@ -45,15 +45,21 @@ public class BasicLocalizationEditor : BasicEditor
         localizationIDField.RegisterCallback<ChangeEvent<string>>(evt => _localizationID!.stringValue = evt.newValue);
         localizationIDField.BindProperty(_localizationID);
 
+        _localizationID?.Register(label => localizationIDField.label = label);
+
         var displayNameField = visualTree.Q<TextField>("displayName");
 
         displayNameField.label = _displayName?.S();
         displayNameField.RegisterCallback<ChangeEvent<string>>(evt => _displayName!.stringValue = evt.newValue);
         displayNameField.BindProperty(_displayName);
 
+        _displayName?.Register(label => displayNameField.label = label);
+
         var translatesListView = visualTree.Q<ListView>("translates");
         translatesListView.headerTitle = _translates?.S();
         translatesListView.BindProperty(_translates);
+
+        _translates?.Register(label => translatesListView.headerTitle = label);
 
         root.Add(visualTree);
         GlobalLocalization.DefaultHelper.SelectLanguageElement(root);

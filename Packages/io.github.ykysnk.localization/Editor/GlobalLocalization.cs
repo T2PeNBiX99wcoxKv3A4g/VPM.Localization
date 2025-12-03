@@ -108,6 +108,7 @@ public static class GlobalLocalization
             }, s => s);
 
         element.Add(languagePopup);
+        UpdateHelper.Register(localizationID, LanguageLabelKey, label => languagePopup.label = label);
     }
 
     public static string NameToLocalizationName(string name)
