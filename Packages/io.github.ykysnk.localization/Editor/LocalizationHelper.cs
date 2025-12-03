@@ -48,7 +48,7 @@ public class LocalizationHelper
 
     public string S(string key, string? defaultValue = null) => GlobalLocalization.S(_localizationID, key, defaultValue);
 
-    public string Sf(string key, params object[] args)
+    public string Sf(string key, params object?[] args)
     {
         var get = S(key);
 
