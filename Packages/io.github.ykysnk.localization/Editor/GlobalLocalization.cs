@@ -11,6 +11,8 @@ namespace io.github.ykysnk.Localization.Editor;
 [InitializeOnLoad]
 public static class GlobalLocalization
 {
+    public delegate void LocalizationChanged(string localizationID, string newLanguage);
+
     public delegate void LocalizationUpdated();
 
     public const string TooltipExt = ".tooltip";
@@ -30,6 +32,7 @@ public static class GlobalLocalization
     static GlobalLocalization() => Load();
 
     public static event LocalizationUpdated? OnLocalizationReload;
+    public static event LocalizationChanged? OnLocalizationChanged;
 
     public static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
         ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
@@ -43,6 +46,7 @@ public static class GlobalLocalization
             throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
                 nameof(language));
         EditorPrefs.SetString($"{localizationID}_Language", language);
+        OnLocalizationChanged?.Invoke(localizationID, language);
     }
 
     public static string L(string localizationID, string? key)
