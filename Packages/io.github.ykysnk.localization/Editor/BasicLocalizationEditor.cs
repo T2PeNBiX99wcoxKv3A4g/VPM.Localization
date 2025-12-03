@@ -10,8 +10,8 @@ public class BasicLocalizationEditor : BasicEditor
     private const string LocalizationIDProp = "localizationID";
     private const string DisplayNameProp = "displayName";
     private const string TranslatesProp = "translates";
-    private SerializedProperty? _displayName;
 
+    private SerializedProperty? _displayName;
     private SerializedProperty? _localizationID;
     private SerializedProperty? _translates;
 
