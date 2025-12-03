@@ -4,7 +4,7 @@ using UnityEngine;
 namespace io.github.ykysnk.Localization
 {
     [PublicAPI]
-    [CreateAssetMenu(fileName = "BasicLocalization", menuName = "Localization/Basic Localization")]
+    [CreateAssetMenu(fileName = "en-US", menuName = "Localization/Basic Localization")]
     public class BasicLocalization : ScriptableObject
     {
         public delegate void LocalizationFileUpdated(string localizationID, string localizationName);
@@ -16,6 +16,12 @@ namespace io.github.ykysnk.Localization
 
         public BasicTranslate[] translates =
         {
+            new()
+            {
+                key = "label.language",
+                translate = "Language",
+                tooltip = "Change your target language in the editor."
+            }
         };
 
         protected virtual void OnValidate()

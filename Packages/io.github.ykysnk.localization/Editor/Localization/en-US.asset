@@ -18,15 +18,30 @@ MonoBehaviour:
   - key: label.language
     translate: Language
     tooltip: Change your target language in the editor.
-  - key: label.text
+  - key: label.test.text
     translate: Text
     tooltip: A text
-  - key: label.localization_id
+  - key: label.basic_localization.localization_id
     translate: Localization ID
     tooltip: The unique ID of localization
-  - key: label.display_name
+  - key: label.basic_localization.display_name
     translate: Display Name
     tooltip: Display name of language
-  - key: label.translates
+  - key: label.basic_localization.translates
     translate: Translates
     tooltip: Translate list
+  - key: label.basic_translate.key
+    translate: Translate ID
+    tooltip: 
+  - key: label.basic_translate.translate
+    translate: Translate
+    tooltip: 
+  - key: label.basic_translate.tooltip
+    translate: Hint
+    tooltip: 
+  - key: label.basic_translate.copy
+    translate: Copy
+    tooltip: 
+  - key: label.basic_translate.paste
+    translate: Paste
+    tooltip: 

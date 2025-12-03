@@ -1,20 +1,17 @@
+using System;
 using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
 
 namespace io.github.ykysnk.Localization.Editor;
 
 [PublicAPI]
+[Obsolete("Use LocalizationHelper instead.")]
 public static class GlobalLocalizationExtensions
 {
-    public static string L(this string str, string localizationID) => GlobalLocalization.L(localizationID, str);
+    [Obsolete("Use LocalizationHelper.S(key) instead.")]
+    public static string L(this string key, string localizationID) => GlobalLocalization.S(localizationID, key);
 
-    public static GUIContent G(this string str, string localizationID, string tooltip) =>
-        GlobalLocalization.G(localizationID, str, tooltip);
-
-    public static GUIContent G(this string str, string localizationID) =>
-        GlobalLocalization.G(localizationID, str, str + GlobalLocalization.TooltipExt);
-
-    public static GUIContent G(this SerializedProperty property, string localizationID) =>
-        GlobalLocalization.G(localizationID, property);
+    [Obsolete("Use LocalizationHelper.G(key) instead.")]
+    public static GUIContent G(this string key, string localizationID) =>
+        GlobalLocalization.G(localizationID, key, null, key + GlobalLocalization.TooltipExt);
 }

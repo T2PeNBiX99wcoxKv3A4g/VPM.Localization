@@ -18,15 +18,30 @@ MonoBehaviour:
   - key: label.language
     translate: "\u8A00\u8A9E"
     tooltip: "\u30A8\u30C7\u30A3\u30BF\u30FC\u3067\u30BF\u30FC\u30B2\u30C3\u30C8\u8A00\u8A9E\u3092\u5909\u66F4\u3057\u307E\u3059\u3002"
-  - key: label.text
+  - key: label.test.text
     translate: "\u30C6\u30AD\u30B9\u30C8"
     tooltip: "\u30C6\u30AD\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059"
-  - key: label.localization_id
+  - key: label.basic_localization.localization_id
     translate: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3ID"
     tooltip: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3\u306E\u56FA\u6709ID"
-  - key: label.display_name
+  - key: label.basic_localization.display_name
     translate: "\u8868\u793A\u540D"
     tooltip: "\u8A00\u8A9E\u306E\u8868\u793A\u540D"
-  - key: label.translates
-    translate: "\u7FFB\u8A33"
+  - key: label.basic_localization.translates
+    translate: "\u7FFB\u8A33\u30EA\u30B9\u30C8"
     tooltip: "\u7FFB\u8A33\u30EA\u30B9\u30C8"
+  - key: label.basic_translate.key
+    translate: "\u7FFB\u8A33ID"
+    tooltip: 
+  - key: label.basic_translate.translate
+    translate: "\u7FFB\u8A33"
+    tooltip: 
+  - key: label.basic_translate.tooltip
+    translate: "\u30D2\u30F3\u30C8"
+    tooltip: 
+  - key: label.basic_translate.copy
+    translate: "\u30B3\u30D4\u30FC"
+    tooltip: 
+  - key: label.basic_translate.paste
+    translate: "\u30DA\u30FC\u30B9\u30C8"
+    tooltip: 

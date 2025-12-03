@@ -2,6 +2,7 @@ using io.github.ykysnk.Localization.Editor;
 using io.github.ykysnk.utils.Editor;
 using JetBrains.Annotations;
 using UnityEditor;
+using UnityEngine;
 
 namespace Test.Editor
 {
@@ -20,7 +21,8 @@ namespace Test.Editor
 
         protected override void OnInspectorGUIDraw()
         {
-            EditorGUILayout.PropertyField(_text, "label.text".G(GlobalLocalization.DefaultLocalization));
+            EditorGUILayout.PropertyField(_text,
+                _text != null ? GlobalLocalization.DefaultHelper.G(_text) : GUIContent.none);
             GlobalLocalization.SelectLanguageGUI(GlobalLocalization.DefaultLocalization);
         }
     }

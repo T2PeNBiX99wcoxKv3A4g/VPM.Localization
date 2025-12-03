@@ -5,6 +5,7 @@ using System.Linq;
 using io.github.ykysnk.utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace io.github.ykysnk.Localization.Editor;
 
@@ -20,6 +21,8 @@ public static class GlobalLocalization
     public const string DefaultLangKey = "en-US";
     public const string DefaultLocalization = "Default";
     public const string Null = "--null--";
+
+    public static LocalizationHelper DefaultHelper = new(DefaultLocalization);
 
     private static Dictionary<string, string[]> _languageKeyList = new();
     private static Dictionary<string, string[]> _languageKeyNames = new();
@@ -49,46 +52,33 @@ public static class GlobalLocalization
         OnLocalizationChanged?.Invoke(localizationID, language);
     }
 
-    public static string L(string localizationID, string? key)
+    public static string S(string localizationID, string? key, string? defaultValue = null)
     {
         var theKey = key ?? Null;
 
         if (!LanguageDictionary.TryGetValue(localizationID, out var contents))
-            return theKey;
+            return defaultValue ?? theKey;
 
         if (!contents.TryGetValue(GetSelectedLanguage(localizationID), out var languageContents))
             return contents.TryGetValue(DefaultLangKey, out var languageContents2)
-                ? languageContents2.GetValueOrDefault(theKey, theKey)
-                : theKey;
+                ? languageContents2.GetValueOrDefault(theKey, defaultValue ?? theKey)
+                : defaultValue ?? theKey;
 
         var englishContents = contents.GetValueOrDefault(DefaultLangKey, new());
-        return languageContents.GetValueOrDefault(theKey, englishContents.GetValueOrDefault(theKey, theKey));
+        return languageContents.GetValueOrDefault(theKey,
+            englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
     }
-
-    public static GUIContent G(string localizationID, string key) => G(localizationID, key, null, "");
-
-    public static GUIContent G(string localizationID, string[] key) => key.Length == 2
-        ? G(localizationID, key[0], null, key[1])
-        : G(localizationID, key[0], null, null);
-
-    public static GUIContent G(string localizationID, string key, string tooltip) =>
-        G(localizationID, key, null, tooltip); // From EditorToolboxSettings
-
-    public static GUIContent G(string localizationID, string key, Texture? image) => G(localizationID, key, image, "");
-
-    public static GUIContent G(string localizationID, SerializedProperty property) =>
-        G(localizationID, property.name, $"{property.name}{TooltipExt}");
 
     public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
     {
         var guiKey = $"{localizationID}.{key}";
 
         if (!GuiContents.TryGetValue(guiKey, out var content))
-            return GuiContents[guiKey] = new(L(localizationID, key), image, L(localizationID, tooltip));
+            return GuiContents[guiKey] = new(S(localizationID, key), image, S(localizationID, tooltip));
 
-        content.text = L(localizationID, key);
+        content.text = S(localizationID, key);
         content.image = image;
-        content.tooltip = L(localizationID, tooltip);
+        content.tooltip = S(localizationID, tooltip);
         return content;
     }
 
@@ -98,11 +88,51 @@ public static class GlobalLocalization
         var keyNames = _languageKeyNames[localizationID];
 
         EditorGUI.BeginChangeCheck();
-        var newIndex = EditorGUILayout.Popup(G(localizationID, LanguageLabelKey, LanguageLabelKey + TooltipExt),
+        var newIndex = EditorGUILayout.Popup(G(localizationID, LanguageLabelKey, null, LanguageLabelKey + TooltipExt),
             Array.IndexOf(keyList, GetSelectedLanguage(localizationID)),
             keyNames);
         if (EditorGUI.EndChangeCheck())
             SetSelectedLanguage(localizationID, keyList[newIndex]);
+    }
+
+    public static void SelectLanguageElement(string localizationID, VisualElement element)
+    {
+        var keyList = _languageKeyList[localizationID].ToList();
+        var keyNames = _languageKeyNames[localizationID].ToList();
+        var defaultIndex = keyList.IndexOf(GetSelectedLanguage(localizationID));
+        var languagePopup = new PopupField<string>(S(localizationID, LanguageLabelKey), keyNames,
+            keyNames[defaultIndex], s =>
+            {
+                SetSelectedLanguage(localizationID, keyList[keyNames.IndexOf(s)]);
+                return s;
+            }, s => s);
+
+        element.Add(languagePopup);
+    }
+
+    public static string NameToLocalizationName(string name)
+    {
+        var returnString = "";
+        var lastUpperIndex = -1;
+
+        for (var i = 0; i < name.Length; i++)
+        {
+            var classNameChar = name[i];
+
+            if (char.IsUpper(classNameChar))
+            {
+                if (i > 0 && i - 1 != lastUpperIndex) returnString += "_";
+                classNameChar = char.ToLowerInvariant(classNameChar);
+                lastUpperIndex = i;
+            }
+
+            if (char.IsSymbol(classNameChar) || char.IsPunctuation(classNameChar))
+                classNameChar = '_';
+
+            returnString += classNameChar;
+        }
+
+        return returnString;
     }
 
     private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
@@ -130,6 +160,13 @@ public static class GlobalLocalization
         {
             var localizationID = basicLocalization.localizationID;
 
+            if (string.IsNullOrEmpty(localizationID))
+            {
+                Utils.LogWarning(nameof(GlobalLocalization),
+                    $"Localization ID is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
+                continue;
+            }
+
             LanguageDictionary.TryAdd(localizationID, new());
             LanguageDictionary[localizationID].TryAdd(basicLocalization.name, new());
 
@@ -138,7 +175,7 @@ public static class GlobalLocalization
                 if (string.IsNullOrEmpty(basicTranslate.key))
                 {
                     Utils.LogWarning(nameof(GlobalLocalization),
-                        $"Key is empty for localization {localizationID}.{basicLocalization.name}!");
+                        $"Key is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
                     continue;
                 }
 
