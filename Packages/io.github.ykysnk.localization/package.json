@@ -1,7 +1,7 @@
 {
   "name": "io.github.ykysnk.localization",
   "displayName": "Localization",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple localization library",
   "gitDependencies": {},
   "vpmDependencies": {
