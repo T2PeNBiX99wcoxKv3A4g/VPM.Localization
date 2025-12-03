@@ -65,12 +65,4 @@ public class BasicLocalizationEditor : BasicEditor
         GlobalLocalization.DefaultHelper.SelectLanguageElement(root);
         return root;
     }
-
-    protected override void OnInspectorGUIDraw()
-    {
-        EditorGUILayout.PropertyField(_localizationID, _localizationID?.G());
-        EditorGUILayout.PropertyField(_displayName, _displayName?.G());
-        EditorGUILayout.PropertyField(_translates, _translates?.G());
-        GlobalLocalization.DefaultHelper.SelectLanguageGUI();
-    }
 }
