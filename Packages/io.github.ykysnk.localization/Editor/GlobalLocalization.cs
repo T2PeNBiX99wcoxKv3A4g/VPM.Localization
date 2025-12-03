@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using io.github.ykysnk.utils;
-using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 
 namespace io.github.ykysnk.Localization.Editor;
 
 [InitializeOnLoad]
-[PublicAPI]
-public class GlobalLocalization
+public static class GlobalLocalization
 {
     public delegate void LocalizationUpdated();
 
@@ -24,10 +22,10 @@ public class GlobalLocalization
     private static Dictionary<string, string[]> _languageKeyList = new();
     private static Dictionary<string, string[]> _languageKeyNames = new();
 
-    public static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>>
         LanguageDictionary = new();
 
-    public static readonly Dictionary<string, GUIContent> GuiContents = new();
+    private static readonly Dictionary<string, GUIContent> GuiContents = new();
 
     static GlobalLocalization() => Load();
 
@@ -104,7 +102,7 @@ public class GlobalLocalization
     }
 
     [MenuItem("Tools/Localization/Reload Languages")]
-    public static void Load()
+    private static void Load()
     {
         BasicLocalization.OnLanguageUpdated -= Load;
         LanguageDictionary.Clear();
