@@ -75,7 +75,7 @@ namespace io.github.ykysnk.Localization.Editor
                 var copyBasicTranslate = new BasicTranslate
                 {
                     key = keyField.value,
-                    translate = tooltipField.value,
+                    translate = translateField.value,
                     tooltip = tooltipField.value
                 };
 
