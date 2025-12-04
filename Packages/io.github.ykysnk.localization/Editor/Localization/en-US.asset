@@ -45,3 +45,6 @@ MonoBehaviour:
   - key: label.basic_translate.paste
     translate: Paste
     tooltip: Paste the translate datas.
+  - key: label.basic_translate.misc
+    translate: Misc
+    tooltip: Paste the translate datas.

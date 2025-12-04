@@ -45,3 +45,6 @@ MonoBehaviour:
   - key: label.basic_translate.paste
     translate: "\u30DA\u30FC\u30B9\u30C8"
     tooltip: "\u7FFB\u8A33\u30C7\u30FC\u30BF\u3092\u8CBC\u308A\u4ED8\u3051\u3002"
+  - key: label.basic_translate.misc
+    translate: "\u305D\u306E\u4ED6"
+    tooltip: Paste the translate datas.
