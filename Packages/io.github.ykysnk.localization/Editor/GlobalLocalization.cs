@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using io.github.ykysnk.utils;
 using UnityEditor;
@@ -210,7 +209,7 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             var languageDisplayNames = langDisplayNames.ToDictionary(x => x.Key,
-                x => x.Value.ToImmutableSortedDictionary().WithComparers(StringComparer.OrdinalIgnoreCase));
+                x => x.Value.OrderBy(y => y.Value).ToDictionary(y => y.Key, y => y.Value));
             langDisplayNames.Clear();
 
             _languageKeyList = langKeyList.ToDictionary(x => x.Key, x => x.Value.ToArray());
