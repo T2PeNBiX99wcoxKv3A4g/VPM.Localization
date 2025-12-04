@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="key"
+        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="key" binding-path="key"
                       style="flex-direction: column;"/>
         <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="translate" multiline="true"
-                      style="flex-direction: column; min-height: 60px;"/>
+                      binding-path="translate" style="flex-direction: column; min-height: 60px;"/>
         <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="tooltip" multiline="true"
-                      style="flex-direction: column; min-height: 60px;"/>
+                      binding-path="tooltip" style="flex-direction: column; min-height: 60px;"/>
         <ui:VisualElement
                 style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: space-around; align-self: stretch;">
             <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="copy"

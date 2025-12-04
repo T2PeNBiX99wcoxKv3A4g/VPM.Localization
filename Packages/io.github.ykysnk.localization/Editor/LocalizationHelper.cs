@@ -4,82 +4,84 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace io.github.ykysnk.Localization.Editor;
-
-[PublicAPI]
-public class LocalizationHelper
+namespace io.github.ykysnk.Localization.Editor
 {
-    public delegate void LocalizationChanged(string newLanguage);
-
-    public delegate void LocalizationUpdated();
-
-    private readonly string _localizationID;
-
-    public LocalizationHelper(string localizationID)
+    [PublicAPI]
+    public class LocalizationHelper
     {
-        _localizationID = localizationID;
-        GlobalLocalization.OnLocalizationChanged += OnLocalizationChangedInternal;
-    }
+        public delegate void LocalizationChanged(string newLanguage);
 
-    public string SelectedLanguage
-    {
-        get => GlobalLocalization.GetSelectedLanguage(_localizationID);
-        set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
-    }
+        public delegate void LocalizationUpdated();
 
-    public event LocalizationChanged? OnLocalizationChanged;
+        private readonly string _localizationID;
 
-    private void OnLocalizationChangedInternal(string localizationID, string newLanguage)
-    {
-        if (localizationID != _localizationID) return;
-        OnLocalizationChanged?.Invoke(newLanguage);
-    }
-
-    public void SelectLanguageGUI() => GlobalLocalization.SelectLanguageGUI(_localizationID);
-
-    public void SelectLanguageElement(VisualElement element) =>
-        GlobalLocalization.SelectLanguageElement(_localizationID, element);
-
-    public void UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
-        UpdateHelper.Register(_localizationID, localizeKey, callback);
-
-    public void UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
-        UpdateHelper.Register(_localizationID, property, callback);
-
-    public string S(string key, string? defaultValue = null) => GlobalLocalization.S(_localizationID, key, defaultValue);
-
-    public string Sf(string key, params object?[] args)
-    {
-        var get = S(key);
-
-        try
+        public LocalizationHelper(string localizationID)
         {
-            return string.Format(get, args);
+            _localizationID = localizationID;
+            GlobalLocalization.OnLocalizationChanged += OnLocalizationChangedInternal;
         }
-        catch (FormatException)
+
+        public string SelectedLanguage
         {
-            return get + "(" + string.Join(", ", args) + ")"; // from modular avatar
+            get => GlobalLocalization.GetSelectedLanguage(_localizationID);
+            set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
         }
+
+        public event LocalizationChanged? OnLocalizationChanged;
+
+        private void OnLocalizationChangedInternal(string localizationID, string newLanguage)
+        {
+            if (localizationID != _localizationID) return;
+            OnLocalizationChanged?.Invoke(newLanguage);
+        }
+
+        public void SelectLanguageGUI() => GlobalLocalization.SelectLanguageGUI(_localizationID);
+
+        public void SelectLanguageElement(VisualElement element) =>
+            GlobalLocalization.SelectLanguageElement(_localizationID, element);
+
+        public void UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
+            UpdateHelper.Register(_localizationID, localizeKey, callback);
+
+        public void UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
+            UpdateHelper.Register(_localizationID, property, callback);
+
+        public string S(string key, string? defaultValue = null) =>
+            GlobalLocalization.S(_localizationID, key, defaultValue);
+
+        public string Sf(string key, params object?[] args)
+        {
+            var get = S(key);
+
+            try
+            {
+                return string.Format(get, args);
+            }
+            catch (FormatException)
+            {
+                return get + "(" + string.Join(", ", args) + ")"; // from modular avatar
+            }
+        }
+
+        public GUIContent G(string key) => G(key, null);
+        public GUIContent G(string key, Texture? image) => G(key, image, key + GlobalLocalization.TooltipExt);
+
+        public GUIContent G(string key, Texture? image, string? tooltip) =>
+            GlobalLocalization.G(_localizationID, key, image, tooltip);
+
+        public string S(SerializedProperty property) =>
+            S(
+                $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
+
+        public GUIContent G(SerializedProperty property) =>
+            G(
+                $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
+
+        public string Tooltip(string key, string? defaultValue = null) => S(key + GlobalLocalization.TooltipExt);
+        public string TooltipF(string key, params object?[] args) => Sf(key + GlobalLocalization.TooltipExt, args);
+
+        public string Tooltip(SerializedProperty property) => S(
+            $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",
+            "");
     }
-
-    public GUIContent G(string key) => G(key, null);
-    public GUIContent G(string key, Texture? image) => G(key, image, key + GlobalLocalization.TooltipExt);
-
-    public GUIContent G(string key, Texture? image, string? tooltip) =>
-        GlobalLocalization.G(_localizationID, key, image, tooltip);
-
-    public string S(SerializedProperty property) =>
-        S(
-            $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
-
-    public GUIContent G(SerializedProperty property) =>
-        G(
-            $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
-
-    public string Tooltip(string key, string? defaultValue = null) => S(key + GlobalLocalization.TooltipExt);
-    public string TooltipF(string key, params object?[] args) => Sf(key + GlobalLocalization.TooltipExt, args);
-
-    public string Tooltip(SerializedProperty property) => S(
-        $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",
-        "");
 }

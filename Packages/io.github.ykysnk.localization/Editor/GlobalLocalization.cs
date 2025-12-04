@@ -7,230 +7,233 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace io.github.ykysnk.Localization.Editor;
-
-[InitializeOnLoad]
-public static class GlobalLocalization
+namespace io.github.ykysnk.Localization.Editor
 {
-    public delegate void LocalizationChanged(string localizationID, string newLanguage);
-
-    public delegate void LocalizationUpdated();
-
-    public const string TooltipExt = ".tooltip";
-    public const string LanguageLabelKey = "label.language";
-    public const string DefaultLangKey = "en-US";
-    public const string DefaultLocalization = "Default";
-    public const string Null = "--null--";
-
-    public static LocalizationHelper DefaultHelper = new(DefaultLocalization);
-
-    private static Dictionary<string, string[]> _languageKeyList = new();
-    private static Dictionary<string, string[]> _languageKeyNames = new();
-
-    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>>
-        LanguageDictionary = new();
-
-    private static readonly Dictionary<string, GUIContent> GuiContents = new();
-
-    static GlobalLocalization() => Load();
-
-    public static event LocalizationUpdated? OnLocalizationReload;
-    public static event LocalizationChanged? OnLocalizationChanged;
-
-    public static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
-        ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
-        : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
-
-    public static void SetSelectedLanguage(string localizationID, string language)
+    [InitializeOnLoad]
+    public static class GlobalLocalization
     {
-        if (!LanguageDictionary.ContainsKey(localizationID))
-            throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
-        if (!_languageKeyList[localizationID].Contains(language))
-            throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
-                nameof(language));
-        EditorPrefs.SetString($"{localizationID}_Language", language);
-        OnLocalizationChanged?.Invoke(localizationID, language);
-    }
+        public delegate void LocalizationChanged(string localizationID, string newLanguage);
 
-    public static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
-    {
-        if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
-            throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
-        return !localizationContents.TryGetValue(language, out var contents)
-            ? throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
-                nameof(language))
-            : contents.ToDictionary(x => x.Key, x => x.Value);
-    }
+        public delegate void LocalizationUpdated();
 
-    public static string S(string localizationID, string? key, string? defaultValue = null)
-    {
-        var theKey = key ?? Null;
+        public const string TooltipExt = ".tooltip";
+        public const string LanguageLabelKey = "label.language";
+        public const string DefaultLangKey = "en-US";
+        public const string DefaultLocalization = "Default";
+        public const string Null = "--null--";
 
-        if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
-            return defaultValue ?? theKey;
+        public static LocalizationHelper DefaultHelper = new(DefaultLocalization);
 
-        var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
-        var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
-        var get = contents.GetValueOrDefault(theKey, englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
-        return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
-    }
+        private static Dictionary<string, string[]> _languageKeyList = new();
+        private static Dictionary<string, string[]> _languageKeyNames = new();
 
-    public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
-    {
-        var guiKey = $"{localizationID}.{key}";
+        private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+            LanguageDictionary = new();
 
-        if (!GuiContents.TryGetValue(guiKey, out var content))
-            return GuiContents[guiKey] = new(S(localizationID, key), image, S(localizationID, tooltip));
+        private static readonly Dictionary<string, GUIContent> GuiContents = new();
 
-        content.text = S(localizationID, key);
-        content.image = image;
-        content.tooltip = S(localizationID, tooltip);
-        return content;
-    }
+        static GlobalLocalization() => Load();
 
-    public static void SelectLanguageGUI(string localizationID)
-    {
-        var keyList = _languageKeyList[localizationID];
-        var keyNames = _languageKeyNames[localizationID];
+        public static event LocalizationUpdated? OnLocalizationReload;
+        public static event LocalizationChanged? OnLocalizationChanged;
 
-        EditorGUI.BeginChangeCheck();
-        var newIndex = EditorGUILayout.Popup(G(localizationID, LanguageLabelKey, null, LanguageLabelKey + TooltipExt),
-            Array.IndexOf(keyList, GetSelectedLanguage(localizationID)),
-            keyNames);
-        if (EditorGUI.EndChangeCheck())
-            SetSelectedLanguage(localizationID, keyList[newIndex]);
-    }
+        public static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
+            ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
+            : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
 
-    public static void SelectLanguageElement(string localizationID, VisualElement element)
-    {
-        var keyList = _languageKeyList[localizationID].ToList();
-        var keyNames = _languageKeyNames[localizationID].ToList();
-        var defaultIndex = keyList.IndexOf(GetSelectedLanguage(localizationID));
-        var languagePopup = new PopupField<string>(S(localizationID, LanguageLabelKey), keyNames,
-            keyNames[defaultIndex], s =>
-            {
-                SetSelectedLanguage(localizationID, keyList[keyNames.IndexOf(s)]);
-                return s;
-            }, s => s)
+        public static void SetSelectedLanguage(string localizationID, string language)
         {
-            tooltip = S(localizationID, LanguageLabelKey + TooltipExt)
-        };
-
-        element.Add(languagePopup);
-        UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
-        {
-            languagePopup.label = label;
-            languagePopup.tooltip = tooltip;
-        });
-    }
-
-    public static string NameToLocalizationName(string name)
-    {
-        var returnString = "";
-        var lastUpperIndex = -1;
-
-        for (var i = 0; i < name.Length; i++)
-        {
-            var classNameChar = name[i];
-
-            if (char.IsUpper(classNameChar))
-            {
-                if (i > 0 && i - 1 != lastUpperIndex) returnString += "_";
-                classNameChar = char.ToLowerInvariant(classNameChar);
-                lastUpperIndex = i;
-            }
-
-            if (char.IsSymbol(classNameChar) || char.IsPunctuation(classNameChar))
-                classNameChar = '_';
-
-            returnString += classNameChar;
+            if (!LanguageDictionary.ContainsKey(localizationID))
+                throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
+            if (!_languageKeyList[localizationID].Contains(language))
+                throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
+                    nameof(language));
+            EditorPrefs.SetString($"{localizationID}_Language", language);
+            OnLocalizationChanged?.Invoke(localizationID, language);
         }
 
-        return returnString;
-    }
-
-    private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
-
-    [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
-    private static void Load()
-    {
-        BasicLocalization.OnLocalizationFileUpdated -= OnLocalizationFileUpdated;
-        LanguageDictionary.Clear();
-        GuiContents.Clear();
-
-        var langDisplayNames = new Dictionary<string, Dictionary<string, string>>();
-        var langKeyList = new Dictionary<string, List<string>>();
-
-        // Refs: https://discussions.unity.com/t/how-can-i-find-all-instances-of-a-scriptable-object-in-the-project-editor/198002/3
-        var basicLocalizations = AssetDatabase.FindAssets($"t:{nameof(BasicLocalization)}").Select(x =>
+        public static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
         {
-            var path = AssetDatabase.GUIDToAssetPath(x);
-            return AssetDatabase.LoadAssetAtPath<BasicLocalization>(path);
-        }).ToArray();
+            if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
+                throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
+            return !localizationContents.TryGetValue(language, out var contents)
+                ? throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
+                    nameof(language))
+                : contents.ToDictionary(x => x.Key, x => x.Value);
+        }
 
-        Utils.Log(nameof(GlobalLocalization), $"Found {basicLocalizations.Length} {nameof(BasicLocalization)} assets!");
-
-        foreach (var basicLocalization in basicLocalizations)
+        public static string S(string localizationID, string? key, string? defaultValue = null)
         {
-            var localizationID = basicLocalization.localizationID;
+            var theKey = key ?? Null;
 
-            if (string.IsNullOrEmpty(localizationID))
+            if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
+                return defaultValue ?? theKey;
+
+            var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
+            var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
+            var get = contents.GetValueOrDefault(theKey,
+                englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
+            return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
+        }
+
+        public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
+        {
+            var guiKey = $"{localizationID}.{key}";
+
+            if (!GuiContents.TryGetValue(guiKey, out var content))
+                return GuiContents[guiKey] = new(S(localizationID, key), image, S(localizationID, tooltip));
+
+            content.text = S(localizationID, key);
+            content.image = image;
+            content.tooltip = S(localizationID, tooltip);
+            return content;
+        }
+
+        public static void SelectLanguageGUI(string localizationID)
+        {
+            var keyList = _languageKeyList[localizationID];
+            var keyNames = _languageKeyNames[localizationID];
+
+            EditorGUI.BeginChangeCheck();
+            var newIndex = EditorGUILayout.Popup(G(localizationID, LanguageLabelKey, null, LanguageLabelKey + TooltipExt),
+                Array.IndexOf(keyList, GetSelectedLanguage(localizationID)),
+                keyNames);
+            if (EditorGUI.EndChangeCheck())
+                SetSelectedLanguage(localizationID, keyList[newIndex]);
+        }
+
+        public static void SelectLanguageElement(string localizationID, VisualElement element)
+        {
+            var keyList = _languageKeyList[localizationID].ToList();
+            var keyNames = _languageKeyNames[localizationID].ToList();
+            var defaultIndex = keyList.IndexOf(GetSelectedLanguage(localizationID));
+            var languagePopup = new PopupField<string>(S(localizationID, LanguageLabelKey), keyNames,
+                keyNames[defaultIndex], s =>
+                {
+                    SetSelectedLanguage(localizationID, keyList[keyNames.IndexOf(s)]);
+                    return s;
+                }, s => s)
             {
-                Utils.LogWarning(nameof(GlobalLocalization),
-                    $"Localization ID is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
-                continue;
+                tooltip = S(localizationID, LanguageLabelKey + TooltipExt)
+            };
+
+            element.Add(languagePopup);
+            UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
+            {
+                languagePopup.label = label;
+                languagePopup.tooltip = tooltip;
+            });
+        }
+
+        public static string NameToLocalizationName(string name)
+        {
+            var returnString = "";
+            var lastUpperIndex = -1;
+
+            for (var i = 0; i < name.Length; i++)
+            {
+                var classNameChar = name[i];
+
+                if (char.IsUpper(classNameChar))
+                {
+                    if (i > 0 && i - 1 != lastUpperIndex) returnString += "_";
+                    classNameChar = char.ToLowerInvariant(classNameChar);
+                    lastUpperIndex = i;
+                }
+
+                if (char.IsSymbol(classNameChar) || char.IsPunctuation(classNameChar))
+                    classNameChar = '_';
+
+                returnString += classNameChar;
             }
 
-            LanguageDictionary.TryAdd(localizationID, new());
-            LanguageDictionary[localizationID].TryAdd(basicLocalization.name, new());
+            return returnString;
+        }
 
-            foreach (var basicTranslate in basicLocalization.translates)
+        private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
+
+        [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
+        private static void Load()
+        {
+            BasicLocalization.OnLocalizationFileUpdated -= OnLocalizationFileUpdated;
+            LanguageDictionary.Clear();
+            GuiContents.Clear();
+
+            var langDisplayNames = new Dictionary<string, Dictionary<string, string>>();
+            var langKeyList = new Dictionary<string, List<string>>();
+
+            // Refs: https://discussions.unity.com/t/how-can-i-find-all-instances-of-a-scriptable-object-in-the-project-editor/198002/3
+            var basicLocalizations = AssetDatabase.FindAssets($"t:{nameof(BasicLocalization)}").Select(x =>
             {
-                if (string.IsNullOrEmpty(basicTranslate.key))
+                var path = AssetDatabase.GUIDToAssetPath(x);
+                return AssetDatabase.LoadAssetAtPath<BasicLocalization>(path);
+            }).ToArray();
+
+            Utils.Log(nameof(GlobalLocalization),
+                $"Found {basicLocalizations.Length} {nameof(BasicLocalization)} assets!");
+
+            foreach (var basicLocalization in basicLocalizations)
+            {
+                var localizationID = basicLocalization.localizationID;
+
+                if (string.IsNullOrEmpty(localizationID))
                 {
                     Utils.LogWarning(nameof(GlobalLocalization),
-                        $"Key is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
+                        $"Localization ID is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
                     continue;
                 }
 
-                LanguageDictionary[localizationID][basicLocalization.name]
-                    .TryAdd(basicTranslate.key, basicTranslate.translate);
+                LanguageDictionary.TryAdd(localizationID, new());
+                LanguageDictionary[localizationID].TryAdd(basicLocalization.name, new());
 
-                LanguageDictionary[localizationID][basicLocalization.name]
-                    .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
+                foreach (var basicTranslate in basicLocalization.translates)
+                {
+                    if (string.IsNullOrEmpty(basicTranslate.key))
+                    {
+                        Utils.LogWarning(nameof(GlobalLocalization),
+                            $"Key is empty in {AssetDatabase.GetAssetPath(basicLocalization)}!");
+                        continue;
+                    }
+
+                    LanguageDictionary[localizationID][basicLocalization.name]
+                        .TryAdd(basicTranslate.key, basicTranslate.translate);
+
+                    LanguageDictionary[localizationID][basicLocalization.name]
+                        .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
+                }
+
+                langKeyList.TryAdd(localizationID, new());
+                langKeyList[localizationID].Add(basicLocalization.name);
+
+                langDisplayNames.TryAdd(localizationID, new());
+                langDisplayNames[localizationID].TryAdd(basicLocalization.name, basicLocalization.displayName);
             }
 
-            langKeyList.TryAdd(localizationID, new());
-            langKeyList[localizationID].Add(basicLocalization.name);
+            var languageDisplayNames = langDisplayNames.ToDictionary(x => x.Key,
+                x => x.Value.ToImmutableSortedDictionary().WithComparers(StringComparer.OrdinalIgnoreCase));
+            langDisplayNames.Clear();
 
-            langDisplayNames.TryAdd(localizationID, new());
-            langDisplayNames[localizationID].TryAdd(basicLocalization.name, basicLocalization.displayName);
+            _languageKeyList = langKeyList.ToDictionary(x => x.Key, x => x.Value.ToArray());
+
+            var tempLanguageKeyNames = new Dictionary<string, string[]>();
+
+            foreach (var (id, sortedDictionary) in languageDisplayNames)
+            {
+                var languageIDList = _languageKeyList[id];
+                var length = languageIDList.Length;
+                var names = new string[length];
+
+                for (var i = 0; i < length; i++)
+                    names[i] = sortedDictionary[languageIDList[i]];
+
+                tempLanguageKeyNames.TryAdd(id, names);
+            }
+
+            _languageKeyNames = tempLanguageKeyNames;
+
+            langKeyList.Clear();
+            OnLocalizationReload?.Invoke();
+            BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
         }
-
-        var languageDisplayNames = langDisplayNames.ToDictionary(x => x.Key,
-            x => x.Value.ToImmutableSortedDictionary().WithComparers(StringComparer.OrdinalIgnoreCase));
-        langDisplayNames.Clear();
-
-        _languageKeyList = langKeyList.ToDictionary(x => x.Key, x => x.Value.ToArray());
-
-        var tempLanguageKeyNames = new Dictionary<string, string[]>();
-
-        foreach (var (id, sortedDictionary) in languageDisplayNames)
-        {
-            var languageIDList = _languageKeyList[id];
-            var length = languageIDList.Length;
-            var names = new string[length];
-
-            for (var i = 0; i < length; i++)
-                names[i] = sortedDictionary[languageIDList[i]];
-
-            tempLanguageKeyNames.TryAdd(id, names);
-        }
-
-        _languageKeyNames = tempLanguageKeyNames;
-
-        langKeyList.Clear();
-        OnLocalizationReload?.Invoke();
-        BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
     }
 }

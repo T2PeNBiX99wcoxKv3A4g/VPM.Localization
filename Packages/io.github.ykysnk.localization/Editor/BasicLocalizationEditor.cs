@@ -1,83 +1,73 @@
 using io.github.ykysnk.utils.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace io.github.ykysnk.Localization.Editor;
-
-[CustomEditor(typeof(BasicLocalization))]
-[CanEditMultipleObjects]
-public class BasicLocalizationEditor : BasicEditor
+namespace io.github.ykysnk.Localization.Editor
 {
-    private const string LocalizationIDProp = "localizationID";
-    private const string DisplayNameProp = "displayName";
-    private const string TranslatesProp = "translates";
-
-    private SerializedProperty? _displayName;
-    private SerializedProperty? _localizationID;
-    private SerializedProperty? _translates;
-
-    protected override void OnEnable()
+    [CustomEditor(typeof(BasicLocalization))]
+    [CanEditMultipleObjects]
+    public class BasicLocalizationEditor : BasicEditor
     {
-        _localizationID = serializedObject.FindProperty(LocalizationIDProp);
-        _displayName = serializedObject.FindProperty(DisplayNameProp);
-        _translates = serializedObject.FindProperty(TranslatesProp);
-    }
+        private const string LocalizationIDProp = "localizationID";
+        private const string DisplayNameProp = "displayName";
+        private const string TranslatesProp = "translates";
+        [SerializeField] private StyleSheet? uss;
+        [SerializeField] private VisualTreeAsset? uxml;
 
-    public override VisualElement CreateInspectorGUI()
-    {
-        var root = new VisualElement();
-        var visualTreeAsset =
-            AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                AssetDatabase.GUIDToAssetPath("92e5f13aabc45984ea26dbc24326d171"));
+        private SerializedProperty? _displayName;
+        private SerializedProperty? _localizationID;
+        private SerializedProperty? _translates;
 
-        if (visualTreeAsset == null)
+        protected override void OnEnable()
         {
-            root.Add(new Label("Failed to load uxml assets, please reimport the package to fix this issue."));
-            return root;
+            _localizationID = serializedObject.FindProperty(LocalizationIDProp);
+            _displayName = serializedObject.FindProperty(DisplayNameProp);
+            _translates = serializedObject.FindProperty(TranslatesProp);
         }
 
-        var visualTree = visualTreeAsset.CloneTree();
-
-        var localizationIDField = visualTree.Q<TextField>("localizationID");
-
-        localizationIDField.label = _localizationID?.S();
-        localizationIDField.tooltip = _localizationID?.Tooltip();
-        localizationIDField.RegisterCallback<ChangeEvent<string>>(evt => _localizationID!.stringValue = evt.newValue);
-        localizationIDField.BindProperty(_localizationID);
-
-        _localizationID?.Register((label, tooltip) =>
+        public override VisualElement CreateInspectorGUI()
         {
-            localizationIDField.label = label;
-            localizationIDField.tooltip = tooltip;
-        });
+            var root = new VisualElement();
+            var visualTree = uxml!.CloneTree();
+            root.Bind(serializedObject);
 
-        var displayNameField = visualTree.Q<TextField>("displayName");
+            var localizationIDField = visualTree.Q<TextField>("localizationID");
 
-        displayNameField.label = _displayName?.S();
-        displayNameField.tooltip = _displayName?.Tooltip();
-        displayNameField.RegisterCallback<ChangeEvent<string>>(evt => _displayName!.stringValue = evt.newValue);
-        displayNameField.BindProperty(_displayName);
+            localizationIDField.label = _localizationID?.S();
+            localizationIDField.tooltip = _localizationID?.Tooltip();
 
-        _displayName?.Register((label, tooltip) =>
-        {
-            displayNameField.label = label;
-            displayNameField.tooltip = tooltip;
-        });
+            _localizationID?.Register((label, tooltip) =>
+            {
+                localizationIDField.label = label;
+                localizationIDField.tooltip = tooltip;
+            });
 
-        var translatesListView = visualTree.Q<ListView>("translates");
-        translatesListView.headerTitle = _translates?.S();
-        translatesListView.tooltip = _translates?.Tooltip();
-        translatesListView.BindProperty(_translates);
+            var displayNameField = visualTree.Q<TextField>("displayName");
 
-        _translates?.Register((label, tooltip) =>
-        {
-            translatesListView.headerTitle = label;
-            translatesListView.tooltip = tooltip;
-        });
+            displayNameField.label = _displayName?.S();
+            displayNameField.tooltip = _displayName?.Tooltip();
 
-        root.Add(visualTree);
-        GlobalLocalization.DefaultHelper.SelectLanguageElement(root);
-        return root;
+            _displayName?.Register((label, tooltip) =>
+            {
+                displayNameField.label = label;
+                displayNameField.tooltip = tooltip;
+            });
+
+            var translatesListView = visualTree.Q<ListView>("translates");
+            translatesListView.headerTitle = _translates?.S();
+            translatesListView.tooltip = _translates?.Tooltip();
+
+            _translates?.Register((label, tooltip) =>
+            {
+                translatesListView.headerTitle = label;
+                translatesListView.tooltip = tooltip;
+            });
+
+            root.Add(visualTree);
+            GlobalLocalization.DefaultHelper.SelectLanguageElement(root);
+            return root;
+        }
     }
 }

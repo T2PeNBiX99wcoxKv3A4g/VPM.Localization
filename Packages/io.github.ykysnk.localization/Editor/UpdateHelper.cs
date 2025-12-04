@@ -2,49 +2,50 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEditor;
 
-namespace io.github.ykysnk.Localization.Editor;
-
-[PublicAPI]
-public class UpdateHelper
+namespace io.github.ykysnk.Localization.Editor
 {
-    public delegate void Callback(string newLabel, string newTooltip);
-
-    private static readonly Dictionary<string, UpdateHelper> UpdateHelpers = new();
-    private readonly Callback _callback;
-    private readonly string _localizationID;
-    private readonly string _localizeKey;
-
-    private UpdateHelper(string localizationID, string localizeKey, Callback callback)
+    [PublicAPI]
+    public class UpdateHelper
     {
-        _localizationID = localizationID;
-        _localizeKey = localizeKey;
-        _callback = callback;
-        GlobalLocalization.OnLocalizationReload += OnLocalizationReload;
-        GlobalLocalization.OnLocalizationChanged += OnLocalizationChanged;
-    }
+        public delegate void Callback(string newLabel, string newTooltip);
 
-    public static void Register(string localizationID, string localizeKey, Callback callback)
-    {
-        var fullKey = $"{localizationID}.{localizeKey}";
-        UpdateHelpers.Remove(fullKey);
-        var helper = new UpdateHelper(localizationID, localizeKey, callback);
-        UpdateHelpers.Add(fullKey, helper);
-    }
+        private static readonly Dictionary<string, UpdateHelper> UpdateHelpers = new();
+        private readonly Callback _callback;
+        private readonly string _localizationID;
+        private readonly string _localizeKey;
 
-    public static void Register(string localizationID, SerializedProperty property, Callback callback) =>
-        Register(localizationID,
-            $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}",
-            callback);
+        private UpdateHelper(string localizationID, string localizeKey, Callback callback)
+        {
+            _localizationID = localizationID;
+            _localizeKey = localizeKey;
+            _callback = callback;
+            GlobalLocalization.OnLocalizationReload += OnLocalizationReload;
+            GlobalLocalization.OnLocalizationChanged += OnLocalizationChanged;
+        }
 
-    private void OnLocalizationReload()
-    {
-        _callback(GlobalLocalization.S(_localizationID, _localizeKey),
-            GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
-    }
+        public static void Register(string localizationID, string localizeKey, Callback callback)
+        {
+            var fullKey = $"{localizationID}.{localizeKey}";
+            UpdateHelpers.Remove(fullKey);
+            var helper = new UpdateHelper(localizationID, localizeKey, callback);
+            UpdateHelpers.Add(fullKey, helper);
+        }
 
-    private void OnLocalizationChanged(string id, string newLanguage)
-    {
-        if (id != _localizationID) return;
-        OnLocalizationReload();
+        public static void Register(string localizationID, SerializedProperty property, Callback callback) =>
+            Register(localizationID,
+                $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}",
+                callback);
+
+        private void OnLocalizationReload()
+        {
+            _callback(GlobalLocalization.S(_localizationID, _localizeKey),
+                GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
+        }
+
+        private void OnLocalizationChanged(string id, string newLanguage)
+        {
+            if (id != _localizationID) return;
+            OnLocalizationReload();
+        }
     }
 }
