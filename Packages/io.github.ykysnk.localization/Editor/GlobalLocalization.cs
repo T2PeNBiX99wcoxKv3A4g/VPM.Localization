@@ -52,6 +52,16 @@ public static class GlobalLocalization
         OnLocalizationChanged?.Invoke(localizationID, language);
     }
 
+    public static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
+    {
+        if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
+            throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
+        return !localizationContents.TryGetValue(language, out var contents)
+            ? throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
+                nameof(language))
+            : contents.ToDictionary(x => x.Key, x => x.Value);
+    }
+
     public static string S(string localizationID, string? key, string? defaultValue = null)
     {
         var theKey = key ?? Null;
