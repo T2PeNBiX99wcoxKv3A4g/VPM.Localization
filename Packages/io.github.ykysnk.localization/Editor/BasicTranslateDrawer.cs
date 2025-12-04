@@ -20,6 +20,7 @@ namespace io.github.ykysnk.Localization.Editor
         private static readonly string LocalizationTooltipID = $"label.{LocalizationName}.tooltip";
         private static readonly string LocalizationCopyID = $"label.{LocalizationName}.copy";
         private static readonly string LocalizationPasteID = $"label.{LocalizationName}.paste";
+        private static readonly string LocalizationMiscID = $"label.{LocalizationName}.misc";
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
@@ -65,6 +66,16 @@ namespace io.github.ykysnk.Localization.Editor
             {
                 tooltipField.label = label;
                 tooltipField.tooltip = tooltip;
+            });
+
+            var miscFoldout = visualTree.Q<Foldout>("misc");
+            miscFoldout.text = LocalizationMiscID.S();
+            miscFoldout.tooltip = LocalizationMiscID.Tooltip();
+
+            LocalizationMiscID.Register((label, tooltip) =>
+            {
+                miscFoldout.text = label;
+                miscFoldout.tooltip = tooltip;
             });
 
             var copyButton = visualTree.Q<Button>("copy");
