@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -45,6 +46,9 @@ namespace io.github.ykysnk.Localization.Editor
 
         public void UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, property, callback);
+
+        public Dictionary<string, string> GetLanguageLocalization(string language) =>
+            GlobalLocalization.GetLanguageLocalization(_localizationID, language);
 
         public string S(string key, string? defaultValue = null) =>
             GlobalLocalization.S(_localizationID, key, defaultValue);
