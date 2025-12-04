@@ -19,7 +19,7 @@ namespace Test.Editor
             _text = serializedObject.FindProperty(TextProp);
         }
 
-        protected override void OnInspectorGUIDraw()
+        protected override void OnErrorHandleInspectorGUI()
         {
             EditorGUILayout.PropertyField(_text,
                 _text != null ? GlobalLocalization.DefaultHelper.G(_text) : GUIContent.none);

@@ -27,7 +27,7 @@ namespace io.github.ykysnk.Localization.Editor
             _translates = serializedObject.FindProperty(TranslatesProp);
         }
 
-        public override VisualElement CreateInspectorGUI()
+        protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var root = new VisualElement();
             var visualTree = uxml!.CloneTree();
