@@ -33,7 +33,7 @@ public class BasicLocalizationEditor : BasicEditor
 
         if (visualTreeAsset == null)
         {
-            root.Add(new Label("Failed to load text field uxml assets, please reimport the package to fix this issue."));
+            root.Add(new Label("Failed to load uxml assets, please reimport the package to fix this issue."));
             return root;
         }
 
