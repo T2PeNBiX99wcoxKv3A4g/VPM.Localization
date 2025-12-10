@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +15,17 @@ namespace io.github.ykysnk.Localization.Editor
         public delegate void LocalizationChanged(string newLanguage);
 
         public delegate void LocalizationUpdated();
+
+        private static readonly List<string> SkipName = new()
+        {
+            "unity-text-input",
+            "unity-content"
+        };
+
+        private static readonly List<string> SkipClass = new()
+        {
+            "unity-base-field__inspector-field"
+        };
 
         private readonly string _localizationID;
 
@@ -87,5 +100,67 @@ namespace io.github.ykysnk.Localization.Editor
         public string Tooltip(SerializedProperty property) => S(
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",
             "");
+
+        // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
+        public void UILocalize(VisualElement elem)
+        {
+            WalkTree(elem);
+        }
+
+        private void WalkTree(VisualElement elem)
+        {
+            var clemType = elem.GetType();
+
+            // Without the delay call, the bind will not be set correctly.
+            EditorApplication.delayCall += () => TryLocalize(elem, clemType);
+
+            foreach (var child in elem.Children())
+            {
+                if (SkipName.Contains(child.name) || child.ClassListContains("localize-skip")) continue;
+                WalkTree(child);
+            }
+        }
+
+        private void TryLocalize(VisualElement elem, Type type)
+        {
+            if (SkipClass.Any(elem.ClassListContains)) return;
+            var textProperty = type.GetProperty("text");
+            var labelProperty = type.GetProperty("label");
+            var headerTitleProperty = type.GetProperty("headerTitle");
+            string? key = null;
+            PropertyInfo? keyProperty = null;
+
+            if (textProperty != null && textProperty.SetMethod != null)
+            {
+                key = textProperty.GetValue(elem) as string;
+                keyProperty = textProperty;
+            }
+            else if (labelProperty != null && labelProperty.SetMethod != null)
+            {
+                key = labelProperty.GetValue(elem) as string;
+                keyProperty = labelProperty;
+            }
+            else if (headerTitleProperty != null && headerTitleProperty.SetMethod != null)
+            {
+                key = headerTitleProperty.GetValue(elem) as string;
+                keyProperty = headerTitleProperty;
+            }
+
+            if (keyProperty == null || key == null) return;
+
+            keyProperty.SetValue(elem, S(key));
+            elem.tooltip = Tooltip(key);
+
+#if LOCALIZATION_TEST
+            Utils.Log(nameof(UILocalize),
+                $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
+#endif
+
+            UpdateRegister(key, (label, tooltip) =>
+            {
+                keyProperty?.SetValue(elem, label);
+                elem.tooltip = tooltip;
+            });
+        }
     }
 }
