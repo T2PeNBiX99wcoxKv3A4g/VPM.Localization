@@ -102,9 +102,11 @@ namespace io.github.ykysnk.Localization.Editor
             "");
 
         // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
-        public void UILocalize(VisualElement elem)
+        public void UILocalize(VisualElement elem, bool addLanguagePopup = true)
         {
             WalkTree(elem);
+            if (!addLanguagePopup) return;
+            SelectLanguageElement(elem);
         }
 
         private void WalkTree(VisualElement elem)
