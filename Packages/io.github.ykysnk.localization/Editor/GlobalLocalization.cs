@@ -15,7 +15,7 @@ namespace io.github.ykysnk.Localization.Editor
 
         public delegate void LocalizationUpdated();
 
-        public const string TooltipExt = ".tooltip";
+        public const string TooltipExt = ":tooltip";
         public const string LanguageLabelKey = "label.language";
         public const string DefaultLangKey = "en-US";
         public const string DefaultLocalization = "Default";
