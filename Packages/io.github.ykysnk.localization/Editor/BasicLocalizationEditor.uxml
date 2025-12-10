@@ -1,14 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="localizationID"
-                      binding-path="localizationID" style="flex-direction: column;"/>
-        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="displayName"
-                      binding-path="displayName" style="flex-direction: column;"/>
+        <ui:TextField picking-mode="Ignore" label="label.basic_localization.localization_id" value="filler text"
+                      name="localizationID" binding-path="localizationID" style="flex-direction: column;"/>
+        <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" value="filler text"
+                      name="displayName" binding-path="displayName" style="flex-direction: column;"/>
         <ui:ListView name="translates" selection-type="Multiple" fixed-item-height="50"
                      virtualization-method="DynamicHeight" horizontal-scrolling="false" show-foldout-header="true"
                      reorder-mode="Animated" show-alternating-row-backgrounds="ContentOnly" reorderable="true"
                      show-add-remove-footer="true" picking-mode="Ignore" usage-hints="None" show-border="true"
-                     binding-path="translates"
+                     binding-path="translates" header-title="label.basic_localization.translates"
                      style="align-items: stretch; justify-content: space-around; min-height: auto; max-height: none;"/>
     </ui:VisualElement>
 </ui:UXML>

@@ -1,19 +1,19 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="key" binding-path="key"
-                      style="flex-direction: column;"/>
-        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="translate" multiline="true"
-                      binding-path="translate" style="flex-direction: column; min-height: 60px;"/>
-        <ui:Foldout text="Foldout" value="false" name="misc">
-            <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" name="tooltip" multiline="true"
-                          binding-path="tooltip" style="flex-direction: column; min-height: 60px;"/>
+        <ui:TextField picking-mode="Ignore" label="label.basic_translate.key" value="filler text" name="key"
+                      binding-path="key" style="flex-direction: column;"/>
+        <ui:TextField picking-mode="Ignore" label="label.basic_translate.translate" value="filler text" name="translate"
+                      multiline="true" binding-path="translate" style="flex-direction: column; min-height: 60px;"/>
+        <ui:Foldout text="label.basic_translate.misc" value="false" name="misc">
+            <ui:TextField picking-mode="Ignore" label="label.basic_translate.tooltip" value="filler text" name="tooltip"
+                          multiline="true" binding-path="tooltip" style="flex-direction: column; min-height: 60px;"/>
         </ui:Foldout>
         <ui:VisualElement
                 style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: space-around; align-self: stretch;">
-            <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="copy"
-                       style="width: 49.5%;"/>
-            <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="paste"
-                       style="width: 49.5%;"/>
+            <ui:Button text="label.basic_translate.copy" parse-escape-sequences="true"
+                       display-tooltip-when-elided="true" name="copy" style="width: 49.5%;"/>
+            <ui:Button text="label.basic_translate.paste" parse-escape-sequences="true"
+                       display-tooltip-when-elided="true" name="paste" style="width: 49.5%;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
