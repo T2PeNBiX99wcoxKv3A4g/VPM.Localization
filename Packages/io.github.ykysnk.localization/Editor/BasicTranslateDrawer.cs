@@ -24,7 +24,7 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             var visualTree = uxml.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(visualTree);
+            GlobalLocalization.DefaultHelper.UILocalize(visualTree, false);
             root.Bind(property.serializedObject);
 
             var keyField = visualTree.Q<TextField>("key");

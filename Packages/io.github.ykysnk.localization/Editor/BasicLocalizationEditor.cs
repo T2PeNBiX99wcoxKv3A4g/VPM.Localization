@@ -20,7 +20,6 @@ namespace io.github.ykysnk.Localization.Editor
             GlobalLocalization.DefaultHelper.UILocalize(visualTree);
             root.Bind(serializedObject);
             root.Add(visualTree);
-            GlobalLocalization.DefaultHelper.SelectLanguageElement(root);
             return root;
         }
     }
