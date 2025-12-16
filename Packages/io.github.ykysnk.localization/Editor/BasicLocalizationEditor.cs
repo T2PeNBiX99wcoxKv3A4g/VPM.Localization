@@ -15,12 +15,10 @@ namespace io.github.ykysnk.Localization.Editor
 
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
-            var root = new VisualElement();
-            var visualTree = uxml!.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(visualTree);
-            root.Bind(serializedObject);
-            root.Add(visualTree);
-            return root;
+            var tree = uxml!.CloneTree();
+            GlobalLocalization.DefaultHelper.UILocalize(tree);
+            tree.Bind(serializedObject);
+            return tree;
         }
     }
 }

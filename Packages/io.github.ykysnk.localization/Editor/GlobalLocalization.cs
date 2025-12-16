@@ -101,7 +101,7 @@ namespace io.github.ykysnk.Localization.Editor
                 SetSelectedLanguage(localizationID, keyList[newIndex]);
         }
 
-        public static void SelectLanguageElement(string localizationID, VisualElement element)
+        public static void SelectLanguageElement(string localizationID, VisualElement element, int spaceHeight = 8)
         {
             var keyList = _languageKeyList[localizationID].ToList();
             var keyNames = _languageKeyNames[localizationID].ToList();
@@ -116,6 +116,15 @@ namespace io.github.ykysnk.Localization.Editor
                 tooltip = S(localizationID, LanguageLabelKey + TooltipExt)
             };
 
+            var space = new VisualElement
+            {
+                style =
+                {
+                    height = spaceHeight
+                }
+            };
+
+            element.Add(space);
             element.Add(languagePopup);
             UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
             {

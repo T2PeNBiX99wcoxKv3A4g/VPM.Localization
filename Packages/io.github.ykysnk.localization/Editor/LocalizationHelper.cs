@@ -51,8 +51,8 @@ namespace io.github.ykysnk.Localization.Editor
 
         public void SelectLanguageGUI() => GlobalLocalization.SelectLanguageGUI(_localizationID);
 
-        public void SelectLanguageElement(VisualElement element) =>
-            GlobalLocalization.SelectLanguageElement(_localizationID, element);
+        public void SelectLanguageElement(VisualElement element, int spaceHeight = 8) =>
+            GlobalLocalization.SelectLanguageElement(_localizationID, element, spaceHeight);
 
         public void UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, localizeKey, callback);
@@ -102,11 +102,11 @@ namespace io.github.ykysnk.Localization.Editor
             "");
 
         // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
-        public void UILocalize(VisualElement elem, bool addLanguagePopup = true)
+        public void UILocalize(VisualElement elem, bool addLanguagePopup = true, int spaceHeight = 8)
         {
             WalkTree(elem);
             if (!addLanguagePopup) return;
-            SelectLanguageElement(elem);
+            SelectLanguageElement(elem, spaceHeight);
         }
 
         private void WalkTree(VisualElement elem)

@@ -12,26 +12,26 @@ namespace io.github.ykysnk.Localization.Editor
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var root = new VisualElement();
             var uxml =
                 AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                     AssetDatabase.GUIDToAssetPath("666a4a69b697dcd45bfe25da3d5636a6"));
 
             if (uxml == null)
             {
-                root.Add(new Label("Failed to load uxml assets, please reimport the package to fix this issue."));
-                return root;
+                var errorTree = new VisualElement();
+                errorTree.Add(new Label("Failed to load uxml assets, please reimport the package to fix this issue."));
+                return errorTree;
             }
 
-            var visualTree = uxml.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(visualTree, false);
-            root.Bind(property.serializedObject);
+            var tree = uxml.CloneTree();
+            GlobalLocalization.DefaultHelper.UILocalize(tree, false);
+            tree.Bind(property.serializedObject);
 
-            var keyField = visualTree.Q<TextField>("key");
-            var translateField = visualTree.Q<TextField>("translate");
-            var tooltipField = visualTree.Q<TextField>("tooltip");
+            var keyField = tree.Q<TextField>("key");
+            var translateField = tree.Q<TextField>("translate");
+            var tooltipField = tree.Q<TextField>("tooltip");
 
-            var copyButton = visualTree.Q<Button>("copy");
+            var copyButton = tree.Q<Button>("copy");
             copyButton.clicked += () =>
             {
                 var copyBasicTranslate = new BasicTranslate
@@ -44,7 +44,7 @@ namespace io.github.ykysnk.Localization.Editor
                 EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(copyBasicTranslate);
             };
 
-            var pasteButton = visualTree.Q<Button>("paste");
+            var pasteButton = tree.Q<Button>("paste");
             pasteButton.clicked += () =>
             {
                 try
@@ -59,9 +59,7 @@ namespace io.github.ykysnk.Localization.Editor
                     Utils.LogWarning(nameof(BasicTranslateDrawer), $"Failed to paste: {e.Message}\n{e.StackTrace}");
                 }
             };
-
-            root.Add(visualTree);
-            return root;
+            return tree;
         }
     }
 }
