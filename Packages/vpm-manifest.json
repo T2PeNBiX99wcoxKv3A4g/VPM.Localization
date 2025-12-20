@@ -2,11 +2,18 @@
   "dependencies": {
     "io.github.ykysnk.utils": {
       "version": "0.8.0"
+    },
+    "jp.lilxyzw.editortoolbox": {
+      "version": "1.11.0"
     }
   },
   "locked": {
     "io.github.ykysnk.utils": {
-      "version": "0.23.3",
+      "version": "0.23.5",
+      "dependencies": {}
+    },
+    "jp.lilxyzw.editortoolbox": {
+      "version": "1.11.0",
       "dependencies": {}
     }
   }
