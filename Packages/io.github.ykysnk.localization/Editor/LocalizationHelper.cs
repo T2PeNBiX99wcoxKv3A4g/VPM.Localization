@@ -24,7 +24,8 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static readonly List<string> SkipClass = new()
         {
-            "unity-base-field__inspector-field"
+            "unity-base-field__inspector-field",
+            "unity-object-field-display__label"
         };
 
         private readonly string _localizationID;
@@ -148,7 +149,8 @@ namespace io.github.ykysnk.Localization.Editor
                 keyProperty = headerTitleProperty;
             }
 
-            if (keyProperty == null || key == null) return;
+            // For dumb null check
+            if (keyProperty == null || key == null || string.IsNullOrWhiteSpace(key)) return;
 
             keyProperty.SetValue(elem, S(key));
             elem.tooltip = Tooltip(key);
