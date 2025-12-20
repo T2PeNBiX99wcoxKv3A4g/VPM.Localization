@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using io.github.ykysnk.utils;
+using io.github.ykysnk.utils.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,6 +31,8 @@ namespace io.github.ykysnk.Localization.Editor
             LanguageDictionary = new();
 
         private static readonly Dictionary<string, GUIContent> GuiContents = new();
+
+        private static bool _isDelayLoaded;
 
         static GlobalLocalization() => Load();
 
@@ -105,7 +108,12 @@ namespace io.github.ykysnk.Localization.Editor
         {
             var keyList = _languageKeyList[localizationID].ToList();
             var keyNames = _languageKeyNames[localizationID].ToList();
-            var defaultIndex = keyList.IndexOf(GetSelectedLanguage(localizationID));
+            var selectedLanguage = GetSelectedLanguage(localizationID);
+
+            if (!keyList.Contains(selectedLanguage))
+                Load();
+
+            var defaultIndex = keyList.IndexOf(selectedLanguage);
             var languagePopup = new PopupField<string>(S(localizationID, LanguageLabelKey), keyNames,
                 keyNames[defaultIndex], s =>
                 {
@@ -160,10 +168,25 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
 
+        private static void OnLocalizationError(Exception exception, BasicEditor.Type type)
+        {
+            if (type == BasicEditor.Type.UGUI) return;
+            Load();
+        }
+
+        private static void DelayLoad()
+        {
+            if (_isDelayLoaded) return;
+            _isDelayLoaded = true;
+            Load();
+        }
+
         [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
         private static void Load()
         {
             BasicLocalization.OnLocalizationFileUpdated -= OnLocalizationFileUpdated;
+            BasicEditor.OnErrorEvent -= OnLocalizationError;
+            EditorApplication.delayCall -= DelayLoad;
             LanguageDictionary.Clear();
             GuiContents.Clear();
 
@@ -242,6 +265,8 @@ namespace io.github.ykysnk.Localization.Editor
             langKeyList.Clear();
             OnLocalizationReload?.Invoke();
             BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
+            BasicEditor.OnErrorEvent += OnLocalizationError;
+            EditorApplication.delayCall += DelayLoad;
         }
     }
 }
