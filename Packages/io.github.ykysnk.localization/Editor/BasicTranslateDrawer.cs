@@ -1,5 +1,6 @@
 using System;
 using io.github.ykysnk.utils;
+using io.github.ykysnk.utils.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -16,13 +17,7 @@ namespace io.github.ykysnk.Localization.Editor
                 AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                     AssetDatabase.GUIDToAssetPath("666a4a69b697dcd45bfe25da3d5636a6"));
 
-            if (uxml == null)
-            {
-                var errorTree = new VisualElement();
-                errorTree.Add(new HelpBox("Failed to load uxml assets, please reimport the package to fix this issue.",
-                    HelpBoxMessageType.Error));
-                return errorTree;
-            }
+            if (uxml == null) return BasicEditor.CreateUxmlImportErrorUI();
 
             var tree = uxml.CloneTree();
             GlobalLocalization.DefaultHelper.UILocalize(tree, false);

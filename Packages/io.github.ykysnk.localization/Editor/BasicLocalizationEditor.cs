@@ -10,7 +10,6 @@ namespace io.github.ykysnk.Localization.Editor
     [CanEditMultipleObjects]
     public class BasicLocalizationEditor : BasicEditor
     {
-        [SerializeField] private StyleSheet? uss;
         [SerializeField] private VisualTreeAsset? uxml;
 
         protected override VisualElement? CreateErrorHandleInspectorGUI()
