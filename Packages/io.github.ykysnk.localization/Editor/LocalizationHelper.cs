@@ -115,7 +115,7 @@ namespace io.github.ykysnk.Localization.Editor
             var clemType = elem.GetType();
 
             // Without the delay call, the bind will not be set correctly.
-            EditorApplication.delayCall += () => TryLocalize(elem, clemType);
+            elem.schedule.Execute(() => TryLocalize(elem, clemType));
 
             foreach (var child in elem.Children())
             {
