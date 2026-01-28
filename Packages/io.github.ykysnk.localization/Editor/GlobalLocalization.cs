@@ -78,6 +78,21 @@ namespace io.github.ykysnk.Localization.Editor
             return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
         }
 
+        public static bool S(string localizationID, string? key, out string? localizationString)
+        {
+            var theKey = key ?? Null;
+            localizationString = null;
+
+            if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
+                return false;
+
+            var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
+            var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
+
+            return contents.TryGetValue(theKey, out localizationString) ||
+                   englishContents.TryGetValue(theKey, out localizationString);
+        }
+
         public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
         {
             var guiKey = $"{localizationID}.{key}";

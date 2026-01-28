@@ -67,6 +67,9 @@ namespace io.github.ykysnk.Localization.Editor
         public string S(string key, string? defaultValue = null) =>
             GlobalLocalization.S(_localizationID, key, defaultValue);
 
+        public bool S(string key, out string? localizationString) =>
+            GlobalLocalization.S(_localizationID, key, out localizationString);
+
         public string Sf(string key, params object?[] args)
         {
             var get = S(key);
@@ -95,7 +98,10 @@ namespace io.github.ykysnk.Localization.Editor
             G(
                 $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
 
-        public string Tooltip(string key, string? defaultValue = null) => S(key + GlobalLocalization.TooltipExt);
+        public string Tooltip(string key, string? defaultValue = null) =>
+            S(key + GlobalLocalization.TooltipExt, defaultValue);
+
+        public bool Tooltip(string key, out string? tooltip) => S(key + GlobalLocalization.TooltipExt, out tooltip);
         public string TooltipF(string key, params object?[] args) => Sf(key + GlobalLocalization.TooltipExt, args);
 
         public string Tooltip(SerializedProperty property) => S(
@@ -153,7 +159,7 @@ namespace io.github.ykysnk.Localization.Editor
             if (keyProperty == null || key == null || string.IsNullOrWhiteSpace(key)) return;
 
             keyProperty.SetValue(elem, S(key));
-            elem.tooltip = Tooltip(key);
+            elem.tooltip = Tooltip(key, "");
 
 #if LOCALIZATION_TEST
             Utils.Log(nameof(UILocalize),
