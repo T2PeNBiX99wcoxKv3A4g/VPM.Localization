@@ -4,6 +4,6 @@ namespace Test
 {
     public class Test : MonoBehaviour
     {
-        public string text;
+        public string? text;
     }
 }
