@@ -98,11 +98,11 @@ namespace io.github.ykysnk.Localization.Editor
             var guiKey = $"{localizationID}.{key}";
 
             if (!GuiContents.TryGetValue(guiKey, out var content))
-                return GuiContents[guiKey] = new(S(localizationID, key), image, S(localizationID, tooltip));
+                return GuiContents[guiKey] = new(S(localizationID, key), image, S(localizationID, tooltip, ""));
 
             content.text = S(localizationID, key);
             content.image = image;
-            content.tooltip = S(localizationID, tooltip);
+            content.tooltip = S(localizationID, tooltip, "");
             return content;
         }
 
