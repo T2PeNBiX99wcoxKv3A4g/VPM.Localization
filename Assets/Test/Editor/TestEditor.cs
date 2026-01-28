@@ -1,8 +1,6 @@
 using io.github.ykysnk.Localization.Editor;
 using io.github.ykysnk.utils.Editor;
-using JetBrains.Annotations;
 using UnityEditor;
-using UnityEngine;
 
 namespace Test.Editor
 {
@@ -12,7 +10,7 @@ namespace Test.Editor
     {
         private const string TextProp = "text";
 
-        [CanBeNull] private SerializedProperty _text;
+        private SerializedProperty? _text;
 
         protected override void OnEnable()
         {
@@ -21,8 +19,8 @@ namespace Test.Editor
 
         protected override void OnErrorHandleInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_text,
-                _text != null ? GlobalLocalization.DefaultHelper.G(_text) : GUIContent.none);
+            EditorGUILayout.PropertyField(_text, GlobalLocalization.DefaultHelper.G(_text!));
+            EditorGUILayout.PropertyField(_text, GlobalLocalization.DefaultHelper.G("Do not exist"));
             GlobalLocalization.SelectLanguageGUI(GlobalLocalization.DefaultLocalization);
         }
     }
