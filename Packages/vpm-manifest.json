@@ -5,6 +5,9 @@
     },
     "jp.lilxyzw.editortoolbox": {
       "version": "1.11.0"
+    },
+    "io.github.ykysnk.yky-toolkit": {
+      "version": "0.11.0"
     }
   },
   "locked": {
@@ -15,6 +18,13 @@
     "jp.lilxyzw.editortoolbox": {
       "version": "1.11.0",
       "dependencies": {}
+    },
+    "io.github.ykysnk.yky-toolkit": {
+      "version": "0.11.0",
+      "dependencies": {
+        "io.github.ykysnk.localization": ">=0.5.4",
+        "io.github.ykysnk.utils": ">=0.30.1"
+      }
     }
   }
 }
