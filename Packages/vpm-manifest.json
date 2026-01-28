@@ -9,7 +9,7 @@
   },
   "locked": {
     "io.github.ykysnk.utils": {
-      "version": "0.25.2",
+      "version": "0.33.2",
       "dependencies": {}
     },
     "jp.lilxyzw.editortoolbox": {
