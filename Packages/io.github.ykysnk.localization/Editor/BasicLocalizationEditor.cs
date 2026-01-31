@@ -54,6 +54,8 @@ namespace io.github.ykysnk.Localization.Editor
                                 $"Failed to paste: {exception?.Message}\n{exception?.StackTrace}");
                 }, canBePaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
 
+                evt.menu.AppendSeparator();
+
                 evt.menu.AppendAction("label.basic_translate.remove".S(), _ =>
                 {
                     foreach (var selected in selectedList)
