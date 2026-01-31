@@ -1,4 +1,3 @@
-using System;
 using io.github.ykysnk.utils;
 using io.github.ykysnk.utils.Editor;
 using UnityEditor;
@@ -41,19 +40,22 @@ namespace io.github.ykysnk.Localization.Editor
             };
 
             var pasteButton = tree.Q<Button>("paste");
+            pasteButton.schedule.Execute(() =>
+            {
+                pasteButton.SetEnabled(InternalLocalizationExtensions.TryPasteTranslate(out _, out _));
+            }).Every(1000);
+
             pasteButton.clicked += () =>
             {
-                try
+                if (InternalLocalizationExtensions.TryPasteTranslate(out var pasteBasicTranslate, out var exception))
                 {
-                    var pasteBasicTranslate = JsonUtility.FromJson<BasicTranslate>(EditorGUIUtility.systemCopyBuffer);
                     keyField.value = pasteBasicTranslate.key;
                     translateField.value = pasteBasicTranslate.translate;
                     tooltipField.value = pasteBasicTranslate.tooltip;
                 }
-                catch (ArgumentException e)
-                {
-                    Utils.LogWarning(nameof(BasicTranslateDrawer), $"Failed to paste: {e.Message}\n{e.StackTrace}");
-                }
+                else
+                    Utils.LogWarning(nameof(BasicTranslateDrawer),
+                        $"Failed to paste: {exception?.Message}\n{exception?.StackTrace}");
             };
             return tree;
         }
