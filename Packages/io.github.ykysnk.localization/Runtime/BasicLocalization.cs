@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace io.github.ykysnk.Localization
         public string localizationID = "";
         public string displayName = DefaultDisplayName;
 
-        public BasicTranslate[] translates =
+        public List<BasicTranslate> translates = new()
         {
             new()
             {
