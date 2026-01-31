@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -26,5 +27,23 @@ namespace io.github.ykysnk.Localization.Editor
 
         internal static void Register(this string localizeKey, UpdateHelper.Callback callback) =>
             GlobalLocalization.DefaultHelper.UpdateRegister(localizeKey, callback);
+
+        internal static bool TryPasteTranslate(out BasicTranslate basicTranslate, out Exception? exception)
+        {
+            basicTranslate = default;
+            exception = null;
+
+            try
+            {
+                basicTranslate = JsonUtility.FromJson<BasicTranslate>(EditorGUIUtility.systemCopyBuffer);
+                return true;
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            return false;
+        }
     }
 }
