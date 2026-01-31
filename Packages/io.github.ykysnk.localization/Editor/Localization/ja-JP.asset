@@ -48,3 +48,6 @@ MonoBehaviour:
   - key: label.basic_translate.misc
     translate: "\u305D\u306E\u4ED6"
     tooltip: Paste the translate datas.
+  - key: label.basic_translate.remove
+    translate: "\u524A\u9664"
+    tooltip: 
