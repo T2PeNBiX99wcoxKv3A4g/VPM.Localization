@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="unity:Position" parse-escape-sequences="true" display-tooltip-when-elided="true"
+                  tooltip="The local rotation of this Game Object relative to the parent."/>
+    </ui:VisualElement>
+</ui:UXML>
