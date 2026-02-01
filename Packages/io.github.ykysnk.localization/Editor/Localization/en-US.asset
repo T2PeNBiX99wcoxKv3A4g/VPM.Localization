@@ -51,3 +51,6 @@ MonoBehaviour:
   - key: label.basic_translate.remove
     translate: Remove
     tooltip: 
+  - key: unity:label.position
+    translate: Position
+    tooltip: The local rotation of this Game Object relative to the parent.
