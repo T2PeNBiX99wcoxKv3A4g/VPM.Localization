@@ -5,7 +5,7 @@
   "description": "Simple localization library",
   "gitDependencies": {},
   "vpmDependencies": {
-    "io.github.ykysnk.utils": ">=0.22.0"
+    "io.github.ykysnk.utils": ">=0.33.2"
   },
   "author": {
     "name": "yukiyosanako / \u3086\u304d\u3088\u3055\u306a\u3053",
