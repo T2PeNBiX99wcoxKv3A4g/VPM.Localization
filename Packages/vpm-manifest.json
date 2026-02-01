@@ -20,7 +20,7 @@
       "dependencies": {}
     },
     "io.github.ykysnk.yky-toolkit": {
-      "version": "0.12.0",
+      "version": "0.13.0",
       "dependencies": {
         "io.github.ykysnk.localization": ">=0.6.0",
         "io.github.ykysnk.utils": ">=0.33.2"
