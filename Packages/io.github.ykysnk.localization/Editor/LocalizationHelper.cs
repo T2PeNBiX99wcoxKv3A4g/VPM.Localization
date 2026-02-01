@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using io.github.ykysnk.utils.Extensions;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -163,29 +162,28 @@ namespace io.github.ykysnk.Localization.Editor
             {
                 if (key.StartsWith(UnityPrefix))
                 {
-                    keyProperty.SetValue(elem, L10n.Tr(key.LastPath(UnityPrefix) ?? key));
-                    var tooltipKey2 = elem.tooltip.StartsWith(UnityPrefix)
-                        ? elem.tooltip.LastPath(UnityPrefix)
-                        : elem.tooltip;
-                    elem.tooltip = L10n.Tr(tooltipKey2);
-                    return;
+                    keyProperty.SetValue(elem, L10n.Tr(S(key)));
+                    if (!elem.ClassListContains("localize-tooltip"))
+                        elem.tooltip = L10n.Tr(Tooltip(key, elem.tooltip));
                 }
-
-                keyProperty.SetValue(elem, S(key));
-                if (!elem.ClassListContains("localize-tooltip"))
-                    elem.tooltip = Tooltip(key, elem.tooltip);
+                else
+                {
+                    keyProperty.SetValue(elem, S(key));
+                    if (!elem.ClassListContains("localize-tooltip"))
+                        elem.tooltip = Tooltip(key, elem.tooltip);
 
 #if LOCALIZATION_TEST
-                Utils.Log(nameof(UILocalize),
-                    $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
+                    Utils.Log(nameof(UILocalize),
+                        $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
 #endif
 
-                UpdateRegister(key, (label, tooltip) =>
-                {
-                    keyProperty?.SetValue(elem, label);
-                    if (!elem.ClassListContains("localize-tooltip"))
-                        elem.tooltip = tooltip;
-                });
+                    UpdateRegister(key, (label, tooltip) =>
+                    {
+                        keyProperty?.SetValue(elem, label);
+                        if (!elem.ClassListContains("localize-tooltip"))
+                            elem.tooltip = tooltip;
+                    });
+                }
             }
 
             if (!elem.ClassListContains("localize-tooltip")) return;
@@ -193,7 +191,7 @@ namespace io.github.ykysnk.Localization.Editor
             var tooltipKey = elem.tooltip;
             if (tooltipKey.StartsWith(UnityPrefix))
             {
-                elem.tooltip = L10n.Tr(tooltipKey.LastPath(UnityPrefix) ?? tooltipKey);
+                elem.tooltip = L10n.Tr(S(tooltipKey));
                 return;
             }
 
