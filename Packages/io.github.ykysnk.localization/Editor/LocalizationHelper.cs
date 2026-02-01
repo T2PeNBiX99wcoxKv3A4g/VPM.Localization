@@ -164,16 +164,16 @@ namespace io.github.ykysnk.Localization.Editor
                 if (key.StartsWith(UnityPrefix))
                 {
                     keyProperty.SetValue(elem, L10n.Tr(key.LastPath(UnityPrefix) ?? key));
-
-                    if (!elem.tooltip.StartsWith(UnityPrefix)) return;
-                    var tooltipKey2 = elem.tooltip.LastPath(UnityPrefix) ?? elem.tooltip;
+                    var tooltipKey2 = elem.tooltip.StartsWith(UnityPrefix)
+                        ? elem.tooltip.LastPath(UnityPrefix)
+                        : elem.tooltip;
                     elem.tooltip = L10n.Tr(tooltipKey2);
                     return;
                 }
 
                 keyProperty.SetValue(elem, S(key));
                 if (!elem.ClassListContains("localize-tooltip"))
-                    elem.tooltip = Tooltip(key, "");
+                    elem.tooltip = Tooltip(key, elem.tooltip);
 
 #if LOCALIZATION_TEST
                 Utils.Log(nameof(UILocalize),
