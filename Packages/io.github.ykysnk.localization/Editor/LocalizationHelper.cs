@@ -175,7 +175,7 @@ namespace io.github.ykysnk.Localization.Editor
             else if (elem.ClassListContains("localize-tooltip"))
             {
                 var tooltipKey = elem.tooltip;
-                elem.tooltip = S(tooltipKey, "");
+                elem.tooltip = S(tooltipKey);
                 UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
             }
         }
