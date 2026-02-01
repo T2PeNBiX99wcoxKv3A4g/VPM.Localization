@@ -156,21 +156,28 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             // For dumb null check
-            if (keyProperty == null || key == null || string.IsNullOrWhiteSpace(key)) return;
-
-            keyProperty.SetValue(elem, S(key));
-            elem.tooltip = Tooltip(key, "");
+            if (keyProperty != null && key != null && !string.IsNullOrWhiteSpace(key))
+            {
+                keyProperty.SetValue(elem, S(key));
+                elem.tooltip = Tooltip(key, "");
 
 #if LOCALIZATION_TEST
-            Utils.Log(nameof(UILocalize),
-                $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
+                Utils.Log(nameof(UILocalize),
+                    $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
 #endif
 
-            UpdateRegister(key, (label, tooltip) =>
+                UpdateRegister(key, (label, tooltip) =>
+                {
+                    keyProperty?.SetValue(elem, label);
+                    elem.tooltip = tooltip;
+                });
+            }
+            else if (elem.ClassListContains("localize-tooltip"))
             {
-                keyProperty?.SetValue(elem, label);
-                elem.tooltip = tooltip;
-            });
+                var tooltipKey = elem.tooltip;
+                elem.tooltip = S(tooltipKey, "");
+                UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
+            }
         }
     }
 }
