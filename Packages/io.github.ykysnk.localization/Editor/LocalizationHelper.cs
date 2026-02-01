@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using io.github.ykysnk.utils.Extensions;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace io.github.ykysnk.Localization.Editor
         public delegate void LocalizationChanged(string newLanguage);
 
         public delegate void LocalizationUpdated();
+
+        private const string UnityPrefix = "unity:";
 
         private static readonly List<string> SkipName = new()
         {
@@ -158,8 +161,19 @@ namespace io.github.ykysnk.Localization.Editor
             // For dumb null check
             if (keyProperty != null && key != null && !string.IsNullOrWhiteSpace(key))
             {
+                if (key.StartsWith(UnityPrefix))
+                {
+                    keyProperty.SetValue(elem, L10n.Tr(key.LastPath(UnityPrefix) ?? key));
+
+                    if (!elem.tooltip.StartsWith(UnityPrefix)) return;
+                    var tooltipKey2 = elem.tooltip.LastPath(UnityPrefix) ?? elem.tooltip;
+                    elem.tooltip = L10n.Tr(tooltipKey2);
+                    return;
+                }
+
                 keyProperty.SetValue(elem, S(key));
-                elem.tooltip = Tooltip(key, "");
+                if (!elem.ClassListContains("localize-tooltip"))
+                    elem.tooltip = Tooltip(key, "");
 
 #if LOCALIZATION_TEST
                 Utils.Log(nameof(UILocalize),
@@ -169,15 +183,22 @@ namespace io.github.ykysnk.Localization.Editor
                 UpdateRegister(key, (label, tooltip) =>
                 {
                     keyProperty?.SetValue(elem, label);
-                    elem.tooltip = tooltip;
+                    if (!elem.ClassListContains("localize-tooltip"))
+                        elem.tooltip = tooltip;
                 });
             }
-            else if (elem.ClassListContains("localize-tooltip"))
+
+            if (!elem.ClassListContains("localize-tooltip")) return;
+
+            var tooltipKey = elem.tooltip;
+            if (tooltipKey.StartsWith(UnityPrefix))
             {
-                var tooltipKey = elem.tooltip;
-                elem.tooltip = S(tooltipKey);
-                UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
+                elem.tooltip = L10n.Tr(tooltipKey.LastPath(UnityPrefix) ?? tooltipKey);
+                return;
             }
+
+            elem.tooltip = S(tooltipKey);
+            UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
         }
     }
 }
