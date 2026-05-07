@@ -1,1 +1,1 @@
-Packages/io.github.ykysnk.yky-toolkit/README.md
+Packages/io.github.ykysnk.localization/README.md
