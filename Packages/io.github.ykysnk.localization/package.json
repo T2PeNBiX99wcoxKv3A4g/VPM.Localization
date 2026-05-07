@@ -1,7 +1,8 @@
 {
   "name": "io.github.ykysnk.localization",
   "displayName": "Localization",
-  "version": "0.9.2",
+  "version": "0.9.3",
+  "unity": "2022.3",
   "description": "Simple localization library",
   "gitDependencies": {},
   "vpmDependencies": {
@@ -14,5 +15,6 @@
   },
   "legacyFolders": {},
   "legacyFiles": {},
-  "localPath": "L:\\VRChatProjects\\VPM.Localization\\Packages\\io.github.ykysnk.localization"
+  "changelogUrl": "https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/blob/main/CHANGELOG.md",
+  "license": "MIT"
 }
