@@ -63,10 +63,8 @@ namespace io.github.ykysnk.Localization.Editor
             };
 
             var pasteButton = tree.Q<Button>("paste");
-            pasteButton.schedule.Execute(() =>
-            {
-                pasteButton.SetEnabled(TranslateClipboard.TryRead(out _, out _));
-            }).Every(1000);
+            pasteButton.schedule.Execute(() => { pasteButton.SetEnabled(TranslateClipboard.TryRead(out _, out _)); })
+                .Every(1000);
 
             pasteButton.clicked += () =>
             {

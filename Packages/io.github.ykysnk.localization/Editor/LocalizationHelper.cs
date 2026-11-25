@@ -31,17 +31,23 @@ namespace io.github.ykysnk.Localization.Editor
             "unity-object-field-display__label"
         };
 
-        private readonly string _localizationID;
-
         private static readonly Dictionary<Assembly, LocalizationHelper> AssemblyHelpers = new();
 
         // An assembly without the attribute keeps showing its keys, which is what a missing translation does anyway.
         private static readonly LocalizationHelper Unbound = new("");
 
+        private readonly string _localizationID;
+
         public LocalizationHelper(string localizationID)
         {
             _localizationID = localizationID;
             GlobalLocalization.OnLocalizationChanged += OnLocalizationChangedInternal;
+        }
+
+        public string SelectedLanguage
+        {
+            get => GlobalLocalization.GetSelectedLanguage(_localizationID);
+            set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
         }
 
         /// <summary>Helper declared by <paramref name="assembly" />'s <see cref="LocalizationPackageAttribute" />.</summary>
@@ -58,17 +64,11 @@ namespace io.github.ykysnk.Localization.Editor
                 return AssemblyHelpers[assembly] = Unbound;
             }
 
-            return AssemblyHelpers[assembly] = new LocalizationHelper(localizationID);
+            return AssemblyHelpers[assembly] = new(localizationID);
         }
 
         /// <summary>Helper declared by the assembly that contains <paramref name="type" />.</summary>
         public static LocalizationHelper For(Type type) => For(type.Assembly);
-
-        public string SelectedLanguage
-        {
-            get => GlobalLocalization.GetSelectedLanguage(_localizationID);
-            set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
-        }
 
         public event LocalizationChanged? OnLocalizationChanged;
 

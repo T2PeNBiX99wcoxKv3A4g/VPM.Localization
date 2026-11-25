@@ -1,7 +1,8 @@
 using System;
+using io.github.ykysnk.Localization.Editor;
 using JetBrains.Annotations;
 
-[assembly: io.github.ykysnk.Localization.Editor.LocalizationPackage("io.github.ykysnk.localization")]
+[assembly: LocalizationPackage("io.github.ykysnk.localization")]
 
 namespace io.github.ykysnk.Localization.Editor
 {

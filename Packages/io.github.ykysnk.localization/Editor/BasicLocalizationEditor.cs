@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace io.github.ykysnk.Localization.Editor
 {
@@ -320,7 +321,7 @@ namespace io.github.ykysnk.Localization.Editor
             // Assign through the SerializedObject: setting the field on the object alone is overwritten by the next
             // binding pass and never marks the asset dirty.
             var field = serializedObject.FindProperty(fieldName);
-            field.objectReferenceValue = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(filePath);
+            field.objectReferenceValue = AssetDatabase.LoadAssetAtPath<Object>(filePath);
             serializedObject.ApplyModifiedProperties();
         }
 
