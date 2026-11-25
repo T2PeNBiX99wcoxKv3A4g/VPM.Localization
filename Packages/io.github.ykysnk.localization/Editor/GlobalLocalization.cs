@@ -11,18 +11,18 @@ using UnityEngine.UIElements;
 namespace io.github.ykysnk.Localization.Editor
 {
     [InitializeOnLoad]
-    public static class GlobalLocalization
+    internal static class GlobalLocalization
     {
-        public delegate void LocalizationChanged(string localizationID, string newLanguage);
+        internal delegate void LocalizationChanged(string localizationID, string newLanguage);
 
-        public delegate void LocalizationUpdated();
+        internal delegate void LocalizationUpdated();
 
         /// <summary>Suffix that marks a key as the tooltip of another key.</summary>
-        public const string TooltipExt = BasicTranslate.DefaultTooltipSuffix;
+        internal const string TooltipExt = BasicTranslate.DefaultTooltipSuffix;
 
-        public const string LanguageLabelKey = "label.language";
-        public const string DefaultLangKey = "en-US";
-        public const string Null = "--null--";
+        internal const string LanguageLabelKey = "label.language";
+        internal const string DefaultLangKey = "en-US";
+        internal const string Null = "--null--";
 
         private static Dictionary<string, string[]> _languageKeyList = new();
         private static Dictionary<string, string[]> _languageKeyNames = new();
@@ -37,14 +37,14 @@ namespace io.github.ykysnk.Localization.Editor
 
         static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
 
-        public static event LocalizationUpdated? OnLocalizationReload;
-        public static event LocalizationChanged? OnLocalizationChanged;
+        internal static event LocalizationUpdated? OnLocalizationReload;
+        internal static event LocalizationChanged? OnLocalizationChanged;
 
-        public static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
+        internal static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
             ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
             : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
 
-        public static void SetSelectedLanguage(string localizationID, string language)
+        internal static void SetSelectedLanguage(string localizationID, string language)
         {
             if (!LanguageDictionary.ContainsKey(localizationID))
                 throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
@@ -55,7 +55,7 @@ namespace io.github.ykysnk.Localization.Editor
             OnLocalizationChanged?.Invoke(localizationID, language);
         }
 
-        public static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
+        internal static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
         {
             if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
                 throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID));
@@ -65,7 +65,7 @@ namespace io.github.ykysnk.Localization.Editor
                 : contents.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public static string S(string localizationID, string? key, string? defaultValue = null)
+        internal static string S(string localizationID, string? key, string? defaultValue = null)
         {
             var theKey = key ?? Null;
 
@@ -79,7 +79,7 @@ namespace io.github.ykysnk.Localization.Editor
             return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
         }
 
-        public static bool S(string localizationID, string? key, out string? localizationString)
+        internal static bool S(string localizationID, string? key, out string? localizationString)
         {
             var theKey = key ?? Null;
             localizationString = null;
@@ -94,7 +94,7 @@ namespace io.github.ykysnk.Localization.Editor
                    englishContents.TryGetValue(theKey, out localizationString);
         }
 
-        public static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
+        internal static GUIContent G(string localizationID, string key, Texture? image, string? tooltip)
         {
             var guiKey = $"{localizationID}.{key}";
 
@@ -107,7 +107,7 @@ namespace io.github.ykysnk.Localization.Editor
             return content;
         }
 
-        public static void SelectLanguageGUI(string localizationID)
+        internal static void SelectLanguageGUI(string localizationID)
         {
             var keyList = _languageKeyList[localizationID];
             var keyNames = _languageKeyNames[localizationID];
@@ -122,7 +122,7 @@ namespace io.github.ykysnk.Localization.Editor
                 SetSelectedLanguage(localizationID, keyList[newIndex]);
         }
 
-        public static void SelectLanguageElement(string localizationID, VisualElement element, int spaceHeight = 8)
+        internal static void SelectLanguageElement(string localizationID, VisualElement element, int spaceHeight = 8)
         {
             if (!TryGetLanguageLists(localizationID, out var languageIds, out var displayNames))
             {
@@ -203,7 +203,7 @@ namespace io.github.ykysnk.Localization.Editor
             return false;
         }
 
-        public static string NameToLocalizationName(string name)
+        internal static string NameToLocalizationName(string name)
         {
             var builder = new StringBuilder(name.Length + 8);
 
