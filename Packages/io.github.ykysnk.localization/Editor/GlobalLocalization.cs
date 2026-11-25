@@ -33,7 +33,6 @@ namespace io.github.ykysnk.Localization.Editor
         private static readonly Dictionary<string, GUIContent> GuiContents = new();
 
         private static bool _isDelayLoaded;
-
         private static bool _loadQueued;
 
         static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
@@ -346,29 +345,17 @@ namespace io.github.ykysnk.Localization.Editor
                 langDisplayNames[localizationID].TryAdd(basicLocalization.name, basicLocalization.displayName);
             }
 
-            var languageDisplayNames = langDisplayNames.ToDictionary(x => x.Key,
-                x => x.Value.OrderBy(y => y.Value).ToDictionary(y => y.Key, y => y.Value));
-            langDisplayNames.Clear();
+            // The language popup shows the display names, so the languages are ordered by them. The comparer is explicit
+            // because the default one depends on the machine's culture.
+            _languageKeyList = langKeyList.ToDictionary(
+                x => x.Key,
+                x => x.Value
+                    .OrderBy(language => langDisplayNames[x.Key][language], StringComparer.InvariantCulture)
+                    .ToArray());
 
-            _languageKeyList = langKeyList.ToDictionary(x => x.Key, x => x.Value.ToArray());
-
-            var tempLanguageKeyNames = new Dictionary<string, string[]>();
-
-            foreach (var (id, sortedDictionary) in languageDisplayNames)
-            {
-                var languageIDList = _languageKeyList[id];
-                var length = languageIDList.Length;
-                var names = new string[length];
-
-                for (var i = 0; i < length; i++)
-                    names[i] = sortedDictionary[languageIDList[i]];
-
-                tempLanguageKeyNames.TryAdd(id, names);
-            }
-
-            _languageKeyNames = tempLanguageKeyNames;
-
-            langKeyList.Clear();
+            _languageKeyNames = _languageKeyList.ToDictionary(
+                x => x.Key,
+                x => x.Value.Select(language => langDisplayNames[x.Key][language]).ToArray());
             OnLocalizationReload?.Invoke();
             BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
             BasicEditor.OnErrorEvent += OnLocalizationError;
