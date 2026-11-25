@@ -311,8 +311,20 @@ namespace io.github.ykysnk.Localization.Editor
                     LanguageDictionary[localizationID][basicLocalization.name]
                         .TryAdd(basicTranslate.key, basicTranslate.translate);
 
+                    if (!basicTranslate.useTooltip) continue;
+
+                    var suffix = string.IsNullOrEmpty(basicTranslate.tooltipSuffix)
+                        ? ".tooltip"
+                        : basicTranslate.tooltipSuffix;
+
                     LanguageDictionary[localizationID][basicLocalization.name]
-                        .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
+                        .TryAdd(basicTranslate.key + suffix, basicTranslate.tooltip);
+
+                    // Keep the historical ":tooltip" spelling resolvable, so Tooltip(key) works for entries that use
+                    // another suffix such as ".tooltip".
+                    if (suffix != TooltipExt)
+                        LanguageDictionary[localizationID][basicLocalization.name]
+                            .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);
                 }
 
                 langKeyList.TryAdd(localizationID, new());

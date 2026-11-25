@@ -84,7 +84,9 @@ namespace io.github.ykysnk.Localization.Editor
             {
                 key = element.FindPropertyRelative("key").stringValue,
                 translate = element.FindPropertyRelative("translate").stringValue,
-                tooltip = element.FindPropertyRelative("tooltip").stringValue
+                tooltip = element.FindPropertyRelative("tooltip").stringValue,
+                useTooltip = element.FindPropertyRelative("useTooltip").boolValue,
+                tooltipSuffix = element.FindPropertyRelative("tooltipSuffix").stringValue
             });
         }
 
@@ -107,6 +109,9 @@ namespace io.github.ykysnk.Localization.Editor
                 element.FindPropertyRelative("key").stringValue = pasted.key;
                 element.FindPropertyRelative("translate").stringValue = pasted.translate ?? "";
                 element.FindPropertyRelative("tooltip").stringValue = pasted.tooltip ?? "";
+                element.FindPropertyRelative("useTooltip").boolValue = pasted.useTooltip;
+                element.FindPropertyRelative("tooltipSuffix").stringValue =
+                    string.IsNullOrEmpty(pasted.tooltipSuffix) ? ".tooltip" : pasted.tooltipSuffix;
             }
 
             serializedObject.ApplyModifiedProperties();

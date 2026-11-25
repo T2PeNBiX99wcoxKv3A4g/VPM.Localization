@@ -25,35 +25,22 @@ namespace io.github.ykysnk.Localization.Editor
             var keyField = tree.Q<TextField>("key");
             var translateField = tree.Q<TextField>("translate");
             var tooltipField = tree.Q<TextField>("tooltip");
-            var tooltipToggle = tree.Q<Button>("tooltipToggle");
-            var tooltipProperty = property.FindPropertyRelative("tooltip");
+            var suffixField = tree.Q<TextField>("tooltipSuffix");
+            var useTooltipToggle = tree.Q<Toggle>("useTooltip");
 
-            // Tooltips are usually unused, so the field stays collapsed until the entry has one or the toggle is
-            // pressed. The class on the toggle shows that an entry carries a tooltip while it is collapsed.
-            bool? expandedOverride = null;
-
+            // Tooltips are opt-in: while the toggle is off both tooltip fields stay hidden, and the loader ignores the
+            // stored text as well.
             void ApplyTooltipVisibility()
             {
-                var hasTooltip = !string.IsNullOrEmpty(tooltipField.value) ||
-                                 !string.IsNullOrEmpty(tooltipProperty.stringValue);
-                var open = expandedOverride ?? false;
-
-                tooltipField.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
-                tooltipToggle.EnableInClassList("translate-tooltip-toggle--active", hasTooltip);
+                var on = useTooltipToggle.value;
+                tooltipField.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
+                suffixField.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
             }
 
-            tooltipToggle.clicked += () =>
-            {
-                expandedOverride = !(expandedOverride ?? false);
-                if (expandedOverride.Value)
-                    tooltipField.schedule.Execute(() => tooltipField.Focus());
-
-                ApplyTooltipVisibility();
-            };
-
-            tooltipField.RegisterValueChangedCallback(_ => ApplyTooltipVisibility());
-
+            useTooltipToggle.RegisterValueChangedCallback(_ => ApplyTooltipVisibility());
             ApplyTooltipVisibility();
+            // The binding sets the initial value after CreatePropertyGUI returns, so re-apply once it is available.
+            useTooltipToggle.schedule.Execute(ApplyTooltipVisibility);
 
             var copyButton = tree.Q<Button>("copy");
             copyButton.clicked += () =>
@@ -62,7 +49,9 @@ namespace io.github.ykysnk.Localization.Editor
                 {
                     key = keyField.value,
                     translate = translateField.value,
-                    tooltip = tooltipField.value
+                    tooltip = tooltipField.value,
+                    useTooltip = useTooltipToggle.value,
+                    tooltipSuffix = suffixField.value
                 };
 
                 EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(copyBasicTranslate);
@@ -81,6 +70,8 @@ namespace io.github.ykysnk.Localization.Editor
                     keyField.value = pasteBasicTranslate.key;
                     translateField.value = pasteBasicTranslate.translate;
                     tooltipField.value = pasteBasicTranslate.tooltip;
+                    useTooltipToggle.value = pasteBasicTranslate.useTooltip;
+                    suffixField.value = pasteBasicTranslate.tooltipSuffix;
                 }
                 else
                     Utils.LogWarning(nameof(BasicTranslateDrawer),

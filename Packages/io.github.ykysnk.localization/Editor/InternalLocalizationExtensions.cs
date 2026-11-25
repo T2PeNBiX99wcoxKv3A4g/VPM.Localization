@@ -31,9 +31,14 @@ namespace io.github.ykysnk.Localization.Editor
         ///     key and a translation, so an empty clipboard or an unrelated JSON object is rejected instead of
         ///     overwriting the row with empty values.
         /// </summary>
-        internal static bool TryPasteTranslate(out BasicTranslate basicTranslate, out Exception? exception)
+        /// <param name="basicTranslate">The parsed entry when the method returns true; otherwise null.</param>
+        /// <param name="exception">The parse or validation error, or null when the clipboard was simply empty.</param>
+        /// <returns>True when a usable entry was read.</returns>
+        internal static bool TryPasteTranslate(
+            [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out BasicTranslate? basicTranslate,
+            out Exception? exception)
         {
-            basicTranslate = default;
+            basicTranslate = null;
             exception = null;
 
             var clipboard = EditorGUIUtility.systemCopyBuffer;
@@ -49,9 +54,15 @@ namespace io.github.ykysnk.Localization.Editor
                 return false;
             }
 
+            if (basicTranslate == null)
+            {
+                exception = new FormatException("Clipboard does not contain a translation entry.");
+                return false;
+            }
+
             if (string.IsNullOrEmpty(basicTranslate.key) || basicTranslate.translate == null)
             {
-                basicTranslate = default;
+                basicTranslate = null;
                 exception = new FormatException(
                     "Clipboard does not contain a translation: the JSON needs a non-empty 'key' and a 'translate' value.");
                 return false;
