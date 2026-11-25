@@ -26,17 +26,23 @@ namespace io.github.ykysnk.Localization.Editor
             _localizationID = localizationID;
             _localizeKey = localizeKey;
             _callback = callback;
-            GlobalLocalization.OnLocalizationReload += OnLocalizationReload;
-            GlobalLocalization.OnLocalizationChanged += OnLocalizationChanged;
+            GlobalLocalization.RegisterHelper(this);
         }
+
+        /// <summary>Localization group this registration belongs to.</summary>
+        internal string LocalizationID => _localizationID;
+
+        /// <summary>Re-reads the label and tooltip. Called by the loader when the data or language changes.</summary>
+        internal void Refresh() =>
+            _callback(GlobalLocalization.S(_localizationID, _localizeKey),
+                GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
 
         private string FullKey => $"{_localizationID}.{_localizeKey}";
 
         /// <summary>Stops updating the callback. Call this when the element it updates is removed.</summary>
         public void Dispose()
         {
-            GlobalLocalization.OnLocalizationReload -= OnLocalizationReload;
-            GlobalLocalization.OnLocalizationChanged -= OnLocalizationChanged;
+            GlobalLocalization.UnregisterHelper(this);
 
             if (!UpdateHelpers.TryGetValue(FullKey, out var helpers)) return;
 
@@ -69,17 +75,5 @@ namespace io.github.ykysnk.Localization.Editor
             Register(localizationID,
                 $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}",
                 callback);
-
-        private void OnLocalizationReload()
-        {
-            _callback(GlobalLocalization.S(_localizationID, _localizeKey),
-                GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
-        }
-
-        private void OnLocalizationChanged(string id, string newLanguage)
-        {
-            if (id != _localizationID) return;
-            OnLocalizationReload();
-        }
     }
 }

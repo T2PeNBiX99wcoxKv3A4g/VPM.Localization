@@ -35,6 +35,10 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static readonly Dictionary<string, GUIContent> GuiContents = new();
 
+        // Every live UpdateHelper. The helpers do not subscribe to the events themselves: with a subscription per
+        // registration, a window with a thousand localized elements spent most of its build time combining delegates.
+        private static readonly HashSet<UpdateHelper> ActiveHelpers = new();
+
         // Returned instead of allocating an empty dictionary for a language that has no asset yet.
         private static readonly Dictionary<string, string> EmptyContents = new();
 
@@ -66,7 +70,28 @@ namespace io.github.ykysnk.Localization.Editor
                 throw new ArgumentException($"Language {language} not found for localization ID {localizationID}!",
                     nameof(language));
             EditorPrefs.SetString($"{localizationID}_Language", language);
+            NotifyHelpers(localizationID);
             OnLocalizationChanged?.Invoke(localizationID, language);
+        }
+
+        /// <summary>Registers a helper that wants to be told when the data or the selected language changes.</summary>
+        internal static void RegisterHelper(UpdateHelper helper) => ActiveHelpers.Add(helper);
+
+        internal static void UnregisterHelper(UpdateHelper helper) => ActiveHelpers.Remove(helper);
+
+        /// <summary>
+        ///     Refreshes every helper, or only the ones of one localization when <paramref name="localizationID" /> is
+        ///     given. Snapshot first: a callback may add or remove helpers while it runs.
+        /// </summary>
+        private static void NotifyHelpers(string? localizationID)
+        {
+            if (ActiveHelpers.Count == 0) return;
+
+            foreach (var helper in ActiveHelpers.ToArray())
+            {
+                if (localizationID != null && helper.LocalizationID != localizationID) continue;
+                helper.Refresh();
+            }
         }
 
         internal static Dictionary<string, string> GetLanguageLocalization(string localizationID, string language)
@@ -439,6 +464,7 @@ namespace io.github.ykysnk.Localization.Editor
                 x => x.Key,
                 x => x.Value.Select(language => langDisplayNames[x.Key][language]).ToArray());
             WarnAboutUnityKeys(unityKeys);
+            NotifyHelpers(null);
             OnLocalizationReload?.Invoke();
             BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
             BasicEditor.OnErrorEvent += OnLocalizationError;
