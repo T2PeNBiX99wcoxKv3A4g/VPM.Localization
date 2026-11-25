@@ -27,9 +27,24 @@
     margin: 0 0 6px 0;
 }
 
+/* The display name and the language picker share one line; the id keeps the full width above them. */
+.loc-row {
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.loc-row__field {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 140px;
+    margin: 0 8px 0 0;
+}
+
 /* The language picker is appended to this slot by the editor. */
 .loc-language {
-    margin-top: 2px;
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 140px;
 }
 
 /* Inputs share the card radius, so they do not look like sharp holes punched in it. */
@@ -90,11 +105,13 @@
 /* ---------- search ---------- */
 
 .localization-search {
-    /* The toolbar search field ships with a fixed width and a plain dark box; stretch it and give it the card look. */
-    align-self: stretch;
+    /* The toolbar search field ships with a fixed width and a plain dark box; let it fill the toolbar row instead. */
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 120px;
     width: auto;
-    min-height: 22px;
-    margin: 0 0 6px 0;
+    min-height: 20px;
+    margin: 0 6px 0 8px;
     background-color: rgba(128, 128, 128, 0.10);
     border-width: 1px;
     border-color: rgba(128, 128, 128, 0.28);
@@ -216,6 +233,7 @@
 }
 
 .list-header__title {
+    flex-shrink: 0;
     -unity-font-style: bold;
     color: rgb(120, 165, 255);
 }

@@ -4,11 +4,12 @@
         <ui:VisualElement class="loc-card">
             <ui:TextField picking-mode="Ignore" label="label.basic_localization.localization_id" name="localizationID"
                           binding-path="localizationID" class="localization-field"/>
-            <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
-                          binding-path="displayName" class="localization-field"/>
-            <!-- The language picker is appended here by the editor; it belongs with the asset settings, not at the
-                 bottom of the tree where UILocalize would drop it. -->
-            <ui:VisualElement name="languageSlot" class="loc-language"/>
+            <ui:VisualElement class="loc-row">
+                <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
+                              binding-path="displayName" class="localization-field loc-row__field"/>
+                <!-- The language picker is appended here by the editor; it belongs with the asset settings. -->
+                <ui:VisualElement name="languageSlot" class="loc-language"/>
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <ui:VisualElement class="loc-card">
@@ -35,13 +36,11 @@
             </ui:Foldout>
         </ui:VisualElement>
 
-        <uie:ToolbarSearchField name="search" class="localization-search"
-                                tooltip="Filter by key, translation or tooltip"/>
-
         <ui:VisualElement class="list-header">
             <ui:Label text="label.basic_localization.translates" class="list-header__title"/>
             <ui:Label text="0" name="translatesCount" class="list-header__count"/>
-            <ui:VisualElement class="list-header__spacer"/>
+            <uie:ToolbarSearchField name="search" class="localization-search"
+                                    tooltip="Filter by key, translation or tooltip"/>
             <ui:Button name="removeTranslate" text="−" class="list-header__button"
                        tooltip="Remove the selected translations"/>
             <ui:Button name="addTranslate" text="+" class="list-header__button list-header__button--primary"
