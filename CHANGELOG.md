@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.11.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.3..0.11.0) - 2026-11-25
+
+### ⛰️  Features
+
+- Warn about unity: entries that cannot resolve - ([e2deeec](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e2deeecf2237991950ae8c899f8e1e82ffbc6f12))
+- Limit the sidecar pickers to their file types - ([bc3f46a](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/bc3f46aef04dcaf40369aa7e76c36043a3e1eeac))
+- Add a ready-made language picker control - ([1838985](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/1838985c02e569cbeaf6cad6db9e4baf0f59baa4))
+- Give the localization scripts their own icons - ([0dfdf44](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0dfdf4438ed85b2530728d879d58de42b9698194))
+
+### 🐛 Bug Fixes
+
+- Localize the tree before the first frame instead of after it - ([e047e43](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e047e430b8a0382cfd121be3a2894fe5fa156820))
+- Restore UnitypackageImporter script reference - ([c7c18c8](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/c7c18c83d8882a06ef6e40a455c8fd86b090626a))
+- Connect the bubble tail and point the script icons at the imported textures - ([0c64e8c](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0c64e8c3eccd1bc3678f61b952c2339abca076bf))
+
+### 📚 Documentation
+
+- Document the public localization API - ([bb4351b](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/bb4351bb53df33e7da22b13406a2353975c8d7a1))
+
+### ⚡ Performance
+
+- Notify the update helpers from one place - ([9d332c6](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/9d332c6bd2c9fc4b3cbb55a1a77ea1aea19bb8d3))
+- Cut the per-element work out of the localization hot paths - ([34f4d6c](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/34f4d6cb388d40e146403f14d36deed7f9969965))
+
+### 🎨 Styling
+
+- Keep the monochrome icons at 256 px and drop the text elements - ([8086dee](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/8086dee976fbed316e3c82abce7d7cce764cf07c))
+- Draw the localization icons as flat monochrome glyphs - ([3069100](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/306910034a2932ed33b549fb285dfd34c2a5f781))
+- Give the localization inspector a two-column header and a toolbar - ([7a44c51](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/7a44c51eeaa6791af275a68e9ba4c1c9733bbf4f))
+- Give the localization inspector the toolkit's card and accent look - ([87241a9](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/87241a971365baa17e483cd6650176bfa5ec2975))
+- Give the localization inspector a card layout and a filling list - ([a146d5f](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/a146d5f48cc845847e8d8660d8ba38861565f66b))
+
+### ⚙️ Miscellaneous Tasks
+
+- Update utils package lock - ([ec8d3ab](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/ec8d3ab44bf94345685454027cf2ec47cb49e5fb))
+- Bump version to 0.11.0 - ([ed88708](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/ed887085cfcac6819f135542907b01f640f7e37f))
+
+### Action
+
+- Update `CHANGELOG.md` - ([2e3923a](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/2e3923a9082680bd564cba501fca58e72e566e0d))
+
+
 ## [0.10.3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.2..0.10.3) - 2026-11-25
 
 ### 🐛 Bug Fixes
