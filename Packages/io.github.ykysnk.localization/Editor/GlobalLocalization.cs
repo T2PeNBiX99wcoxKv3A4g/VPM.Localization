@@ -195,7 +195,7 @@ namespace io.github.ykysnk.Localization.Editor
             languagePopup.RegisterCallback<DetachFromPanelEvent>(_ => registration.Dispose());
         }
 
-        private static bool TryGetLanguageLists(string localizationID, out string[] languageIds,
+        internal static bool TryGetLanguageLists(string localizationID, out string[] languageIds,
             out string[] displayNames)
         {
             if (_languageKeyList.TryGetValue(localizationID, out languageIds!) &&
@@ -207,6 +207,14 @@ namespace io.github.ykysnk.Localization.Editor
             displayNames = Array.Empty<string>();
             return false;
         }
+
+        /// <summary>Language ids of a localization in display order. Empty until the assets are loaded.</summary>
+        internal static IReadOnlyList<string> GetLanguageIds(string localizationID) =>
+            _languageKeyList.TryGetValue(localizationID, out var ids) ? ids : Array.Empty<string>();
+
+        /// <summary>Display names matching <see cref="GetLanguageIds" />. Empty until the assets are loaded.</summary>
+        internal static IReadOnlyList<string> GetLanguageNames(string localizationID) =>
+            _languageKeyNames.TryGetValue(localizationID, out var names) ? names : Array.Empty<string>();
 
         internal static string NameToLocalizationName(string name)
         {

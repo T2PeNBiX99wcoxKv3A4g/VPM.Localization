@@ -39,7 +39,7 @@ namespace io.github.ykysnk.Localization.Editor
 
             var languageSlot = tree.Q<VisualElement>("languageSlot");
             if (languageSlot != null)
-                LocalizationHelper.For(typeof(LocalizationHelper)).SelectLanguageElement(languageSlot, 0);
+                languageSlot.Add(LocalizationHelper.For(typeof(LocalizationHelper)).CreateLanguagePicker());
 
             _translatesList = tree.Q<ListView>("translates");
             _translatesList.showBoundCollectionSize = false;

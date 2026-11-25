@@ -81,6 +81,21 @@ namespace io.github.ykysnk.Localization.Editor
             set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
         }
 
+        /// <summary>
+        ///     Switches the language of this localization and updates every element that was localized through
+        ///     <see cref="UILocalize" /> or <see cref="UpdateRegister" />.
+        /// </summary>
+        public void SetLanguage(string language) => SelectedLanguage = language;
+
+        /// <summary>Language ids of this localization in display order. Empty until the assets are loaded.</summary>
+        public IReadOnlyList<string> Languages => GlobalLocalization.GetLanguageIds(_localizationID);
+
+        /// <summary>Display names matching <see cref="Languages" />.</summary>
+        public IReadOnlyList<string> LanguageNames => GlobalLocalization.GetLanguageNames(_localizationID);
+
+        /// <summary>A ready-made UI Toolkit language picker for this localization.</summary>
+        public LanguagePicker CreateLanguagePicker() => new(_localizationID);
+
         /// <summary>Helper declared by <paramref name="assembly" />'s <see cref="LocalizationPackageAttribute" />.</summary>
         public static LocalizationHelper For(Assembly assembly)
         {
