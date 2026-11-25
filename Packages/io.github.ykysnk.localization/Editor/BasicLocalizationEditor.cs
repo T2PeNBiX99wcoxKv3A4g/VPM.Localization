@@ -206,8 +206,8 @@ namespace io.github.ykysnk.Localization.Editor
 
                 var element = translates.GetArrayElementAtIndex(index);
                 element.FindPropertyRelative("key").stringValue = pasted.key;
-                element.FindPropertyRelative("translate").stringValue = pasted.translate ?? "";
-                element.FindPropertyRelative("tooltip").stringValue = pasted.tooltip ?? "";
+                element.FindPropertyRelative("translate").stringValue = pasted.translate;
+                element.FindPropertyRelative("tooltip").stringValue = pasted.tooltip;
                 element.FindPropertyRelative("useTooltip").boolValue = pasted.useTooltip;
                 element.FindPropertyRelative("tooltipSuffix").stringValue =
                     string.IsNullOrEmpty(pasted.tooltipSuffix)

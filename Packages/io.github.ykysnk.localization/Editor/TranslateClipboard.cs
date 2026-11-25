@@ -12,8 +12,8 @@ namespace io.github.ykysnk.Localization.Editor
     {
         /// <summary>
         ///     Tries to read a <see cref="BasicTranslate" /> from the clipboard. The text must parse as JSON and carry a
-        ///     key and a translation, so an empty clipboard or an unrelated JSON object is rejected instead of
-        ///     overwriting the row with empty values.
+        ///     key, so an empty clipboard or an unrelated JSON object is rejected instead of overwriting the row with
+        ///     empty values.
         /// </summary>
         /// <param name="basicTranslate">The parsed entry when the method returns true; otherwise null.</param>
         /// <param name="exception">The parse or validation error, or null when the clipboard was simply empty.</param>
@@ -42,11 +42,13 @@ namespace io.github.ykysnk.Localization.Editor
                 return false;
             }
 
-            if (string.IsNullOrEmpty(basicTranslate.key) || basicTranslate.translate == null)
+            // JsonUtility runs the field initializers, so 'translate' is "" when the JSON leaves it out; only the key
+            // tells a translation entry apart from any other JSON object.
+            if (string.IsNullOrEmpty(basicTranslate.key))
             {
                 basicTranslate = null;
                 exception = new FormatException(
-                    "Clipboard does not contain a translation: the JSON needs a non-empty 'key' and a 'translate' value.");
+                    "Clipboard does not contain a translation: the JSON needs a non-empty 'key'.");
                 return false;
             }
 
