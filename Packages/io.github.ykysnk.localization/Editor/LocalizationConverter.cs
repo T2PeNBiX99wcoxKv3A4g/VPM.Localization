@@ -98,12 +98,12 @@ namespace io.github.ykysnk.Localization.Editor
             {
                 if (string.IsNullOrEmpty(entry.key)) continue;
 
-                yield return new(entry.key, entry.translate ?? "");
+                yield return new(entry.key, entry.translate);
 
                 if (!entry.useTooltip) continue;
 
                 var suffix = string.IsNullOrEmpty(entry.tooltipSuffix) ? ".tooltip" : entry.tooltipSuffix;
-                yield return new(entry.key + suffix, entry.tooltip ?? "");
+                yield return new(entry.key + suffix, entry.tooltip);
             }
         }
 
@@ -124,7 +124,7 @@ namespace io.github.ykysnk.Localization.Editor
                     if (key.Length <= candidate.Length || !key.EndsWith(candidate, StringComparison.Ordinal))
                         continue;
 
-                    var candidateBase = key.Substring(0, key.Length - candidate.Length);
+                    var candidateBase = key[..^candidate.Length];
                     if (!fileKeys.Contains(candidateBase) && !byKey.ContainsKey(candidateBase)) continue;
 
                     baseKey = candidateBase;
