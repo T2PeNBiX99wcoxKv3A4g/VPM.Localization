@@ -24,6 +24,9 @@ namespace io.github.ykysnk.Localization.Editor
         internal const string DefaultLangKey = "en-US";
         internal const string Null = "--null--";
 
+        /// <summary>Prefix that marks a key as a Unity editor string, translated through <c>L10n.Tr</c>.</summary>
+        internal const string UnityPrefix = "unity:";
+
         private static Dictionary<string, string[]> _languageKeyList = new();
         private static Dictionary<string, string[]> _languageKeyNames = new();
 
@@ -43,6 +46,9 @@ namespace io.github.ykysnk.Localization.Editor
         internal static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
             ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
             : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
+
+        /// <summary>Whether the assets of this localization were loaded, so a missing key can be told from a not-yet-loaded one.</summary>
+        internal static bool HasLocalization(string localizationID) => LanguageDictionary.ContainsKey(localizationID);
 
         internal static void SetSelectedLanguage(string localizationID, string language)
         {
@@ -216,6 +222,35 @@ namespace io.github.ykysnk.Localization.Editor
         internal static IReadOnlyList<string> GetLanguageNames(string localizationID) =>
             _languageKeyNames.TryGetValue(localizationID, out var names) ? names : Array.Empty<string>();
 
+        /// <summary>
+        ///     A <c>unity:</c> entry is the English text that <c>L10n.Tr</c> translates, so it has to be declared in the
+        ///     English asset. An entry that only exists in another language stops resolving as soon as that language is
+        ///     not selected, and one without English text leaves the raw key in the UI.
+        /// </summary>
+        private static void WarnAboutUnityKeys(List<(string ID, string Key, string Path)> entries)
+        {
+            foreach (var (localizationID, key, path) in entries.Distinct())
+            {
+                if (!LanguageDictionary.TryGetValue(localizationID, out var languages)) continue;
+
+                if (!languages.TryGetValue(DefaultLangKey, out var english))
+                {
+                    Utils.LogWarning(nameof(GlobalLocalization),
+                        $"There is no {DefaultLangKey} asset for {localizationID}, so {key} declared in {path} " +
+                        "cannot be translated by Unity.");
+                    continue;
+                }
+
+                if (!english.ContainsKey(key))
+                    Utils.LogWarning(nameof(GlobalLocalization),
+                        $"{key} is declared in {path} but missing from the {DefaultLangKey} asset of " +
+                        $"{localizationID}; L10n.Tr() needs the English text, so the label shows the raw key.");
+                else if (string.IsNullOrEmpty(english[key]))
+                    Utils.LogWarning(nameof(GlobalLocalization),
+                        $"{key} has an empty translation in the {DefaultLangKey} asset of {localizationID}.");
+            }
+        }
+
         internal static string NameToLocalizationName(string name)
         {
             var builder = new StringBuilder(name.Length + 8);
@@ -296,6 +331,7 @@ namespace io.github.ykysnk.Localization.Editor
 
             var langDisplayNames = new Dictionary<string, Dictionary<string, string>>();
             var langKeyList = new Dictionary<string, List<string>>();
+            var unityKeys = new List<(string ID, string Key, string Path)>();
 
             // Refs: https://discussions.unity.com/t/how-can-i-find-all-instances-of-a-scriptable-object-in-the-project-editor/198002/3
             var basicLocalizations = AssetDatabase.FindAssets($"t:{nameof(BasicLocalization)}").Select(x =>
@@ -335,6 +371,10 @@ namespace io.github.ykysnk.Localization.Editor
                     LanguageDictionary[localizationID][basicLocalization.name]
                         .TryAdd(basicTranslate.key, basicTranslate.translate);
 
+                    if (basicTranslate.key.StartsWith(UnityPrefix, StringComparison.Ordinal))
+                        unityKeys.Add((localizationID, basicTranslate.key,
+                            AssetDatabase.GetAssetPath(basicLocalization)));
+
                     if (!basicTranslate.useTooltip) continue;
 
                     var suffix = string.IsNullOrEmpty(basicTranslate.tooltipSuffix)
@@ -369,6 +409,7 @@ namespace io.github.ykysnk.Localization.Editor
             _languageKeyNames = _languageKeyList.ToDictionary(
                 x => x.Key,
                 x => x.Value.Select(language => langDisplayNames[x.Key][language]).ToArray());
+            WarnAboutUnityKeys(unityKeys);
             OnLocalizationReload?.Invoke();
             BasicLocalization.OnLocalizationFileUpdated += OnLocalizationFileUpdated;
             BasicEditor.OnErrorEvent += OnLocalizationError;

@@ -17,7 +17,7 @@ namespace io.github.ykysnk.Localization.Editor
 
         public delegate void LocalizationUpdated();
 
-        private const string UnityPrefix = "unity:";
+        private static readonly HashSet<string> WarnedUnityKeys = new();
 
         private static readonly List<string> SkipName = new()
         {
@@ -229,9 +229,18 @@ namespace io.github.ykysnk.Localization.Editor
             // For dumb null check
             if (keyProperty != null && key != null && !string.IsNullOrWhiteSpace(key))
             {
-                if (key.StartsWith(UnityPrefix, StringComparison.Ordinal))
+                if (key.StartsWith(GlobalLocalization.UnityPrefix, StringComparison.Ordinal))
                 {
-                    keyProperty.SetValue(elem, L10n.Tr(S(key)));
+                    var source = S(key, out var localized) ? localized! : key;
+
+                    if (localized == null && GlobalLocalization.HasLocalization(_localizationID) &&
+                        WarnedUnityKeys.Add(key))
+                        Utils.LogWarning(nameof(LocalizationHelper),
+                            $"'{key}' has no entry in the localization assets, so the label shows the raw key. " +
+                            $"Add the English text of the Unity string to the {GlobalLocalization.DefaultLangKey} " +
+                            "asset; L10n.Tr() translates that text.");
+
+                    keyProperty.SetValue(elem, L10n.Tr(source));
                     if (!elem.ClassListContains("localize-tooltip"))
                         elem.tooltip = L10n.Tr(Tooltip(key, elem.tooltip));
                 }
@@ -259,7 +268,7 @@ namespace io.github.ykysnk.Localization.Editor
             if (!elem.ClassListContains("localize-tooltip")) return;
 
             var tooltipKey = elem.tooltip;
-            if (tooltipKey.StartsWith(UnityPrefix, StringComparison.Ordinal))
+            if (tooltipKey.StartsWith(GlobalLocalization.UnityPrefix, StringComparison.Ordinal))
             {
                 elem.tooltip = L10n.Tr(S(tooltipKey));
                 return;
