@@ -1,0 +1,51 @@
+/* Shared look for the Localization inspectors. Theme-neutral: only translucent greys, so light and dark both work. */
+
+.localization-root {
+    flex-grow: 1;
+    padding: 6px 6px 8px 6px;
+}
+
+.localization-field {
+    flex-direction: column;
+    margin: 0 0 6px 0;
+}
+
+.localization-list {
+    flex-grow: 1;
+    min-height: 140px;
+    margin: 0;
+}
+
+/* One translate entry inside the ListView. */
+.translate-root {
+    padding: 6px 6px 8px 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(128, 128, 128, 0.25);
+}
+
+.translate-field {
+    flex-direction: column;
+    margin: 0 0 4px 0;
+}
+
+.translate-textarea {
+    min-height: 54px;
+    white-space: normal;
+}
+
+.translate-misc {
+    margin: 2px 0 2px 0;
+}
+
+.translate-buttons {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 4px 0 0 0;
+}
+
+.translate-button {
+    min-width: 72px;
+    margin: 0 0 0 6px;
+    padding: 1px 10px;
+    font-size: 11px;
+}

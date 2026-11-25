@@ -1,19 +1,17 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
-    <ui:VisualElement style="flex-grow: 1;">
-        <ui:TextField picking-mode="Ignore" label="label.basic_translate.key" value="filler text" name="key"
-                      binding-path="key" style="flex-direction: column;"/>
-        <ui:TextField picking-mode="Ignore" label="label.basic_translate.translate" value="filler text" name="translate"
-                      multiline="true" binding-path="translate" style="flex-direction: column; min-height: 60px;"/>
-        <ui:Foldout text="label.basic_translate.misc" value="false" name="misc">
-            <ui:TextField picking-mode="Ignore" label="label.basic_translate.tooltip" value="filler text" name="tooltip"
-                          multiline="true" binding-path="tooltip" style="flex-direction: column; min-height: 60px;"/>
+    <Style src="project://database/Packages/io.github.ykysnk.localization/Editor/LocalizationEditor.uss?fileID=7433441132597879392&amp;guid=920b155e5fa592c409d6423608f6b326&amp;type=3#LocalizationEditor"/>
+    <ui:VisualElement class="translate-root">
+        <ui:TextField picking-mode="Ignore" label="label.basic_translate.key" name="key" binding-path="key"
+                      class="translate-field"/>
+        <ui:TextField picking-mode="Ignore" label="label.basic_translate.translate" name="translate" multiline="true"
+                      binding-path="translate" class="translate-field translate-textarea"/>
+        <ui:Foldout text="label.basic_translate.misc" value="false" name="misc" class="translate-misc">
+            <ui:TextField picking-mode="Ignore" label="label.basic_translate.tooltip" name="tooltip" multiline="true"
+                          binding-path="tooltip" class="translate-field translate-textarea"/>
         </ui:Foldout>
-        <ui:VisualElement
-                style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: space-around; align-self: stretch;">
-            <ui:Button text="label.basic_translate.copy" parse-escape-sequences="true"
-                       display-tooltip-when-elided="true" name="copy" style="width: 49.5%;"/>
-            <ui:Button text="label.basic_translate.paste" parse-escape-sequences="true"
-                       display-tooltip-when-elided="true" name="paste" style="width: 49.5%;"/>
+        <ui:VisualElement class="translate-buttons">
+            <ui:Button text="label.basic_translate.copy" name="copy" class="translate-button"/>
+            <ui:Button text="label.basic_translate.paste" name="paste" class="translate-button"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
