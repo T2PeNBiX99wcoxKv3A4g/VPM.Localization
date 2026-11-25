@@ -4,42 +4,45 @@
    height="128"
    viewBox="0 0 128 128"
    version="1.1"
-   id="svg2"
+   id="svg3"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs2">
-    <linearGradient
-       id="badge"
-       x1="0"
-       y1="0"
-       x2="0"
-       y2="1">
-      <stop
-         offset="0"
-         stop-color="#6FA8FF"
-         id="stop1" />
-      <stop
-         offset="1"
-         stop-color="#3B70E8"
-         id="stop2" />
-    </linearGradient>
+    <mask
+       id="holes">
+      <rect
+         width="128"
+         height="128"
+         fill="#000000"
+         id="rect1" />
+      <rect
+         x="8"
+         y="10"
+         width="112"
+         height="72"
+         rx="22"
+         fill="#ffffff"
+         id="rect2" />
+      <path
+         d="M32 78 L26 116 L62 84 Z"
+         fill="#ffffff"
+         id="path2" />
+      <text
+         x="64"
+         y="70"
+         text-anchor="middle"
+         font-family="Segoe UI"
+         font-weight="700"
+         font-size="54"
+         fill="#000000"
+         id="text2">A</text>
+    </mask>
   </defs>
   <rect
-     x="14"
-     y="18"
-     width="100"
-     height="64"
-     rx="22"
-     fill="url(#badge)"
-     id="rect2" />
-  <path
-     d="M38 76 L32 110 L66 82 Z"
-     fill="url(#badge)"
-     id="path2" />
-  <path
-     d="m 81.900391,73 h -8.9375 L 70.373047,64.900391 H 57.423828 L 54.859375,73 H 45.972656 L 59.226562,36.589844 h 9.72461 z M 68.494141,58.603516 64.583984,46.365234 q -0.43164,-1.371093 -0.609375,-3.27539 h -0.203125 q -0.126953,1.599609 -0.634765,3.173828 l -3.960938,12.339844 z"
-     id="text2"
-     style="font-weight:700;font-size:52px;font-family:'Segoe UI';text-anchor:middle;fill:#ffffff"
-     aria-label="A" />
+     width="128"
+     height="128"
+     fill="#9DA6B2"
+     mask="url(#holes)"
+     id="rect3" />
 </svg>
