@@ -16,7 +16,7 @@ namespace Test.Editor
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var tree = uxml!.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(tree);
+            GlobalLocalization.Helper.UILocalize(tree);
             tree.Bind(serializedObject);
             return tree;
         }

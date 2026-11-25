@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "label.language"
+msgstr "言語"
+
+msgid "label.language:tooltip"
+msgstr "エディターでターゲット言語を変更します。"
+
+msgid "label.test.text"
+msgstr "テキスト"
+
+msgid "label.test.text:tooltip"
+msgstr "テキストがあります"
+
+msgid "label.basic_localization.localization_id"
+msgstr "ローカライゼーションID"
+
+msgid "label.basic_localization.localization_id:tooltip"
+msgstr "ローカライゼーションの固有ID"
+
+msgid "label.basic_localization.display_name"
+msgstr "表示名"
+
+msgid "label.basic_localization.display_name:tooltip"
+msgstr "言語の表示名"
+
+msgid "label.basic_localization.translates"
+msgstr "翻訳リスト"
+
+msgid "label.basic_translate.key"
+msgstr "翻訳ID"
+
+msgid "label.basic_translate.key:tooltip"
+msgstr "翻訳の固有ID"
+
+msgid "label.basic_translate.translate"
+msgstr "翻訳"
+
+msgid "label.basic_translate.tooltip"
+msgstr "ツールチップ"
+
+msgid "label.basic_translate.copy"
+msgstr "コピー"
+
+msgid "label.basic_translate.copy:tooltip"
+msgstr "翻訳データをコピーする。"
+
+msgid "label.basic_translate.paste"
+msgstr "ペースト"
+
+msgid "label.basic_translate.paste:tooltip"
+msgstr "翻訳データを貼り付け。"
+
+msgid "label.basic_translate.misc"
+msgstr "その他"
+
+msgid "label.basic_translate.misc:tooltip"
+msgstr "Paste the translate datas."
+
+msgid "label.basic_translate.remove"
+msgstr "削除"
+
+msgid "label.basic_translate.use_tooltip"
+msgstr "ツールチップを使う"
+
+msgid "label.basic_translate.use_tooltip:tooltip"
+msgstr "この項目のツールチップを保存・表示します。"
+
+msgid "label.basic_translate.tooltip_suffix"
+msgstr "ツールチップの接尾辞"
+
+msgid "label.basic_translate.tooltip_suffix:tooltip"
+msgstr "キーの後ろに付ける接尾辞。既定は :tooltip。"
+
+msgid "label.basic_localization.convert"
+msgstr "フォーマット変換"
+
+msgid "label.basic_localization.convert_hint"
+msgstr "サイドカーファイルはアセットの隣に保存され、取り込みはキー単位でマージされます。"
+
+msgid "label.basic_localization.json_file"
+msgstr "JSON ファイル"
+
+msgid "label.basic_localization.po_file"
+msgstr "PO ファイル"
+
+msgid "label.basic_localization.export_json"
+msgstr "JSON 書き出し"
+
+msgid "label.basic_localization.import_json"
+msgstr "JSON 取り込み"
+
+msgid "label.basic_localization.export_po"
+msgstr "PO 書き出し"
+
+msgid "label.basic_localization.import_po"
+msgstr "PO 取り込み"
+

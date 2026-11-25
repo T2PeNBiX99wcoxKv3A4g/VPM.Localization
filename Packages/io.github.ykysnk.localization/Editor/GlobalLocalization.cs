@@ -17,13 +17,19 @@ namespace io.github.ykysnk.Localization.Editor
 
         public delegate void LocalizationUpdated();
 
-        public const string TooltipExt = ":tooltip";
+        /// <summary>Suffix that marks a key as the tooltip of another key.</summary>
+        public const string TooltipExt = BasicTranslate.DefaultTooltipSuffix;
+
         public const string LanguageLabelKey = "label.language";
         public const string DefaultLangKey = "en-US";
-        public const string DefaultLocalization = "Default";
+
+        /// <summary>Localization id this package uses for its own editor strings.</summary>
+        public const string LocalizationID = "io.github.ykysnk.localization";
+
         public const string Null = "--null--";
 
-        public static LocalizationHelper DefaultHelper = new(DefaultLocalization);
+        /// <summary>Helper bound to <see cref="LocalizationID" />; the editor UI of this package localizes through it.</summary>
+        public static LocalizationHelper Helper { get; } = new(LocalizationID);
 
         private static Dictionary<string, string[]> _languageKeyList = new();
         private static Dictionary<string, string[]> _languageKeyNames = new();
@@ -314,14 +320,14 @@ namespace io.github.ykysnk.Localization.Editor
                     if (!basicTranslate.useTooltip) continue;
 
                     var suffix = string.IsNullOrEmpty(basicTranslate.tooltipSuffix)
-                        ? ".tooltip"
+                        ? TooltipExt
                         : basicTranslate.tooltipSuffix;
 
                     LanguageDictionary[localizationID][basicLocalization.name]
                         .TryAdd(basicTranslate.key + suffix, basicTranslate.tooltip);
 
-                    // Keep the historical ":tooltip" spelling resolvable, so Tooltip(key) works for entries that use
-                    // another suffix such as ".tooltip".
+                    // Keep ":tooltip" resolvable for entries that override the suffix, so Tooltip(key) works for
+                    // every entry no matter which spelling its own suffix uses.
                     if (suffix != TooltipExt)
                         LanguageDictionary[localizationID][basicLocalization.name]
                             .TryAdd(basicTranslate.key + TooltipExt, basicTranslate.tooltip);

@@ -19,9 +19,9 @@ namespace Test.Editor
 
         protected override void OnErrorHandleInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_text, GlobalLocalization.DefaultHelper.G(_text!));
-            EditorGUILayout.PropertyField(_text, GlobalLocalization.DefaultHelper.G("Do not exist"));
-            GlobalLocalization.SelectLanguageGUI(GlobalLocalization.DefaultLocalization);
+            EditorGUILayout.PropertyField(_text, GlobalLocalization.Helper.G(_text!));
+            EditorGUILayout.PropertyField(_text, GlobalLocalization.Helper.G("Do not exist"));
+            GlobalLocalization.SelectLanguageGUI(GlobalLocalization.LocalizationID);
         }
     }
 }

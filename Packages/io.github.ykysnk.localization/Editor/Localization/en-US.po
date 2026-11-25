@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "label.language"
+msgstr "Language"
+
+msgid "label.language:tooltip"
+msgstr "Change your target language in the editor."
+
+msgid "label.test.text"
+msgstr "Text"
+
+msgid "label.test.text:tooltip"
+msgstr "A text"
+
+msgid "label.basic_localization.localization_id"
+msgstr "Localization ID"
+
+msgid "label.basic_localization.localization_id:tooltip"
+msgstr "The unique ID of localization"
+
+msgid "label.basic_localization.display_name"
+msgstr "Display Name"
+
+msgid "label.basic_localization.display_name:tooltip"
+msgstr "Display name of language"
+
+msgid "label.basic_localization.translates"
+msgstr "Translates"
+
+msgid "label.basic_translate.key"
+msgstr "Translate ID"
+
+msgid "label.basic_translate.key:tooltip"
+msgstr "The unique ID of translate"
+
+msgid "label.basic_translate.translate"
+msgstr "Translate"
+
+msgid "label.basic_translate.tooltip"
+msgstr "Tooltip"
+
+msgid "label.basic_translate.copy"
+msgstr "Copy"
+
+msgid "label.basic_translate.copy:tooltip"
+msgstr "Copy the translate datas."
+
+msgid "label.basic_translate.paste"
+msgstr "Paste"
+
+msgid "label.basic_translate.paste:tooltip"
+msgstr "Paste the translate datas."
+
+msgid "label.basic_translate.misc"
+msgstr "Misc"
+
+msgid "label.basic_translate.misc:tooltip"
+msgstr "Paste the translate datas."
+
+msgid "label.basic_translate.remove"
+msgstr "Remove"
+
+msgid "unity:label.position"
+msgstr "Position"
+
+msgid "unity:label.position:tooltip"
+msgstr "The local rotation of this Game Object relative to the parent."
+
+msgid "label.basic_translate.use_tooltip"
+msgstr "Use tooltip"
+
+msgid "label.basic_translate.use_tooltip:tooltip"
+msgstr "Store and show the tooltip of this entry."
+
+msgid "label.basic_translate.tooltip_suffix"
+msgstr "Tooltip suffix"
+
+msgid "label.basic_translate.tooltip_suffix:tooltip"
+msgstr "Appended to the key. The default is :tooltip."
+
+msgid "label.basic_localization.convert"
+msgstr "Format conversion"
+
+msgid "label.basic_localization.convert_hint"
+msgstr "Sidecar files live next to the asset; import merges by key."
+
+msgid "label.basic_localization.json_file"
+msgstr "JSON file"
+
+msgid "label.basic_localization.po_file"
+msgstr "PO file"
+
+msgid "label.basic_localization.export_json"
+msgstr "Export JSON"
+
+msgid "label.basic_localization.import_json"
+msgstr "Import JSON"
+
+msgid "label.basic_localization.export_po"
+msgstr "Export PO"
+
+msgid "label.basic_localization.import_po"
+msgstr "Import PO"
+

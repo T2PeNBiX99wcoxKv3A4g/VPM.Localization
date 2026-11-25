@@ -12,123 +12,123 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d4aceda1b14230b2aad2be71d6691b, type: 3}
   m_Name: en-US
   m_EditorClassIdentifier: 
-  localizationID: Default
+  localizationID: io.github.ykysnk.localization
   displayName: English
   translates:
   - key: label.language
     translate: Language
     tooltip: Change your target language in the editor.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.test.text
     translate: Text
     tooltip: A text
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.localization_id
     translate: Localization ID
     tooltip: The unique ID of localization
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.display_name
     translate: Display Name
     tooltip: Display name of language
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.translates
     translate: Translates
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.key
     translate: Translate ID
     tooltip: The unique ID of translate
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.translate
     translate: Translate
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.tooltip
     translate: Tooltip
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.copy
     translate: Copy
     tooltip: Copy the translate datas.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.paste
     translate: Paste
     tooltip: Paste the translate datas.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.misc
     translate: Misc
     tooltip: Paste the translate datas.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.remove
     translate: Remove
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: unity:label.position
     translate: Position
     tooltip: The local rotation of this Game Object relative to the parent.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.use_tooltip
     translate: Use tooltip
     tooltip: Store and show the tooltip of this entry.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.tooltip_suffix
     translate: Tooltip suffix
-    tooltip: Appended to the key, for example .tooltip or :tooltip.
+    tooltip: Appended to the key. The default is :tooltip.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.convert
     translate: Format conversion
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.convert_hint
     translate: Sidecar files live next to the asset; import merges by key.
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.json_file
     translate: JSON file
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.po_file
     translate: PO file
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.export_json
     translate: Export JSON
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.import_json
     translate: Import JSON
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.export_po
     translate: Export PO
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.import_po
     translate: Import PO
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
-  jsonFile: {fileID: 0}
-  poFile: {fileID: 0}
+    tooltipSuffix: :tooltip
+  jsonFile: {fileID: 4900000, guid: 0c4449a47a1c4674fb3e5fcdd19f6a94, type: 3}
+  poFile: {fileID: 102900000, guid: 82e88c320ac46ff4280be36b4b54da00, type: 3}

@@ -12,119 +12,119 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d4aceda1b14230b2aad2be71d6691b, type: 3}
   m_Name: ja-JP
   m_EditorClassIdentifier: 
-  localizationID: Default
+  localizationID: io.github.ykysnk.localization
   displayName: "\u65E5\u672C\u8A9E"
   translates:
   - key: label.language
     translate: "\u8A00\u8A9E"
     tooltip: "\u30A8\u30C7\u30A3\u30BF\u30FC\u3067\u30BF\u30FC\u30B2\u30C3\u30C8\u8A00\u8A9E\u3092\u5909\u66F4\u3057\u307E\u3059\u3002"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.test.text
     translate: "\u30C6\u30AD\u30B9\u30C8"
     tooltip: "\u30C6\u30AD\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.localization_id
     translate: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3ID"
     tooltip: "\u30ED\u30FC\u30AB\u30E9\u30A4\u30BC\u30FC\u30B7\u30E7\u30F3\u306E\u56FA\u6709ID"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.display_name
     translate: "\u8868\u793A\u540D"
     tooltip: "\u8A00\u8A9E\u306E\u8868\u793A\u540D"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.translates
     translate: "\u7FFB\u8A33\u30EA\u30B9\u30C8"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.key
     translate: "\u7FFB\u8A33ID"
     tooltip: "\u7FFB\u8A33\u306E\u56FA\u6709ID"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.translate
     translate: "\u7FFB\u8A33"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.tooltip
     translate: "\u30C4\u30FC\u30EB\u30C1\u30C3\u30D7"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.copy
     translate: "\u30B3\u30D4\u30FC"
     tooltip: "\u7FFB\u8A33\u30C7\u30FC\u30BF\u3092\u30B3\u30D4\u30FC\u3059\u308B\u3002"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.paste
     translate: "\u30DA\u30FC\u30B9\u30C8"
     tooltip: "\u7FFB\u8A33\u30C7\u30FC\u30BF\u3092\u8CBC\u308A\u4ED8\u3051\u3002"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.misc
     translate: "\u305D\u306E\u4ED6"
     tooltip: Paste the translate datas.
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.remove
     translate: "\u524A\u9664"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.use_tooltip
     translate: "\u30C4\u30FC\u30EB\u30C1\u30C3\u30D7\u3092\u4F7F\u3046"
     tooltip: "\u3053\u306E\u9805\u76EE\u306E\u30C4\u30FC\u30EB\u30C1\u30C3\u30D7\u3092\u4FDD\u5B58\u30FB\u8868\u793A\u3057\u307E\u3059\u3002"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_translate.tooltip_suffix
     translate: "\u30C4\u30FC\u30EB\u30C1\u30C3\u30D7\u306E\u63A5\u5C3E\u8F9E"
-    tooltip: "\u30AD\u30FC\u306E\u5F8C\u308D\u306B\u4ED8\u304F\u6587\u5B57\u5217\uFF08.tooltip
-      \u3084 :tooltip \u306A\u3069\uFF09\u3002"
+    tooltip: "\u30AD\u30FC\u306E\u5F8C\u308D\u306B\u4ED8\u3051\u308B\u63A5\u5C3E\u8F9E\u3002\u65E2\u5B9A\u306F
+      :tooltip\u3002"
     useTooltip: 1
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.convert
     translate: "\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u5909\u63DB"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.convert_hint
     translate: "\u30B5\u30A4\u30C9\u30AB\u30FC\u30D5\u30A1\u30A4\u30EB\u306F\u30A2\u30BB\u30C3\u30C8\u306E\u96A3\u306B\u4FDD\u5B58\u3055\u308C\u3001\u53D6\u308A\u8FBC\u307F\u306F\u30AD\u30FC\u5358\u4F4D\u3067\u30DE\u30FC\u30B8\u3055\u308C\u307E\u3059\u3002"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.json_file
     translate: "JSON \u30D5\u30A1\u30A4\u30EB"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.po_file
     translate: "PO \u30D5\u30A1\u30A4\u30EB"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.export_json
     translate: "JSON \u66F8\u304D\u51FA\u3057"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.import_json
     translate: "JSON \u53D6\u308A\u8FBC\u307F"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.export_po
     translate: "PO \u66F8\u304D\u51FA\u3057"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
+    tooltipSuffix: :tooltip
   - key: label.basic_localization.import_po
     translate: "PO \u53D6\u308A\u8FBC\u307F"
     tooltip: 
     useTooltip: 0
-    tooltipSuffix: .tooltip
-  jsonFile: {fileID: 0}
-  poFile: {fileID: 0}
+    tooltipSuffix: :tooltip
+  jsonFile: {fileID: 4900000, guid: 9a633e111776874418eff4f386119b37, type: 3}
+  poFile: {fileID: 102900000, guid: f6ed9b3306d9cac42bd9164197e92f91, type: 3}

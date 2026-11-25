@@ -19,7 +19,7 @@ namespace io.github.ykysnk.Localization.Editor
             if (uxml == null) return BasicEditor.CreateUxmlImportErrorUI();
 
             var tree = uxml.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(tree, false);
+            tree.UILocalize(false);
             tree.BindProperty(property);
 
             var keyField = tree.Q<TextField>("key");

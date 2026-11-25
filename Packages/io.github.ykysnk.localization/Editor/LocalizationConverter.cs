@@ -20,7 +20,7 @@ namespace io.github.ykysnk.Localization.Editor
         /// <summary>Suffixes recognised when a key is read back as a tooltip entry.</summary>
         public static readonly string[] TooltipSuffixes =
         {
-            ".tooltip", ":tooltip", "_tooltip"
+            BasicTranslate.DefaultTooltipSuffix, ".tooltip", "_tooltip"
         };
 
         /// <summary>Writes a flat JSON object: key to text, plus one tooltip key per entry that uses one.</summary>
@@ -102,7 +102,9 @@ namespace io.github.ykysnk.Localization.Editor
 
                 if (!entry.useTooltip) continue;
 
-                var suffix = string.IsNullOrEmpty(entry.tooltipSuffix) ? ".tooltip" : entry.tooltipSuffix;
+                var suffix = string.IsNullOrEmpty(entry.tooltipSuffix)
+                    ? BasicTranslate.DefaultTooltipSuffix
+                    : entry.tooltipSuffix;
                 yield return new(entry.key + suffix, entry.tooltip);
             }
         }

@@ -2,30 +2,35 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace io.github.ykysnk.Localization.Editor
 {
     internal static class InternalLocalizationExtensions
     {
-        internal static string S(this string key) => GlobalLocalization.DefaultHelper.S(key);
-        internal static string S(this SerializedProperty property) => GlobalLocalization.DefaultHelper.S(property);
+        internal static string S(this string key) => GlobalLocalization.Helper.S(key);
+        internal static string S(this SerializedProperty property) => GlobalLocalization.Helper.S(property);
 
         internal static string Sf(this string key, params object?[] args) =>
-            GlobalLocalization.DefaultHelper.Sf(key, args);
+            GlobalLocalization.Helper.Sf(key, args);
 
-        internal static GUIContent G(this string key) => GlobalLocalization.DefaultHelper.G(key);
-        internal static GUIContent G(this SerializedProperty property) => GlobalLocalization.DefaultHelper.G(property);
+        internal static GUIContent G(this string key) => GlobalLocalization.Helper.G(key);
+        internal static GUIContent G(this SerializedProperty property) => GlobalLocalization.Helper.G(property);
 
-        internal static string Tooltip(this string key) => GlobalLocalization.DefaultHelper.Tooltip(key);
+        internal static string Tooltip(this string key) => GlobalLocalization.Helper.Tooltip(key);
 
         internal static string Tooltip(this SerializedProperty property) =>
-            GlobalLocalization.DefaultHelper.Tooltip(property);
+            GlobalLocalization.Helper.Tooltip(property);
+
+        internal static void UILocalize(this VisualElement element, bool addLanguagePopup = true,
+            int spaceHeight = 8) =>
+            GlobalLocalization.Helper.UILocalize(element, addLanguagePopup, spaceHeight);
 
         internal static UpdateHelper Register(this SerializedProperty property, UpdateHelper.Callback callback) =>
-            GlobalLocalization.DefaultHelper.UpdateRegister(property, callback);
+            GlobalLocalization.Helper.UpdateRegister(property, callback);
 
         internal static UpdateHelper Register(this string localizeKey, UpdateHelper.Callback callback) =>
-            GlobalLocalization.DefaultHelper.UpdateRegister(localizeKey, callback);
+            GlobalLocalization.Helper.UpdateRegister(localizeKey, callback);
 
         /// <summary>
         ///     Tries to read a <see cref="BasicTranslate" /> from the clipboard. The text must parse as JSON and carry a

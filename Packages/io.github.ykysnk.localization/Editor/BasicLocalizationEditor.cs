@@ -32,7 +32,7 @@ namespace io.github.ykysnk.Localization.Editor
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var tree = uxml!.CloneTree();
-            GlobalLocalization.DefaultHelper.UILocalize(tree);
+            tree.UILocalize();
             tree.Bind(serializedObject);
 
             _translatesList = tree.Q<ListView>("translates");
@@ -210,7 +210,9 @@ namespace io.github.ykysnk.Localization.Editor
                 element.FindPropertyRelative("tooltip").stringValue = pasted.tooltip ?? "";
                 element.FindPropertyRelative("useTooltip").boolValue = pasted.useTooltip;
                 element.FindPropertyRelative("tooltipSuffix").stringValue =
-                    string.IsNullOrEmpty(pasted.tooltipSuffix) ? ".tooltip" : pasted.tooltipSuffix;
+                    string.IsNullOrEmpty(pasted.tooltipSuffix)
+                        ? BasicTranslate.DefaultTooltipSuffix
+                        : pasted.tooltipSuffix;
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -242,7 +244,7 @@ namespace io.github.ykysnk.Localization.Editor
             element.FindPropertyRelative("translate").stringValue = "";
             element.FindPropertyRelative("tooltip").stringValue = "";
             element.FindPropertyRelative("useTooltip").boolValue = false;
-            element.FindPropertyRelative("tooltipSuffix").stringValue = ".tooltip";
+            element.FindPropertyRelative("tooltipSuffix").stringValue = BasicTranslate.DefaultTooltipSuffix;
 
             serializedObject.ApplyModifiedProperties();
 
