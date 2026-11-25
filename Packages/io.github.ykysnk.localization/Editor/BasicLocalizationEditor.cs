@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using io.github.ykysnk.utils;
 using io.github.ykysnk.utils.Editor;
@@ -20,61 +21,99 @@ namespace io.github.ykysnk.Localization.Editor
             GlobalLocalization.DefaultHelper.UILocalize(tree);
             tree.Bind(serializedObject);
 
-            var list = (BasicLocalization)target;
-
             var translatesList = tree.Q<ListView>("translates");
             translatesList.AddManipulator(new ContextualMenuManipulator(evt =>
             {
-                var selectedList = translatesList.selectedIndices.ToList();
+                var selectedList = translatesList.selectedIndices.OrderBy(i => i).ToList();
 
                 if (!selectedList.Any()) return;
 
-                evt.menu.AppendAction("label.basic_translate.copy".S(), _ =>
-                {
-                    foreach (var selected in selectedList)
-                        EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(list.translates[selected]);
-                });
+                evt.menu.AppendAction("label.basic_translate.copy".S(), _ => CopySelected(selectedList));
 
                 var canBePaste = InternalLocalizationExtensions.TryPasteTranslate(out _, out _);
-
-                evt.menu.AppendAction("label.basic_translate.paste".S(), _ =>
-                {
-                    foreach (var selected in selectedList)
-                        if (InternalLocalizationExtensions.TryPasteTranslate(out var pasteBasicTranslate,
-                                out var exception))
-                        {
-                            var obj = list.translates[selected];
-                            obj.key = pasteBasicTranslate.key;
-                            obj.translate = pasteBasicTranslate.translate;
-                            obj.tooltip = pasteBasicTranslate.tooltip;
-                            list.translates[selected] = obj;
-                        }
-                        else
-                            Utils.LogWarning(nameof(BasicTranslateDrawer),
-                                $"Failed to paste: {exception?.Message}\n{exception?.StackTrace}");
-                }, canBePaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
+                evt.menu.AppendAction("label.basic_translate.paste".S(), _ => PasteSelected(selectedList),
+                    canBePaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
 
                 evt.menu.AppendSeparator();
 
-                evt.menu.AppendAction("label.basic_translate.remove".S(), _ =>
-                {
-                    foreach (var selected in selectedList)
-                        list.translates.RemoveAt(selected);
-                });
+                evt.menu.AppendAction("label.basic_translate.remove".S(), _ => RemoveSelected(selectedList));
             }));
 
             var addButton = translatesList.Q<Button>("unity-list-view__add-button");
             addButton.clickable = null;
-            addButton.clicked += () =>
-            {
-                var last = list.translates.LastOrDefault();
-                list.translates.Add(new()
-                {
-                    key = last.key
-                });
-            };
+            addButton.clicked += AddTranslate;
 
             return tree;
+        }
+
+        // All edits go through the SerializedProperty so the asset is marked dirty, Undo works and the list view
+        // rebuilds itself after the array changed.
+        private SerializedProperty Translates => serializedObject.FindProperty("translates");
+
+        private void CopySelected(List<int> selected)
+        {
+            var translates = Translates;
+            var index = selected[selected.Count - 1];
+            if (index < 0 || index >= translates.arraySize) return;
+
+            var element = translates.GetArrayElementAtIndex(index);
+            EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(new BasicTranslate
+            {
+                key = element.FindPropertyRelative("key").stringValue,
+                translate = element.FindPropertyRelative("translate").stringValue,
+                tooltip = element.FindPropertyRelative("tooltip").stringValue
+            });
+        }
+
+        private void PasteSelected(List<int> selected)
+        {
+            if (!InternalLocalizationExtensions.TryPasteTranslate(out var pasted, out var exception))
+            {
+                Utils.LogWarning(nameof(BasicLocalizationEditor),
+                    $"Failed to paste: {exception?.Message}\n{exception?.StackTrace}");
+                return;
+            }
+
+            var translates = Translates;
+
+            foreach (var index in selected)
+            {
+                if (index < 0 || index >= translates.arraySize) continue;
+
+                var element = translates.GetArrayElementAtIndex(index);
+                element.FindPropertyRelative("key").stringValue = pasted.key;
+                element.FindPropertyRelative("translate").stringValue = pasted.translate ?? "";
+                element.FindPropertyRelative("tooltip").stringValue = pasted.tooltip ?? "";
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void RemoveSelected(List<int> selected)
+        {
+            var translates = Translates;
+
+            // Delete from the end, otherwise every removal shifts the indices that still have to be removed.
+            foreach (var index in selected.OrderByDescending(i => i))
+            {
+                if (index < 0 || index >= translates.arraySize) continue;
+                translates.DeleteArrayElementAtIndex(index);
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void AddTranslate()
+        {
+            var translates = Translates;
+            translates.arraySize++;
+
+            var element = translates.GetArrayElementAtIndex(translates.arraySize - 1);
+            element.FindPropertyRelative("key").stringValue = "";
+            element.FindPropertyRelative("translate").stringValue = "";
+            element.FindPropertyRelative("tooltip").stringValue = "";
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

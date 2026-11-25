@@ -20,7 +20,7 @@ namespace io.github.ykysnk.Localization.Editor
 
             var tree = uxml.CloneTree();
             GlobalLocalization.DefaultHelper.UILocalize(tree, false);
-            tree.Bind(property.serializedObject);
+            tree.BindProperty(property);
 
             var keyField = tree.Q<TextField>("key");
             var translateField = tree.Q<TextField>("translate");

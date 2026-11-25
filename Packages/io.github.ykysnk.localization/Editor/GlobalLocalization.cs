@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using io.github.ykysnk.utils;
 using io.github.ykysnk.utils.Editor;
 using UnityEditor;
@@ -34,7 +35,9 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static bool _isDelayLoaded;
 
-        static GlobalLocalization() => Load();
+        private static bool _loadQueued;
+
+        static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
 
         public static event LocalizationUpdated? OnLocalizationReload;
         public static event LocalizationChanged? OnLocalizationChanged;
@@ -111,33 +114,59 @@ namespace io.github.ykysnk.Localization.Editor
             var keyList = _languageKeyList[localizationID];
             var keyNames = _languageKeyNames[localizationID];
 
+            var index = Array.IndexOf(keyList, GetSelectedLanguage(localizationID));
+            if (index < 0) index = 0;
+
             EditorGUI.BeginChangeCheck();
             var newIndex = EditorGUILayout.Popup(G(localizationID, LanguageLabelKey, null, LanguageLabelKey + TooltipExt),
-                Array.IndexOf(keyList, GetSelectedLanguage(localizationID)),
-                keyNames);
+                index, keyNames);
             if (EditorGUI.EndChangeCheck())
                 SetSelectedLanguage(localizationID, keyList[newIndex]);
         }
 
         public static void SelectLanguageElement(string localizationID, VisualElement element, int spaceHeight = 8)
         {
-            var keyList = _languageKeyList[localizationID].ToList();
-            var keyNames = _languageKeyNames[localizationID].ToList();
-            var selectedLanguage = GetSelectedLanguage(localizationID);
+            if (!TryGetLanguageLists(localizationID, out var languageIds, out var displayNames))
+            {
+                // The dictionary is not built yet (or the id is unknown); retry after the next editor tick.
+                ScheduleLoad();
+                return;
+            }
 
-            if (!keyList.Contains(selectedLanguage))
+            var selectedLanguage = LanguageDictionary.ContainsKey(localizationID)
+                ? GetSelectedLanguage(localizationID)
+                : DefaultLangKey;
+
+            var selectedIndex = Array.IndexOf(languageIds, selectedLanguage);
+            if (selectedIndex < 0)
+            {
+                // The pref points at a language that was renamed or removed. Reload once (the asset may be new),
+                // then fall back to the first language and repair the pref without firing a change event.
                 Load();
+                if (!TryGetLanguageLists(localizationID, out languageIds, out displayNames)) return;
 
-            var defaultIndex = keyList.IndexOf(selectedLanguage);
-            var languagePopup = new PopupField<string>(S(localizationID, LanguageLabelKey), keyNames,
-                keyNames[defaultIndex], s =>
+                selectedIndex = Array.IndexOf(languageIds, selectedLanguage);
+                if (selectedIndex < 0)
                 {
-                    SetSelectedLanguage(localizationID, keyList[keyNames.IndexOf(s)]);
-                    return s;
-                }, s => s)
+                    selectedIndex = 0;
+                    EditorPrefs.SetString($"{localizationID}_Language", languageIds[selectedIndex]);
+                }
+            }
+
+            // The popup carries indices instead of names, so two languages with the same display name stay distinct
+            // and the formatter callbacks stay free of side effects.
+            var choices = Enumerable.Range(0, languageIds.Length).ToList();
+            var languagePopup = new PopupField<int>(S(localizationID, LanguageLabelKey), choices, selectedIndex,
+                index => displayNames[index], index => displayNames[index])
             {
                 tooltip = S(localizationID, LanguageLabelKey + TooltipExt)
             };
+
+            languagePopup.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue < 0 || evt.newValue >= languageIds.Length) return;
+                SetSelectedLanguage(localizationID, languageIds[evt.newValue]);
+            });
 
             var space = new VisualElement
             {
@@ -156,36 +185,72 @@ namespace io.github.ykysnk.Localization.Editor
             });
         }
 
+        private static bool TryGetLanguageLists(string localizationID, out string[] languageIds,
+            out string[] displayNames)
+        {
+            if (_languageKeyList.TryGetValue(localizationID, out languageIds!) &&
+                _languageKeyNames.TryGetValue(localizationID, out displayNames!) &&
+                languageIds.Length == displayNames.Length)
+                return true;
+
+            languageIds = Array.Empty<string>();
+            displayNames = Array.Empty<string>();
+            return false;
+        }
+
         public static string NameToLocalizationName(string name)
         {
-            var returnString = "";
-            var lastUpperIndex = -1;
+            var builder = new StringBuilder(name.Length + 8);
 
             for (var i = 0; i < name.Length; i++)
             {
-                var classNameChar = name[i];
+                var nameChar = name[i];
 
-                if (char.IsUpper(classNameChar))
+                if (char.IsUpper(nameChar))
                 {
-                    if (i > 0 && i - 1 != lastUpperIndex) returnString += "_";
-                    classNameChar = char.ToLowerInvariant(classNameChar);
-                    lastUpperIndex = i;
+                    var previous = i > 0 ? name[i - 1] : '\0';
+                    var next = i + 1 < name.Length ? name[i + 1] : '\0';
+
+                    // Start a new word at a lower-to-upper boundary, or before the last capital of an acronym run
+                    // ("UIText" -> "ui_text", "HPBar" -> "hp_bar", "localizationID" -> "localization_id").
+                    if (i > 0 && (!char.IsUpper(previous) || char.IsLower(next)))
+                        builder.Append('_');
+
+                    nameChar = char.ToLowerInvariant(nameChar);
                 }
 
-                if (char.IsSymbol(classNameChar) || char.IsPunctuation(classNameChar))
-                    classNameChar = '_';
+                if (char.IsSymbol(nameChar) || char.IsPunctuation(nameChar))
+                    nameChar = '_';
 
-                returnString += classNameChar;
+                builder.Append(nameChar);
             }
 
-            return returnString;
+            return builder.ToString();
         }
 
-        private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => Load();
+        private static void OnLocalizationFileUpdated(string localizationID, string localizationName) => ScheduleLoad();
 
         private static void OnLocalizationError(Exception exception, BasicEditor.Type type)
         {
             if (type == BasicEditor.Type.UGUI) return;
+
+            // A UI Toolkit editor failed; the localization data may be stale. Reload after the current editor tick
+            // instead of inside the error handler.
+            ScheduleLoad();
+        }
+
+        // Coalesces the reload requests that OnValidate and error handlers produce, so editing a field does not scan
+        // every localization asset per keystroke.
+        private static void ScheduleLoad()
+        {
+            if (_loadQueued) return;
+            _loadQueued = true;
+            EditorApplication.delayCall += FlushLoad;
+        }
+
+        private static void FlushLoad()
+        {
+            _loadQueued = false;
             Load();
         }
 
@@ -220,6 +285,8 @@ namespace io.github.ykysnk.Localization.Editor
 
             foreach (var basicLocalization in basicLocalizations)
             {
+                if (basicLocalization == null) continue;
+
                 var localizationID = basicLocalization.localizationID;
 
                 if (string.IsNullOrEmpty(localizationID))

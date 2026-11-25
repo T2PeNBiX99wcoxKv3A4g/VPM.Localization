@@ -57,10 +57,10 @@ namespace io.github.ykysnk.Localization.Editor
         public void SelectLanguageElement(VisualElement element, int spaceHeight = 8) =>
             GlobalLocalization.SelectLanguageElement(_localizationID, element, spaceHeight);
 
-        public void UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
+        public UpdateHelper UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, localizeKey, callback);
 
-        public void UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
+        public UpdateHelper UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, property, callback);
 
         public Dictionary<string, string> GetLanguageLocalization(string language) =>
@@ -177,12 +177,13 @@ namespace io.github.ykysnk.Localization.Editor
                         $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
 #endif
 
-                    UpdateRegister(key, (label, tooltip) =>
+                    var registration = UpdateRegister(key, (label, tooltip) =>
                     {
                         keyProperty?.SetValue(elem, label);
                         if (!elem.ClassListContains("localize-tooltip"))
                             elem.tooltip = tooltip;
                     });
+                    elem.RegisterCallback<DetachFromPanelEvent>(_ => registration.Dispose());
                 }
             }
 
@@ -196,7 +197,8 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             elem.tooltip = S(tooltipKey);
-            UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
+            var tooltipRegistration = UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
+            elem.RegisterCallback<DetachFromPanelEvent>(_ => tooltipRegistration.Dispose());
         }
     }
 }
