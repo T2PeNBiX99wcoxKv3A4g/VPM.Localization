@@ -38,10 +38,41 @@ namespace io.github.ykysnk.Localization.Editor
 
         private readonly string _localizationID;
 
-        public LocalizationHelper(string localizationID)
+        private LocalizationChanged? _localizationChanged;
+        private bool _subscribed;
+
+        public LocalizationHelper(string localizationID) => _localizationID = localizationID;
+
+        /// <summary>
+        ///     Subscribes to <see cref="GlobalLocalization.OnLocalizationChanged" /> only while something listens here: a
+        ///     helper created for a one-off lookup used to keep that static subscription (and itself) alive forever.
+        /// </summary>
+        public event LocalizationChanged? OnLocalizationChanged
         {
-            _localizationID = localizationID;
+            add
+            {
+                _localizationChanged += value;
+                Subscribe();
+            }
+            remove
+            {
+                _localizationChanged -= value;
+                if (_localizationChanged == null) Unsubscribe();
+            }
+        }
+
+        private void Subscribe()
+        {
+            if (_subscribed) return;
+            _subscribed = true;
             GlobalLocalization.OnLocalizationChanged += OnLocalizationChangedInternal;
+        }
+
+        private void Unsubscribe()
+        {
+            if (!_subscribed) return;
+            _subscribed = false;
+            GlobalLocalization.OnLocalizationChanged -= OnLocalizationChangedInternal;
         }
 
         public string SelectedLanguage
@@ -70,12 +101,10 @@ namespace io.github.ykysnk.Localization.Editor
         /// <summary>Helper declared by the assembly that contains <paramref name="type" />.</summary>
         public static LocalizationHelper For(Type type) => For(type.Assembly);
 
-        public event LocalizationChanged? OnLocalizationChanged;
-
         private void OnLocalizationChangedInternal(string localizationID, string newLanguage)
         {
             if (localizationID != _localizationID) return;
-            OnLocalizationChanged?.Invoke(newLanguage);
+            _localizationChanged?.Invoke(newLanguage);
         }
 
         public void SelectLanguageGUI() => GlobalLocalization.SelectLanguageGUI(_localizationID);
