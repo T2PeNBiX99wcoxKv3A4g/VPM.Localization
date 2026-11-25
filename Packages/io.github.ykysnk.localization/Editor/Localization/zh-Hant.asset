@@ -17,17 +17,17 @@ MonoBehaviour:
   translates:
   - key: label.language
     translate: "\u8A9E\u8A00"
-    tooltip: "\u5728\u7DE8\u8F2F\u5668\u4E2D\u8B8A\u66F4\u76EE\u6A19\u8A9E\u8A00\u3002"
+    tooltip: "\u8B8A\u66F4\u7DE8\u8F2F\u5668\u7684\u986F\u793A\u8A9E\u8A00\u3002"
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.test.text
     translate: "\u6587\u5B57"
-    tooltip: "\u4E00\u6BB5\u6587\u5B57"
+    tooltip: "\u7BC4\u4F8B\u6587\u5B57\u3002"
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_localization.localization_id
     translate: "\u672C\u5730\u5316 ID"
-    tooltip: "\u672C\u5730\u5316\u9805\u76EE\u7684\u552F\u4E00 ID"
+    tooltip: "\u6B64\u672C\u5730\u5316\u9805\u76EE\u7684\u552F\u4E00 ID"
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_localization.display_name
@@ -42,7 +42,7 @@ MonoBehaviour:
     tooltipSuffix: :tooltip
   - key: label.basic_translate.key
     translate: "\u7FFB\u8B6F ID"
-    tooltip: "\u7FFB\u8B6F\u9805\u76EE\u7684\u552F\u4E00 ID"
+    tooltip: "\u6B64\u7FFB\u8B6F\u9805\u76EE\u7684\u552F\u4E00 ID"
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_translate.translate
@@ -64,11 +64,6 @@ MonoBehaviour:
     translate: "\u8CBC\u4E0A"
     tooltip: "\u8CBC\u4E0A\u7FFB\u8B6F\u8CC7\u6599\u3002"
     useTooltip: 1
-    tooltipSuffix: :tooltip
-  - key: label.basic_translate.misc
-    translate: "\u5176\u4ED6"
-    tooltip: 
-    useTooltip: 0
     tooltipSuffix: :tooltip
   - key: label.basic_translate.remove
     translate: "\u522A\u9664"

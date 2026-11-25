@@ -16,31 +16,31 @@ msgid "label.test.text"
 msgstr "Text"
 
 msgid "label.test.text:tooltip"
-msgstr "A text"
+msgstr "A sample text."
 
 msgid "label.basic_localization.localization_id"
 msgstr "Localization ID"
 
 msgid "label.basic_localization.localization_id:tooltip"
-msgstr "The unique ID of localization"
+msgstr "Unique ID of this localization."
 
 msgid "label.basic_localization.display_name"
-msgstr "Display Name"
+msgstr "Display name"
 
 msgid "label.basic_localization.display_name:tooltip"
-msgstr "Display name of language"
+msgstr "Display name of this language."
 
 msgid "label.basic_localization.translates"
-msgstr "Translates"
+msgstr "Translations"
 
 msgid "label.basic_translate.key"
-msgstr "Translate ID"
+msgstr "Translation ID"
 
 msgid "label.basic_translate.key:tooltip"
-msgstr "The unique ID of translate"
+msgstr "Unique ID of this translation."
 
 msgid "label.basic_translate.translate"
-msgstr "Translate"
+msgstr "Translation"
 
 msgid "label.basic_translate.tooltip"
 msgstr "Tooltip"
@@ -49,19 +49,13 @@ msgid "label.basic_translate.copy"
 msgstr "Copy"
 
 msgid "label.basic_translate.copy:tooltip"
-msgstr "Copy the translate datas."
+msgstr "Copy the translation data."
 
 msgid "label.basic_translate.paste"
 msgstr "Paste"
 
 msgid "label.basic_translate.paste:tooltip"
-msgstr "Paste the translate datas."
-
-msgid "label.basic_translate.misc"
-msgstr "Misc"
-
-msgid "label.basic_translate.misc:tooltip"
-msgstr "Paste the translate datas."
+msgstr "Paste the translation data."
 
 msgid "label.basic_translate.remove"
 msgstr "Remove"
@@ -70,7 +64,7 @@ msgid "unity:label.position"
 msgstr "Position"
 
 msgid "unity:label.position:tooltip"
-msgstr "The local rotation of this Game Object relative to the parent."
+msgstr "The local position of this Game Object relative to the parent."
 
 msgid "label.basic_translate.use_tooltip"
 msgstr "Use tooltip"

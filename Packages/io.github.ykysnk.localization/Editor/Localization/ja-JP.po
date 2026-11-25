@@ -10,19 +10,19 @@ msgid "label.language"
 msgstr "言語"
 
 msgid "label.language:tooltip"
-msgstr "エディターでターゲット言語を変更します。"
+msgstr "エディターの表示言語を変更します。"
 
 msgid "label.test.text"
 msgstr "テキスト"
 
 msgid "label.test.text:tooltip"
-msgstr "テキストがあります"
+msgstr "テキストのサンプルです。"
 
 msgid "label.basic_localization.localization_id"
 msgstr "ローカライゼーションID"
 
 msgid "label.basic_localization.localization_id:tooltip"
-msgstr "ローカライゼーションの固有ID"
+msgstr "このローカライゼーションの固有 ID"
 
 msgid "label.basic_localization.display_name"
 msgstr "表示名"
@@ -37,7 +37,7 @@ msgid "label.basic_translate.key"
 msgstr "翻訳ID"
 
 msgid "label.basic_translate.key:tooltip"
-msgstr "翻訳の固有ID"
+msgstr "この翻訳の固有 ID"
 
 msgid "label.basic_translate.translate"
 msgstr "翻訳"
@@ -49,19 +49,13 @@ msgid "label.basic_translate.copy"
 msgstr "コピー"
 
 msgid "label.basic_translate.copy:tooltip"
-msgstr "翻訳データをコピーする。"
+msgstr "翻訳データをコピーします。"
 
 msgid "label.basic_translate.paste"
 msgstr "ペースト"
 
 msgid "label.basic_translate.paste:tooltip"
-msgstr "翻訳データを貼り付け。"
-
-msgid "label.basic_translate.misc"
-msgstr "その他"
-
-msgid "label.basic_translate.misc:tooltip"
-msgstr "Paste the translate datas."
+msgstr "翻訳データを貼り付けます。"
 
 msgid "label.basic_translate.remove"
 msgstr "削除"

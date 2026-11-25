@@ -10,19 +10,19 @@ msgid "label.language"
 msgstr "語言"
 
 msgid "label.language:tooltip"
-msgstr "在編輯器中變更目標語言。"
+msgstr "變更編輯器的顯示語言。"
 
 msgid "label.test.text"
 msgstr "文字"
 
 msgid "label.test.text:tooltip"
-msgstr "一段文字"
+msgstr "範例文字。"
 
 msgid "label.basic_localization.localization_id"
 msgstr "本地化 ID"
 
 msgid "label.basic_localization.localization_id:tooltip"
-msgstr "本地化項目的唯一 ID"
+msgstr "此本地化項目的唯一 ID"
 
 msgid "label.basic_localization.display_name"
 msgstr "顯示名稱"
@@ -37,7 +37,7 @@ msgid "label.basic_translate.key"
 msgstr "翻譯 ID"
 
 msgid "label.basic_translate.key:tooltip"
-msgstr "翻譯項目的唯一 ID"
+msgstr "此翻譯項目的唯一 ID"
 
 msgid "label.basic_translate.translate"
 msgstr "翻譯"
@@ -56,9 +56,6 @@ msgstr "貼上"
 
 msgid "label.basic_translate.paste:tooltip"
 msgstr "貼上翻譯資料。"
-
-msgid "label.basic_translate.misc"
-msgstr "其他"
 
 msgid "label.basic_translate.remove"
 msgstr "刪除"

@@ -22,31 +22,31 @@ MonoBehaviour:
     tooltipSuffix: :tooltip
   - key: label.test.text
     translate: Text
-    tooltip: A text
+    tooltip: A sample text.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_localization.localization_id
     translate: Localization ID
-    tooltip: The unique ID of localization
+    tooltip: Unique ID of this localization.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_localization.display_name
-    translate: Display Name
-    tooltip: Display name of language
+    translate: Display name
+    tooltip: Display name of this language.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_localization.translates
-    translate: Translates
+    translate: Translations
     tooltip: 
     useTooltip: 0
     tooltipSuffix: :tooltip
   - key: label.basic_translate.key
-    translate: Translate ID
-    tooltip: The unique ID of translate
+    translate: Translation ID
+    tooltip: Unique ID of this translation.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_translate.translate
-    translate: Translate
+    translate: Translation
     tooltip: 
     useTooltip: 0
     tooltipSuffix: :tooltip
@@ -57,17 +57,12 @@ MonoBehaviour:
     tooltipSuffix: :tooltip
   - key: label.basic_translate.copy
     translate: Copy
-    tooltip: Copy the translate datas.
+    tooltip: Copy the translation data.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_translate.paste
     translate: Paste
-    tooltip: Paste the translate datas.
-    useTooltip: 1
-    tooltipSuffix: :tooltip
-  - key: label.basic_translate.misc
-    translate: Misc
-    tooltip: Paste the translate datas.
+    tooltip: Paste the translation data.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_translate.remove
@@ -77,7 +72,7 @@ MonoBehaviour:
     tooltipSuffix: :tooltip
   - key: unity:label.position
     translate: Position
-    tooltip: The local rotation of this Game Object relative to the parent.
+    tooltip: The local position of this Game Object relative to the parent.
     useTooltip: 1
     tooltipSuffix: :tooltip
   - key: label.basic_translate.use_tooltip
