@@ -1,5 +1,63 @@
 # Changelog
 
+## [0.10.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.9.3..0.10.0) - 2026-11-25
+
+### ⛰️  Features
+
+- Add Simplified and Traditional Chinese localizations - ([57b1bec](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/57b1bec85fc4ea6f09105c797aad2576c97b7851))
+- Pick sidecar files from disk and remember the conversion foldout - ([9a08556](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/9a085561950dde904346958ad3395c847624219f))
+- Add JSON/PO conversion and a translation filter - ([73b9309](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/73b9309b0f0d4d7cb1e7c22eeb225e31bda06327))
+- Make tooltips opt in and configurable per translation - ([fe959fb](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/fe959fb201eba2682bb56c4493a9b292fca8f24a))
+
+### 🐛 Bug Fixes
+
+- Compare the unity: prefix ordinally - ([abd928b](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/abd928bf2f457685fda7e5dba70b6a72c4775d3b))
+- Keep the language popup when the inspector survives a domain reload - ([15e2880](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/15e2880e521ba6c008c7d0d69d1734ea7b245def))
+- Clean up the wording of every bundled language - ([dcf211d](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/dcf211d5bc3b994a2ee56c1aa90c72ae154fd58d))
+- Drop the dead translate null check when reading the clipboard - ([e6426fc](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e6426fcad2727905ec23a16aa7f7d1780bdfed0d))
+- Keep the package id in the extensions and write a PO header Unity accepts - ([667992b](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/667992b3a1a03ca685e68c2fa052b04eb3dd7c1e))
+- Keep the sidecar references after export and read PO files back - ([83da9a7](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/83da9a7d5d54ecc319f0f09bc226b29975ee7233))
+- Preserve null localization values during conversion - ([fdbb6e7](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/fdbb6e7d2919b8b1e24000444ff66b14491feef9))
+- Load TextAsset in UXML and keep the tooltip toggle in the footer - ([0129fa2](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0129fa232d74aad74e5145e9c388e2de615e19a4))
+- Make the localization editors safe to reload, edit and paste - ([2efa16a](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/2efa16a764947fcb36502aa1becddeef722929f9))
+
+### 🚜 Refactor
+
+- Publish only the language change events - ([0231737](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0231737094beee45a5eb6ac7fa7593de181c6b4e))
+- Make GlobalLocalization internal - ([4a795a6](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/4a795a6b63d4a39cf963c00d6215ab0f52c302c1))
+- Clean up localization editor code - ([e38b776](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e38b776916f8e94e69042475a748a99bc0978b95))
+- Resolve the localization helper from an assembly attribute - ([30646d0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/30646d0e0ec655e4153efa51ab49d4a33df290d1))
+- Use :tooltip and the package id for the editor UI localization - ([c046442](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/c0464428080cdb478c92597ca23327ec50e94dcf))
+- Clean up localization editor code - ([1ab41a5](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/1ab41a5ea8c092c42c64d6eccb7568ba3907b822))
+
+### 🎨 Styling
+
+- Move the format conversion section above the list - ([c47e552](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/c47e552a2445d51a91470cbf5b350f6ac7d7376f))
+- Compact the translate rows and put the tooltip behind a toggle - ([eacdb16](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/eacdb166c9b3d8e93d1ea8f9ba0f1eee5366f09c))
+- Give the localization inspectors a shared stylesheet - ([e41849f](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e41849f7a366781cb6650c48def9e4d7a99de091))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.10.0 - ([0f5d222](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0f5d222bcb5dfcfecacae902e31dd5aa4c8cf8ff))
+- Remove extra blank line in GlobalLocalization - ([22f8e61](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/22f8e611e43c6034d0a80eb76bae35a6b3a24b3b))
+- Update Unity MCP package and dependency define symbols - ([f394f9f](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/f394f9f4d44001ca17b8f25d4a524936e13f705e))
+- Add licensesUrl to package.json - ([0c4eedb](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0c4eedb382e87825f4ecc83ed9010e9620bd34bc))
+- Update locked utils package version - ([91617f8](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/91617f8316c80788cd9697fcf7f0c673540466b8))
+- Update Unity project settings for MCP support - ([faa858f](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/faa858f4981ccf1c80c8248537d1027c08a007e2))
+- Drop the local Website copy, the listing is built from VPM-WebSite - ([15eed66](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/15eed66048c6063d8d52b1b493f1c703c88a2954))
+- Use the shared Release-Workflows release and listing workflows - ([fe570d6](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/fe570d6a9cc7288b81c87addb4c51ddcfa564de2))
+- Update package dependencies and OpenUPM scopes - ([7c46cc6](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/7c46cc6e60c454cb0592a25a23be1197bc57024a))
+- Add basic description for localization library in README.md - ([a986ad4](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/a986ad408fc5c5e21e37553ab13af1f32ece8534))
+
+### Action
+
+- Update `CHANGELOG.md` - ([c87add1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/c87add1a0a4c6afe20e041da2ab81ec50edcd86a))
+
+## New Contributors ❤️
+
+* @opencode-agent[bot] made their first contribution
+* @github-actions[bot] made their first contribution
+
 ## [0.9.3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.9.2..0.9.3) - 2026-05-07
 
 ### ⚙️ Miscellaneous Tasks
