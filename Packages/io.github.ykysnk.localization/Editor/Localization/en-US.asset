@@ -90,3 +90,45 @@ MonoBehaviour:
     tooltip: Appended to the key, for example .tooltip or :tooltip.
     useTooltip: 1
     tooltipSuffix: .tooltip
+  - key: label.basic_localization.convert
+    translate: Format conversion
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.convert_hint
+    translate: Sidecar files live next to the asset; import merges by key.
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.json_file
+    translate: JSON file
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.po_file
+    translate: PO file
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.export_json
+    translate: Export JSON
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.import_json
+    translate: Import JSON
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.export_po
+    translate: Export PO
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.import_po
+    translate: Import PO
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  jsonFile: {fileID: 0}
+  poFile: {fileID: 0}

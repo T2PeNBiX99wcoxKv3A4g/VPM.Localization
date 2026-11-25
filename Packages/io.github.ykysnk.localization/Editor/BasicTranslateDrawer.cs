@@ -28,6 +28,11 @@ namespace io.github.ykysnk.Localization.Editor
             var suffixField = tree.Q<TextField>("tooltipSuffix");
             var useTooltipToggle = tree.Q<Toggle>("useTooltip");
 
+            // BaseField draws [label][checkbox]; this control reads better as [checkbox][label].
+            var toggleInput = useTooltipToggle.Q(className: "unity-base-field__input");
+            if (toggleInput != null)
+                useTooltipToggle.Insert(0, toggleInput);
+
             // Tooltips are opt-in: while the toggle is off both tooltip fields stay hidden, and the loader ignores the
             // stored text as well.
             void ApplyTooltipVisibility()

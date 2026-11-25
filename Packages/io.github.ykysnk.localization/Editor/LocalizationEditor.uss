@@ -10,6 +10,41 @@
     margin: 0 0 6px 0;
 }
 
+.localization-search {
+    margin: 0 0 4px 0;
+}
+
+/* Format conversion section under the list. */
+.convert-section {
+    margin: 6px 0 0 0;
+}
+
+.convert-row {
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 0;
+}
+
+.convert-field {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    margin: 0 6px 0 0;
+}
+
+.convert-button {
+    min-width: 84px;
+    margin: 0 0 0 4px;
+    padding: 1px 8px;
+    font-size: 11px;
+}
+
+.convert-hint {
+    margin: 4px 0 0 0;
+    font-size: 10px;
+    color: rgba(128, 128, 128, 0.9);
+}
+
 /* Header above the translate list: title, count pill, add/remove. */
 .list-header {
     flex-direction: row;
@@ -51,6 +86,7 @@
 .localization-list {
     flex-grow: 1;
     min-height: 140px;
+    max-height: 480px;
     margin: 0;
 }
 
@@ -98,8 +134,20 @@
 }
 
 .translate-tooltip-toggle {
-    margin: 0;
+    align-self: flex-start;
+    margin: 0 0 4px 0;
     font-size: 11px;
+}
+
+.translate-tooltip-toggle .unity-base-field__input {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.translate-tooltip-toggle .unity-base-field__label {
+    flex-grow: 0;
+    margin-left: 4px;
+    margin-right: 0;
 }
 
 .translate-suffix-field {

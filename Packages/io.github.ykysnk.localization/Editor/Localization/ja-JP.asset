@@ -86,3 +86,45 @@ MonoBehaviour:
       \u3084 :tooltip \u306A\u3069\uFF09\u3002"
     useTooltip: 1
     tooltipSuffix: .tooltip
+  - key: label.basic_localization.convert
+    translate: "\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u5909\u63DB"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.convert_hint
+    translate: "\u30B5\u30A4\u30C9\u30AB\u30FC\u30D5\u30A1\u30A4\u30EB\u306F\u30A2\u30BB\u30C3\u30C8\u306E\u96A3\u306B\u4FDD\u5B58\u3055\u308C\u3001\u53D6\u308A\u8FBC\u307F\u306F\u30AD\u30FC\u5358\u4F4D\u3067\u30DE\u30FC\u30B8\u3055\u308C\u307E\u3059\u3002"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.json_file
+    translate: "JSON \u30D5\u30A1\u30A4\u30EB"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.po_file
+    translate: "PO \u30D5\u30A1\u30A4\u30EB"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.export_json
+    translate: "JSON \u66F8\u304D\u51FA\u3057"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.import_json
+    translate: "JSON \u53D6\u308A\u8FBC\u307F"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.export_po
+    translate: "PO \u66F8\u304D\u51FA\u3057"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  - key: label.basic_localization.import_po
+    translate: "PO \u53D6\u308A\u8FBC\u307F"
+    tooltip: 
+    useTooltip: 0
+    tooltipSuffix: .tooltip
+  jsonFile: {fileID: 0}
+  poFile: {fileID: 0}

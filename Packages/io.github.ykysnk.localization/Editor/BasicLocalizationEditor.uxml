@@ -1,10 +1,13 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Packages/io.github.ykysnk.localization/Editor/LocalizationEditor.uss?fileID=7433441132597879392&amp;guid=920b155e5fa592c409d6423608f6b326&amp;type=3#LocalizationEditor"/>
     <ui:VisualElement class="localization-root">
         <ui:TextField picking-mode="Ignore" label="label.basic_localization.localization_id" name="localizationID"
                       binding-path="localizationID" class="localization-field"/>
         <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
                       binding-path="displayName" class="localization-field"/>
+
+        <uie:ToolbarSearchField name="search" class="localization-search"
+                                tooltip="Filter by key, translation or tooltip"/>
 
         <ui:VisualElement class="list-header">
             <ui:Label text="label.basic_localization.translates" class="list-header__title"/>
@@ -21,6 +24,22 @@
                      show-foldout-header="false" show-bound-collection-size="false" reorder-mode="Animated"
                      show-alternating-row-backgrounds="ContentOnly" reorderable="true"
                      show-add-remove-footer="false" picking-mode="Ignore" usage-hints="None" show-border="true"
-                     binding-path="translates" class="localization-list"/>
+                     class="localization-list"/>
+
+        <ui:Foldout text="label.basic_localization.convert" name="convert" value="false" class="convert-section">
+            <ui:VisualElement class="convert-row">
+                <uie:ObjectField name="jsonFile" binding-path="jsonFile" type="UnityEngine.TextAsset"
+                                 label="label.basic_localization.json_file" class="convert-field"/>
+                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
+                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="convert-row">
+                <uie:ObjectField name="poFile" binding-path="poFile" type="UnityEngine.TextAsset"
+                                 label="label.basic_localization.po_file" class="convert-field"/>
+                <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
+                <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
+            </ui:VisualElement>
+            <ui:Label text="label.basic_localization.convert_hint" class="convert-hint"/>
+        </ui:Foldout>
     </ui:VisualElement>
 </ui:UXML>
