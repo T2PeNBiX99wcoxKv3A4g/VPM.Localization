@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.0..0.10.1) - 2026-11-25
+
+### 🐛 Bug Fixes
+
+- Stretch the translation search field across the inspector - ([28a0d7b](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/28a0d7bf3193c1e935f114ec00ce3f18488b7905))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.10.1 - ([1ae715e](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/1ae715eff87e28e616dfd982362ee9111ebcdd5f))
+
+### Action
+
+- Update `CHANGELOG.md` - ([e78ed03](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/e78ed0340218d8a90a33b1ad346bfecd5b99d104))
+
+
 ## [0.10.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.9.3..0.10.0) - 2026-11-25
 
 ### ⛰️  Features
