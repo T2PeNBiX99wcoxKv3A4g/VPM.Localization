@@ -11,11 +11,11 @@ using UnityEngine.UIElements;
 namespace io.github.ykysnk.Localization.Editor
 {
     [InitializeOnLoad]
-    internal static class GlobalLocalization
+    public static class GlobalLocalization
     {
-        internal delegate void LocalizationChanged(string localizationID, string newLanguage);
+        public delegate void LocalizationChanged(string localizationID, string newLanguage);
 
-        internal delegate void LocalizationUpdated();
+        public delegate void LocalizationUpdated();
 
         /// <summary>Suffix that marks a key as the tooltip of another key.</summary>
         internal const string TooltipExt = BasicTranslate.DefaultTooltipSuffix;
@@ -37,8 +37,8 @@ namespace io.github.ykysnk.Localization.Editor
 
         static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
 
-        internal static event LocalizationUpdated? OnLocalizationReload;
-        internal static event LocalizationChanged? OnLocalizationChanged;
+        public static event LocalizationUpdated? OnLocalizationReload;
+        public static event LocalizationChanged? OnLocalizationChanged;
 
         internal static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
             ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
