@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh-Hant\n"
+
+msgid "label.language"
+msgstr "語言"
+
+msgid "label.language:tooltip"
+msgstr "在編輯器中變更目標語言。"
+
+msgid "label.test.text"
+msgstr "文字"
+
+msgid "label.test.text:tooltip"
+msgstr "一段文字"
+
+msgid "label.basic_localization.localization_id"
+msgstr "本地化 ID"
+
+msgid "label.basic_localization.localization_id:tooltip"
+msgstr "本地化項目的唯一 ID"
+
+msgid "label.basic_localization.display_name"
+msgstr "顯示名稱"
+
+msgid "label.basic_localization.display_name:tooltip"
+msgstr "語言的顯示名稱"
+
+msgid "label.basic_localization.translates"
+msgstr "翻譯清單"
+
+msgid "label.basic_translate.key"
+msgstr "翻譯 ID"
+
+msgid "label.basic_translate.key:tooltip"
+msgstr "翻譯項目的唯一 ID"
+
+msgid "label.basic_translate.translate"
+msgstr "翻譯"
+
+msgid "label.basic_translate.tooltip"
+msgstr "工具提示"
+
+msgid "label.basic_translate.copy"
+msgstr "複製"
+
+msgid "label.basic_translate.copy:tooltip"
+msgstr "複製翻譯資料。"
+
+msgid "label.basic_translate.paste"
+msgstr "貼上"
+
+msgid "label.basic_translate.paste:tooltip"
+msgstr "貼上翻譯資料。"
+
+msgid "label.basic_translate.misc"
+msgstr "其他"
+
+msgid "label.basic_translate.remove"
+msgstr "刪除"
+
+msgid "label.basic_translate.use_tooltip"
+msgstr "使用工具提示"
+
+msgid "label.basic_translate.use_tooltip:tooltip"
+msgstr "儲存並顯示此項目的工具提示。"
+
+msgid "label.basic_translate.tooltip_suffix"
+msgstr "工具提示後綴"
+
+msgid "label.basic_translate.tooltip_suffix:tooltip"
+msgstr "附加在鍵後面的後綴。預設為 :tooltip。"
+
+msgid "label.basic_localization.convert"
+msgstr "格式轉換"
+
+msgid "label.basic_localization.convert_hint"
+msgstr "附屬檔案與資產放在一起；匯入時依 key 合併。"
+
+msgid "label.basic_localization.json_file"
+msgstr "JSON 檔案"
+
+msgid "label.basic_localization.po_file"
+msgstr "PO 檔案"
+
+msgid "label.basic_localization.export_json"
+msgstr "匯出 JSON"
+
+msgid "label.basic_localization.import_json"
+msgstr "匯入 JSON"
+
+msgid "label.basic_localization.export_po"
+msgstr "匯出 PO"
+
+msgid "label.basic_localization.import_po"
+msgstr "匯入 PO"
+
