@@ -18,7 +18,10 @@ namespace io.github.ykysnk.Localization.Editor
     public static class LocalizationConverter
     {
         /// <summary>Suffixes recognised when a key is read back as a tooltip entry.</summary>
-        public static readonly string[] TooltipSuffixes = { ".tooltip", ":tooltip", "_tooltip" };
+        public static readonly string[] TooltipSuffixes =
+        {
+            ".tooltip", ":tooltip", "_tooltip"
+        };
 
         /// <summary>Writes a flat JSON object: key to text, plus one tooltip key per entry that uses one.</summary>
         public static string ToJson(BasicLocalization localization)
@@ -95,12 +98,12 @@ namespace io.github.ykysnk.Localization.Editor
             {
                 if (string.IsNullOrEmpty(entry.key)) continue;
 
-                yield return new KeyValuePair<string, string>(entry.key, entry.translate ?? "");
+                yield return new(entry.key, entry.translate ?? "");
 
                 if (!entry.useTooltip) continue;
 
                 var suffix = string.IsNullOrEmpty(entry.tooltipSuffix) ? ".tooltip" : entry.tooltipSuffix;
-                yield return new KeyValuePair<string, string>(entry.key + suffix, entry.tooltip ?? "");
+                yield return new(entry.key + suffix, entry.tooltip ?? "");
             }
         }
 
@@ -140,7 +143,10 @@ namespace io.github.ykysnk.Localization.Editor
 
                 if (!byKey.TryGetValue(pair.Key, out var entry))
                 {
-                    entry = new BasicTranslate { key = pair.Key };
+                    entry = new()
+                    {
+                        key = pair.Key
+                    };
                     localization.translates.Add(entry);
                     byKey[pair.Key] = entry;
                 }
@@ -154,7 +160,10 @@ namespace io.github.ykysnk.Localization.Editor
 
                 if (!byKey.TryGetValue(baseKey, out var entry))
                 {
-                    entry = new BasicTranslate { key = baseKey };
+                    entry = new()
+                    {
+                        key = baseKey
+                    };
                     localization.translates.Add(entry);
                     byKey[baseKey] = entry;
                 }
@@ -190,7 +199,7 @@ namespace io.github.ykysnk.Localization.Editor
                 SkipWhitespace(text, ref index);
 
                 var value = ParseJsonString(text, ref index);
-                result.Add(new KeyValuePair<string, string>(key, value));
+                result.Add(new(key, value));
 
                 SkipWhitespace(text, ref index);
                 var next = Peek(text, index);
@@ -270,7 +279,7 @@ namespace io.github.ykysnk.Localization.Editor
             void Flush()
             {
                 if (id == null) return;
-                if (id.Length > 0) result.Add(new KeyValuePair<string, string>(id, value.ToString()));
+                if (id.Length > 0) result.Add(new(id, value.ToString()));
                 id = null;
                 value.Clear();
                 readingValue = false;
@@ -377,7 +386,6 @@ namespace io.github.ykysnk.Localization.Editor
             var builder = new StringBuilder(value.Length + 8);
 
             foreach (var c in value)
-            {
                 switch (c)
                 {
                     case '"': builder.Append("\\\""); break;
@@ -392,7 +400,6 @@ namespace io.github.ykysnk.Localization.Editor
                         else builder.Append(c);
                         break;
                 }
-            }
 
             return builder.ToString();
         }

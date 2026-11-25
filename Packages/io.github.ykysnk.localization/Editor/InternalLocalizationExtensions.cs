@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEditor;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace io.github.ykysnk.Localization.Editor
         /// <param name="exception">The parse or validation error, or null when the clipboard was simply empty.</param>
         /// <returns>True when a usable entry was read.</returns>
         internal static bool TryPasteTranslate(
-            [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out BasicTranslate? basicTranslate,
+            [NotNullWhen(true)] out BasicTranslate? basicTranslate,
             out Exception? exception)
         {
             basicTranslate = null;

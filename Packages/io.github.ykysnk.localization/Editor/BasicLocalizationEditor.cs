@@ -16,16 +16,14 @@ namespace io.github.ykysnk.Localization.Editor
     [CanEditMultipleObjects]
     public class BasicLocalizationEditor : BasicEditor
     {
-        private delegate bool ImportAction(BasicLocalization localization, string? text, out Exception? exception);
-
         [SerializeField] private VisualTreeAsset? uxml;
 
         private readonly List<int> _visibleIndices = new();
 
         private Label? _countLabel;
-        private ListView? _translatesList;
-        private ToolbarSearchField? _searchField;
         private string _search = "";
+        private ToolbarSearchField? _searchField;
+        private ListView? _translatesList;
 
         private SerializedProperty Translates => serializedObject.FindProperty("translates");
 
@@ -37,7 +35,10 @@ namespace io.github.ykysnk.Localization.Editor
 
             _translatesList = tree.Q<ListView>("translates");
             _translatesList.showBoundCollectionSize = false;
-            _translatesList.makeItem = () => new VisualElement { name = "translate-row" };
+            _translatesList.makeItem = () => new()
+            {
+                name = "translate-row"
+            };
             _translatesList.bindItem = BindRow;
             _translatesList.itemIndexChanged += OnItemIndexChanged;
             _translatesList.AddManipulator(new ContextualMenuManipulator(evt =>
@@ -78,7 +79,8 @@ namespace io.github.ykysnk.Localization.Editor
             _countLabel = tree.Q<Label>("translatesCount");
 
             tree.Q<Button>("exportJson").clicked += () => Export(".json", LocalizationConverter.ToJson);
-            tree.Q<Button>("importJson").clicked += () => Import("jsonFile", ".json", LocalizationConverter.TryImportJson);
+            tree.Q<Button>("importJson").clicked +=
+                () => Import("jsonFile", ".json", LocalizationConverter.TryImportJson);
             tree.Q<Button>("exportPo").clicked += () => Export(".po", LocalizationConverter.ToPo);
             tree.Q<Button>("importPo").clicked += () => Import("poFile", ".po", LocalizationConverter.TryImportPo);
 
@@ -139,7 +141,7 @@ namespace io.github.ykysnk.Localization.Editor
 
         private List<int> SelectedPropertyIndices() =>
             _translatesList == null
-                ? new List<int>()
+                ? new()
                 : _translatesList.selectedIndices
                     .Where(i => i >= 0 && i < _visibleIndices.Count)
                     .Select(i => _visibleIndices[i])
@@ -310,5 +312,7 @@ namespace io.github.ykysnk.Localization.Editor
 
             Utils.Log(nameof(BasicLocalizationEditor), $"Imported {textAsset.name}");
         }
+
+        private delegate bool ImportAction(BasicLocalization localization, string? text, out Exception? exception);
     }
 }
