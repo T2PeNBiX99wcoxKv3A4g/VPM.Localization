@@ -2,7 +2,23 @@
 
 .localization-root {
     flex-grow: 1;
-    padding: 6px 6px 8px 6px;
+    padding: 8px 8px 10px 8px;
+}
+
+/* ---------- cards ---------- */
+
+.loc-card {
+    padding: 8px;
+    margin: 0 0 8px 0;
+    background-color: rgba(128, 128, 128, 0.07);
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.22);
+    border-radius: 6px;
+}
+
+/* The language picker is appended to this slot by the editor. */
+.loc-language {
+    margin-top: 2px;
 }
 
 .localization-field {
@@ -15,12 +31,13 @@
        root is a column, so growing would stretch the height instead. */
     align-self: stretch;
     width: auto;
-    margin: 0 0 4px 0;
+    min-height: 20px;
+    margin: 0 0 6px 0;
 }
 
 /* Format conversion section above the list. */
 .convert-section {
-    margin: 0 0 6px 0;
+    margin: 0;
 }
 
 .convert-row {
@@ -44,8 +61,10 @@
 
 .convert-actions {
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-end;
     margin: 2px 0 0 0;
+    padding-right: 4px;
 }
 
 .convert-button {
@@ -74,7 +93,7 @@
 .list-header {
     flex-direction: row;
     align-items: center;
-    margin: 2px 0 3px 0;
+    margin: 6px 0 3px 0;
     padding: 0 2px;
 }
 
@@ -108,10 +127,11 @@
     opacity: 0.4;
 }
 
+/* The editor grows this list to the height the inspector actually shows. The fixed height is only the starting
+   point for the first layout, before that measurement runs. */
 .localization-list {
-    flex-grow: 1;
+    height: 420px;
     min-height: 140px;
-    max-height: 560px;
     margin: 0;
 }
 
@@ -132,19 +152,19 @@
 }
 
 .translate-textarea {
-    min-height: 54px;
+    min-height: 44px;
     white-space: normal;
 }
 
 /* Hidden for entries without a tooltip; shown by the drawer. */
 .translate-tooltip-field {
-    min-height: 44px;
+    min-height: 40px;
 }
 
 .translate-buttons {
     flex-direction: row;
     align-items: center;
-    margin: 4px 0 0 0;
+    margin: 4px 0 4px 0;
 }
 
 .translate-buttons__spacer {

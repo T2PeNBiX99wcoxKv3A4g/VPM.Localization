@@ -1,47 +1,54 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Packages/io.github.ykysnk.localization/Editor/LocalizationEditor.uss?fileID=7433441132597879392&amp;guid=920b155e5fa592c409d6423608f6b326&amp;type=3#LocalizationEditor"/>
     <ui:VisualElement class="localization-root">
-        <ui:TextField picking-mode="Ignore" label="label.basic_localization.localization_id" name="localizationID"
-                      binding-path="localizationID" class="localization-field"/>
-        <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
-                      binding-path="displayName" class="localization-field"/>
+        <ui:VisualElement class="loc-card">
+            <ui:TextField picking-mode="Ignore" label="label.basic_localization.localization_id" name="localizationID"
+                          binding-path="localizationID" class="localization-field"/>
+            <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
+                          binding-path="displayName" class="localization-field"/>
+            <!-- The language picker is appended here by the editor; it belongs with the asset settings, not at the
+                 bottom of the tree where UILocalize would drop it. -->
+            <ui:VisualElement name="languageSlot" class="loc-language"/>
+        </ui:VisualElement>
 
-        <ui:Foldout text="label.basic_localization.convert" name="convert" value="false" class="convert-section">
-            <ui:VisualElement class="convert-row">
-                <uie:ObjectField name="jsonFile" binding-path="jsonFile"
-                                 label="label.basic_localization.json_file" class="convert-field"/>
-                <ui:Button name="pickJson" text="…" class="convert-pick"
-                           tooltip="Copy a JSON file from disk next to this asset and assign it"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="convert-row">
-                <uie:ObjectField name="poFile" binding-path="poFile"
-                                 label="label.basic_localization.po_file" class="convert-field"/>
-                <ui:Button name="pickPo" text="…" class="convert-pick"
-                           tooltip="Copy a PO file from disk next to this asset and assign it"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="convert-actions">
-                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
-                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
-                <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
-                <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
-            </ui:VisualElement>
-            <ui:Label text="label.basic_localization.convert_hint" class="convert-hint"/>
-        </ui:Foldout>
-
-        <uie:ToolbarSearchField name="search" class="localization-search"
-                                tooltip="Filter by key, translation or tooltip"/>
+        <ui:VisualElement class="loc-card">
+            <ui:Foldout text="label.basic_localization.convert" name="convert" value="false" class="convert-section">
+                <ui:VisualElement class="convert-row">
+                    <uie:ObjectField name="jsonFile" binding-path="jsonFile"
+                                     label="label.basic_localization.json_file" class="convert-field"/>
+                    <ui:Button name="pickJson" text="…" class="convert-pick"
+                               tooltip="Copy a JSON file from disk next to this asset and assign it"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="convert-row">
+                    <uie:ObjectField name="poFile" binding-path="poFile"
+                                     label="label.basic_localization.po_file" class="convert-field"/>
+                    <ui:Button name="pickPo" text="…" class="convert-pick"
+                               tooltip="Copy a PO file from disk next to this asset and assign it"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="convert-actions">
+                    <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
+                    <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
+                    <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
+                    <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
+                </ui:VisualElement>
+                <ui:Label text="label.basic_localization.convert_hint" class="convert-hint"/>
+            </ui:Foldout>
+        </ui:VisualElement>
 
         <ui:VisualElement class="list-header">
             <ui:Label text="label.basic_localization.translates" class="list-header__title"/>
             <ui:Label text="0" name="translatesCount" class="list-header__count"/>
             <ui:VisualElement class="list-header__spacer"/>
-            <ui:Button name="removeTranslate" text="-" class="list-header__button"
+            <ui:Button name="removeTranslate" text="−" class="list-header__button"
                        tooltip="Remove the selected translations"/>
             <ui:Button name="addTranslate" text="+" class="list-header__button"
                        tooltip="Add a translation"/>
         </ui:VisualElement>
 
-        <ui:ListView name="translates" selection-type="Multiple" fixed-item-height="120"
+        <uie:ToolbarSearchField name="search" class="localization-search"
+                                tooltip="Filter by key, translation or tooltip"/>
+
+        <ui:ListView name="translates" selection-type="Multiple"
                      virtualization-method="DynamicHeight" horizontal-scrolling="false"
                      show-foldout-header="false" show-bound-collection-size="false" reorder-mode="Animated"
                      show-alternating-row-backgrounds="ContentOnly" reorderable="true"

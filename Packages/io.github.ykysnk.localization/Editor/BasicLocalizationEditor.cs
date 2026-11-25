@@ -33,8 +33,13 @@ namespace io.github.ykysnk.Localization.Editor
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var tree = uxml!.CloneTree();
-            tree.UILocalize();
+            // The language picker is placed by hand below, in the settings card; UILocalize would append it at the end.
+            tree.UILocalize(false);
             tree.Bind(serializedObject);
+
+            var languageSlot = tree.Q<VisualElement>("languageSlot");
+            if (languageSlot != null)
+                LocalizationHelper.For(typeof(LocalizationHelper)).SelectLanguageElement(languageSlot, 0);
 
             _translatesList = tree.Q<ListView>("translates");
             _translatesList.showBoundCollectionSize = false;
@@ -95,8 +100,47 @@ namespace io.github.ykysnk.Localization.Editor
 
             _translatesList.itemsSource = _visibleIndices;
             RefreshList();
+            FitListToInspector(tree);
 
             return tree;
+        }
+
+        /// <summary>
+        ///     The inspector draws a custom GUI at its natural height and leaves the rest of the window empty, so the
+        ///     translation list is grown to the height the inspector actually shows.
+        /// </summary>
+        private void FitListToInspector(VisualElement tree)
+        {
+            tree.RegisterCallback<AttachToPanelEvent>(_ =>
+            {
+                if (tree.GetFirstAncestorOfType<ScrollView>() is not { } scroll) return;
+
+                scroll.contentViewport.RegisterCallback<GeometryChangedEvent>(_ => Fit());
+                tree.RegisterCallback<GeometryChangedEvent>(_ => Fit());
+                tree.schedule.Execute(Fit);
+            });
+
+            return;
+
+            void Fit()
+            {
+                if (_translatesList == null) return;
+                if (tree.GetFirstAncestorOfType<ScrollView>() is not { } scroll) return;
+
+                var viewport = scroll.contentViewport.resolvedStyle.height;
+                var contentHeight = scroll.contentContainer.resolvedStyle.height;
+                if (float.IsNaN(viewport) || float.IsNaN(contentHeight)) return;
+
+                var content = scroll.contentContainer.worldBound.yMin;
+                var treeTop = tree.worldBound.yMin - content;
+                var treeHeight = tree.resolvedStyle.height;
+                // Size the tree as if the list filled the viewport: everything above and below it keeps its height.
+                var targetTree = viewport - treeTop - (contentHeight - treeTop - treeHeight);
+                var delta = targetTree - treeHeight;
+                if (Mathf.Abs(delta) < 1f) return;
+
+                _translatesList.style.height = Mathf.Max(140f, _translatesList.resolvedStyle.height + delta);
+            }
         }
 
         private void BindRow(VisualElement element, int index)
