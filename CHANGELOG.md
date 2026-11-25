@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.2..0.10.3) - 2026-11-25
+
+### 🐛 Bug Fixes
+
+- Release the language popup's update helper when it goes away - ([dd8685e](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/dd8685e9bac980d0d5681388a072305d8a44a98b))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.10.3 - ([3bbefcd](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/3bbefcded1d5e82d38c776e1213a56627ba1249b))
+
+### Action
+
+- Update `CHANGELOG.md` - ([0de1a14](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/0de1a149a40491c1ff83344d00b18e24039902d5))
+
+
 ## [0.10.2](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.1..0.10.2) - 2026-11-25
 
 ### 🐛 Bug Fixes
