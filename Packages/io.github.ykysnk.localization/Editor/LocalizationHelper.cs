@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using io.github.ykysnk.utils;
 using JetBrains.Annotations;
@@ -35,20 +34,6 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static readonly Dictionary<Type, LocalizableProperties> PropertyCache = new();
 
-        private readonly struct LocalizableProperties
-        {
-            internal readonly PropertyInfo? Text;
-            internal readonly PropertyInfo? Label;
-            internal readonly PropertyInfo? HeaderTitle;
-
-            internal LocalizableProperties(Type type)
-            {
-                Text = type.GetProperty("text");
-                Label = type.GetProperty("label");
-                HeaderTitle = type.GetProperty("headerTitle");
-            }
-        }
-
         private static readonly Dictionary<Assembly, LocalizationHelper> AssemblyHelpers = new();
 
         // An assembly without the attribute keeps showing its keys, which is what a missing translation does anyway.
@@ -64,6 +49,22 @@ namespace io.github.ykysnk.Localization.Editor
         ///     which read the id from the assembly's <see cref="LocalizationPackageAttribute" />.
         /// </summary>
         public LocalizationHelper(string localizationID) => _localizationID = localizationID;
+
+        /// <summary>
+        ///     Language id that is selected now, for example <c>ja-JP</c>. Setting it switches the language and updates
+        ///     every element that was localized through <see cref="UILocalize" /> or <see cref="UpdateRegister" />.
+        /// </summary>
+        public string SelectedLanguage
+        {
+            get => GlobalLocalization.GetSelectedLanguage(_localizationID);
+            set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
+        }
+
+        /// <summary>Language ids of this localization in display order. Empty until the assets are loaded.</summary>
+        public IReadOnlyList<string> Languages => GlobalLocalization.GetLanguageIds(_localizationID);
+
+        /// <summary>Display names matching <see cref="Languages" />.</summary>
+        public IReadOnlyList<string> LanguageNames => GlobalLocalization.GetLanguageNames(_localizationID);
 
         /// <summary>
         ///     Subscribes to <see cref="GlobalLocalization.OnLocalizationChanged" /> only while something listens here: a
@@ -98,26 +99,10 @@ namespace io.github.ykysnk.Localization.Editor
         }
 
         /// <summary>
-        ///     Language id that is selected now, for example <c>ja-JP</c>. Setting it switches the language and updates
-        ///     every element that was localized through <see cref="UILocalize" /> or <see cref="UpdateRegister" />.
-        /// </summary>
-        public string SelectedLanguage
-        {
-            get => GlobalLocalization.GetSelectedLanguage(_localizationID);
-            set => GlobalLocalization.SetSelectedLanguage(_localizationID, value);
-        }
-
-        /// <summary>
         ///     Switches the language of this localization and updates every element that was localized through
         ///     <see cref="UILocalize" /> or <see cref="UpdateRegister" />.
         /// </summary>
         public void SetLanguage(string language) => SelectedLanguage = language;
-
-        /// <summary>Language ids of this localization in display order. Empty until the assets are loaded.</summary>
-        public IReadOnlyList<string> Languages => GlobalLocalization.GetLanguageIds(_localizationID);
-
-        /// <summary>Display names matching <see cref="Languages" />.</summary>
-        public IReadOnlyList<string> LanguageNames => GlobalLocalization.GetLanguageNames(_localizationID);
 
         /// <summary>A ready-made UI Toolkit language picker for this localization.</summary>
         public LanguagePicker CreateLanguagePicker() => new(_localizationID);
@@ -370,6 +355,20 @@ namespace io.github.ykysnk.Localization.Editor
             elem.tooltip = S(tooltipKey);
             var tooltipRegistration = UpdateRegister(tooltipKey, (_, tooltip) => elem.tooltip = tooltip);
             elem.RegisterCallback<DetachFromPanelEvent>(_ => tooltipRegistration.Dispose());
+        }
+
+        private readonly struct LocalizableProperties
+        {
+            internal readonly PropertyInfo? Text;
+            internal readonly PropertyInfo? Label;
+            internal readonly PropertyInfo? HeaderTitle;
+
+            internal LocalizableProperties(Type type)
+            {
+                Text = type.GetProperty("text");
+                Label = type.GetProperty("label");
+                HeaderTitle = type.GetProperty("headerTitle");
+            }
         }
     }
 }

@@ -19,8 +19,8 @@ namespace io.github.ykysnk.Localization.Editor
     public class LanguagePicker : VisualElement
     {
         private readonly string _localizationID;
-        private string[] _languageIds = Array.Empty<string>();
         private UpdateHelper? _labelRegistration;
+        private string[] _languageIds = Array.Empty<string>();
         private PopupField<int>? _popup;
         private GlobalLocalization.LocalizationUpdated? _reloadHandler;
 

@@ -19,26 +19,20 @@ namespace io.github.ykysnk.Localization.Editor
         private static readonly Dictionary<string, List<UpdateHelper>> UpdateHelpers = new();
 
         private readonly Callback _callback;
-        private readonly string _localizationID;
         private readonly string _localizeKey;
 
         private UpdateHelper(string localizationID, string localizeKey, Callback callback)
         {
-            _localizationID = localizationID;
+            LocalizationID = localizationID;
             _localizeKey = localizeKey;
             _callback = callback;
             GlobalLocalization.RegisterHelper(this);
         }
 
         /// <summary>Localization group this registration belongs to.</summary>
-        internal string LocalizationID => _localizationID;
+        internal string LocalizationID { get; }
 
-        /// <summary>Re-reads the label and tooltip. Called by the loader when the data or language changes.</summary>
-        internal void Refresh() =>
-            _callback(GlobalLocalization.S(_localizationID, _localizeKey),
-                GlobalLocalization.S(_localizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
-
-        private string FullKey => $"{_localizationID}.{_localizeKey}";
+        private string FullKey => $"{LocalizationID}.{_localizeKey}";
 
         /// <summary>Stops updating the callback. Call this when the element it updates is removed.</summary>
         public void Dispose()
@@ -51,6 +45,11 @@ namespace io.github.ykysnk.Localization.Editor
             if (helpers.Count == 0)
                 UpdateHelpers.Remove(FullKey);
         }
+
+        /// <summary>Re-reads the label and tooltip. Called by the loader when the data or language changes.</summary>
+        internal void Refresh() =>
+            _callback(GlobalLocalization.S(LocalizationID, _localizeKey),
+                GlobalLocalization.S(LocalizationID, _localizeKey + GlobalLocalization.TooltipExt, ""));
 
         /// <summary>Registers a callback for one localization key.</summary>
         /// <param name="localizationID">Localization group the key belongs to.</param>

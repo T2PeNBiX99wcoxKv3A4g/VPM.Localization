@@ -29,6 +29,10 @@ namespace io.github.ykysnk.Localization.Editor
         /// <summary>Prefix that marks a key as a Unity editor string, translated through <c>L10n.Tr</c>.</summary>
         internal const string UnityPrefix = "unity:";
 
+        // How long the reload waits after the last request, so typing in a translation asset does not rescan the
+        // whole project on every keystroke.
+        private const double ReloadDelaySeconds = 0.25;
+
         private static Dictionary<string, string[]> _languageKeyList = new();
         private static Dictionary<string, string[]> _languageKeyNames = new();
 
@@ -44,10 +48,6 @@ namespace io.github.ykysnk.Localization.Editor
         // Returned instead of allocating an empty dictionary for a language that has no asset yet.
         private static readonly Dictionary<string, string> EmptyContents = new();
 
-        // How long the reload waits after the last request, so typing in a translation asset does not rescan the
-        // whole project on every keystroke.
-        private const double ReloadDelaySeconds = 0.25;
-
         private static bool _isDelayLoaded;
         private static bool _reloadQueued;
         private static double _reloadAt;
@@ -60,9 +60,10 @@ namespace io.github.ykysnk.Localization.Editor
         /// <summary>Raised when the selected language of one localization changes.</summary>
         public static event LocalizationChanged? OnLocalizationChanged;
 
-        internal static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)
-            ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
-            : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
+        internal static string GetSelectedLanguage(string localizationID) =>
+            !LanguageDictionary.ContainsKey(localizationID)
+                ? throw new ArgumentException($"Localization ID {localizationID} not found!", nameof(localizationID))
+                : EditorPrefs.GetString($"{localizationID}_Language", DefaultLangKey);
 
         /// <summary>Whether the assets of this localization were loaded, so a missing key can be told from a not-yet-loaded one.</summary>
         internal static bool HasLocalization(string localizationID) => LanguageDictionary.ContainsKey(localizationID);
