@@ -198,26 +198,31 @@ namespace io.github.ykysnk.Localization.Editor
         // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
         public void UILocalize(VisualElement elem, bool addLanguagePopup = true, int spaceHeight = 8)
         {
-            // One scheduled pass for the whole tree: scheduling a callback per element made large windows heavy.
-            // Without the delay call, the bind will not be set correctly.
-            elem.schedule.Execute(() => LocalizeTree(elem));
+            // The language assets are loaded on a delay as well; a tree built before that would show the raw keys.
+            GlobalLocalization.EnsureLoaded();
+
+            // Localize right away, so the keys never reach the screen, and once more after the binding pass: the
+            // bindings run after UILocalize and can put the key back. The first pass registers the elements, the
+            // second only rewrites the text of the ones that were overwritten.
+            LocalizeTree(elem, true);
+            elem.schedule.Execute(() => LocalizeTree(elem, false));
 
             if (!addLanguagePopup) return;
             SelectLanguageElement(elem, spaceHeight);
         }
 
-        private void LocalizeTree(VisualElement elem)
+        private void LocalizeTree(VisualElement elem, bool register)
         {
-            TryLocalize(elem, elem.GetType());
+            TryLocalize(elem, elem.GetType(), register);
 
             foreach (var child in elem.Children())
             {
                 if (SkipName.Contains(child.name) || child.ClassListContains("localize-skip")) continue;
-                LocalizeTree(child);
+                LocalizeTree(child, register);
             }
         }
 
-        private void TryLocalize(VisualElement elem, Type type)
+        private void TryLocalize(VisualElement elem, Type type, bool register)
         {
             foreach (var skipped in SkipClass)
                 if (elem.ClassListContains(skipped))
@@ -278,6 +283,8 @@ namespace io.github.ykysnk.Localization.Editor
                         $"Localizing {elem.GetType().FullName}, {elem.name}, {string.Join(", ", elem.GetClasses())}, {key}, {keyProperty}");
 #endif
 
+                    if (!register) return;
+
                     var registration = UpdateRegister(key, (label, tooltip) =>
                     {
                         keyProperty?.SetValue(elem, label);
@@ -288,6 +295,7 @@ namespace io.github.ykysnk.Localization.Editor
                 }
             }
 
+            if (!register) return;
             if (!elem.ClassListContains("localize-tooltip")) return;
 
             var tooltipKey = elem.tooltip;
