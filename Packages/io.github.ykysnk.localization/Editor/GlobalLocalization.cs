@@ -127,9 +127,16 @@ namespace io.github.ykysnk.Localization.Editor
         {
             if (!TryGetLanguageLists(localizationID, out var languageIds, out var displayNames))
             {
-                // The dictionary is not built yet (or the id is unknown); retry after the next editor tick.
-                ScheduleLoad();
-                return;
+                // The first inspector after a domain reload is built before the delayed load has run. Load now, because
+                // this method creates the popup only once, while the tree is built.
+                EnsureLoaded();
+
+                if (!TryGetLanguageLists(localizationID, out languageIds, out displayNames))
+                {
+                    // Still nothing for this id; retry after the next editor tick.
+                    ScheduleLoad();
+                    return;
+                }
             }
 
             var selectedLanguage = LanguageDictionary.ContainsKey(localizationID)
@@ -253,7 +260,13 @@ namespace io.github.ykysnk.Localization.Editor
             Load();
         }
 
-        private static void DelayLoad()
+        private static void DelayLoad() => EnsureLoaded();
+
+        /// <summary>
+        ///     Loads the assets now if the delayed load has not run yet. An inspector that survives a domain reload asks
+        ///     for this while its tree is being built, which happens before <see cref="DelayLoad" /> gets its turn.
+        /// </summary>
+        internal static void EnsureLoaded()
         {
             if (_isDelayLoaded) return;
             _isDelayLoaded = true;
