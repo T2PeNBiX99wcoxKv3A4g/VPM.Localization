@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 3cfde2293e444c740906820ed431157c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: jp.lilxyzw.editortoolbox:jp.lilxyzw.editortoolbox:UnitypackageImporter
+  m_EditorClassIdentifier: 
   importedAssets:
   - name: None
     guids: []
