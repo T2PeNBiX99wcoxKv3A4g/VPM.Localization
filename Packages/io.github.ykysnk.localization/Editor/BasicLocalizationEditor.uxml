@@ -6,6 +6,24 @@
         <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
                       binding-path="displayName" class="localization-field"/>
 
+        <ui:Foldout text="label.basic_localization.convert" name="convert" value="false" class="convert-section">
+            <ui:VisualElement class="convert-row">
+                <uie:ObjectField name="jsonFile" binding-path="jsonFile"
+                                 type="UnityEngine.TextAsset, UnityEngine.CoreModule"
+                                 label="label.basic_localization.json_file" class="convert-field"/>
+                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
+                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="convert-row">
+                <uie:ObjectField name="poFile" binding-path="poFile"
+                                 type="UnityEngine.TextAsset, UnityEngine.CoreModule"
+                                 label="label.basic_localization.po_file" class="convert-field"/>
+                <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
+                <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
+            </ui:VisualElement>
+            <ui:Label text="label.basic_localization.convert_hint" class="convert-hint"/>
+        </ui:Foldout>
+
         <uie:ToolbarSearchField name="search" class="localization-search"
                                 tooltip="Filter by key, translation or tooltip"/>
 
@@ -25,23 +43,5 @@
                      show-alternating-row-backgrounds="ContentOnly" reorderable="true"
                      show-add-remove-footer="false" picking-mode="Ignore" usage-hints="None" show-border="true"
                      class="localization-list"/>
-
-        <ui:Foldout text="label.basic_localization.convert" name="convert" value="false" class="convert-section">
-            <ui:VisualElement class="convert-row">
-                <uie:ObjectField name="jsonFile" binding-path="jsonFile"
-                                 type="UnityEngine.TextAsset, UnityEngine.CoreModule"
-                                 label="label.basic_localization.json_file" class="convert-field"/>
-                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
-                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="convert-row">
-                <uie:ObjectField name="poFile" binding-path="poFile"
-                                 type="UnityEngine.TextAsset, UnityEngine.CoreModule"
-                                 label="label.basic_localization.po_file" class="convert-field"/>
-                <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
-                <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
-            </ui:VisualElement>
-            <ui:Label text="label.basic_localization.convert_hint" class="convert-hint"/>
-        </ui:Foldout>
     </ui:VisualElement>
 </ui:UXML>

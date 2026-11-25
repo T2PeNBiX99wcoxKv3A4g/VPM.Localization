@@ -16,7 +16,7 @@
 
 /* Format conversion section under the list. */
 .convert-section {
-    margin: 6px 0 0 0;
+    margin: 0 0 6px 0;
 }
 
 .convert-row {
@@ -86,7 +86,7 @@
 .localization-list {
     flex-grow: 1;
     min-height: 140px;
-    max-height: 480px;
+    max-height: 560px;
     margin: 0;
 }
 
