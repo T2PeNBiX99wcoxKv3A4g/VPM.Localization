@@ -183,11 +183,16 @@ namespace io.github.ykysnk.Localization.Editor
 
             element.Add(space);
             element.Add(languagePopup);
-            UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
+
+            var registration = UpdateHelper.Register(localizationID, LanguageLabelKey, (label, tooltip) =>
             {
                 languagePopup.label = label;
                 languagePopup.tooltip = tooltip;
             });
+
+            // Without this the helper stays in UpdateHelper's static list (and keeps the popup and its window alive)
+            // for every inspector that was ever built.
+            languagePopup.RegisterCallback<DetachFromPanelEvent>(_ => registration.Dispose());
         }
 
         private static bool TryGetLanguageLists(string localizationID, out string[] languageIds,
