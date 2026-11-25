@@ -10,6 +10,23 @@ namespace io.github.ykysnk.Localization.Editor
     [PublicAPI]
     public static class TranslateClipboard
     {
+        private static string? _lastClipboard;
+        private static bool _lastHasEntry;
+
+        /// <summary>
+        ///     Whether the clipboard currently holds a translation entry. The answer is cached for the clipboard text,
+        ///     so a button can ask for it often without parsing the JSON again.
+        /// </summary>
+        public static bool HasEntry()
+        {
+            var clipboard = EditorGUIUtility.systemCopyBuffer;
+            if (clipboard == _lastClipboard) return _lastHasEntry;
+
+            _lastClipboard = clipboard;
+            _lastHasEntry = TryRead(out _, out _);
+            return _lastHasEntry;
+        }
+
         /// <summary>
         ///     Tries to read a <see cref="BasicTranslate" /> from the clipboard. The text must parse as JSON and carry a
         ///     key, so an empty clipboard or an unrelated JSON object is rejected instead of overwriting the row with

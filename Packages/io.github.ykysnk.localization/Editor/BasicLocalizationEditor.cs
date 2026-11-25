@@ -71,10 +71,13 @@ namespace io.github.ykysnk.Localization.Editor
             }));
 
             _searchField = tree.Q<ToolbarSearchField>("search");
+            // One filter 150 ms after the last key instead of rebuilding the list on every keystroke.
+            var refreshSearch = _searchField.schedule.Execute(RefreshList).StartingIn(150);
+            refreshSearch.Pause();
             _searchField.RegisterValueChangedCallback(evt =>
             {
                 _search = evt.newValue ?? "";
-                RefreshList();
+                refreshSearch.ExecuteLater(150);
             });
 
             var addButton = tree.Q<Button>("addTranslate");

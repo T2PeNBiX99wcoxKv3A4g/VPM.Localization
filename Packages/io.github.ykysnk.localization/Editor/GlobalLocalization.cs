@@ -35,8 +35,16 @@ namespace io.github.ykysnk.Localization.Editor
 
         private static readonly Dictionary<string, GUIContent> GuiContents = new();
 
+        // Returned instead of allocating an empty dictionary for a language that has no asset yet.
+        private static readonly Dictionary<string, string> EmptyContents = new();
+
+        // How long the reload waits after the last request, so typing in a translation asset does not rescan the
+        // whole project on every keystroke.
+        private const double ReloadDelaySeconds = 0.25;
+
         private static bool _isDelayLoaded;
-        private static bool _loadQueued;
+        private static bool _reloadQueued;
+        private static double _reloadAt;
 
         static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
 
@@ -78,8 +86,14 @@ namespace io.github.ykysnk.Localization.Editor
             if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
                 return defaultValue ?? theKey;
 
-            var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
-            var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
+            // TryGetValue instead of GetValueOrDefault(key, new()): the default argument would allocate an empty
+            // dictionary on every lookup, and this runs for every localized element.
+            var englishContents = localizationContents.TryGetValue(DefaultLangKey, out var english)
+                ? english
+                : EmptyContents;
+            var contents = localizationContents.TryGetValue(GetSelectedLanguage(localizationID), out var selected)
+                ? selected
+                : EmptyContents;
             var get = contents.GetValueOrDefault(theKey,
                 englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey));
             return string.IsNullOrEmpty(get) ? englishContents.GetValueOrDefault(theKey, defaultValue ?? theKey) : get;
@@ -93,8 +107,12 @@ namespace io.github.ykysnk.Localization.Editor
             if (!LanguageDictionary.TryGetValue(localizationID, out var localizationContents))
                 return false;
 
-            var englishContents = localizationContents.GetValueOrDefault(DefaultLangKey, new());
-            var contents = localizationContents.GetValueOrDefault(GetSelectedLanguage(localizationID), new());
+            var englishContents = localizationContents.TryGetValue(DefaultLangKey, out var english)
+                ? english
+                : EmptyContents;
+            var contents = localizationContents.TryGetValue(GetSelectedLanguage(localizationID), out var selected)
+                ? selected
+                : EmptyContents;
 
             return contents.TryGetValue(theKey, out localizationString) ||
                    englishContents.TryGetValue(theKey, out localizationString);
@@ -296,14 +314,19 @@ namespace io.github.ykysnk.Localization.Editor
         // every localization asset per keystroke.
         private static void ScheduleLoad()
         {
-            if (_loadQueued) return;
-            _loadQueued = true;
-            EditorApplication.delayCall += FlushLoad;
+            _reloadAt = EditorApplication.timeSinceStartup + ReloadDelaySeconds;
+
+            if (_reloadQueued) return;
+            _reloadQueued = true;
+            EditorApplication.update += WaitForReload;
         }
 
-        private static void FlushLoad()
+        private static void WaitForReload()
         {
-            _loadQueued = false;
+            if (EditorApplication.timeSinceStartup < _reloadAt) return;
+
+            EditorApplication.update -= WaitForReload;
+            _reloadQueued = false;
             Load();
         }
 
@@ -323,6 +346,12 @@ namespace io.github.ykysnk.Localization.Editor
         [MenuItem("Tools/Localization/Reload Localizations", false, 1000)]
         private static void Load()
         {
+            if (_reloadQueued)
+            {
+                EditorApplication.update -= WaitForReload;
+                _reloadQueued = false;
+            }
+
             BasicLocalization.OnLocalizationFileUpdated -= OnLocalizationFileUpdated;
             BasicEditor.OnErrorEvent -= OnLocalizationError;
             EditorApplication.delayCall -= DelayLoad;

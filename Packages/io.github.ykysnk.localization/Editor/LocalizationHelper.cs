@@ -31,6 +31,22 @@ namespace io.github.ykysnk.Localization.Editor
             "unity-object-field-display__label"
         };
 
+        private static readonly Dictionary<Type, LocalizableProperties> PropertyCache = new();
+
+        private readonly struct LocalizableProperties
+        {
+            internal readonly PropertyInfo? Text;
+            internal readonly PropertyInfo? Label;
+            internal readonly PropertyInfo? HeaderTitle;
+
+            internal LocalizableProperties(Type type)
+            {
+                Text = type.GetProperty("text");
+                Label = type.GetProperty("label");
+                HeaderTitle = type.GetProperty("headerTitle");
+            }
+        }
+
         private static readonly Dictionary<Assembly, LocalizationHelper> AssemblyHelpers = new();
 
         // An assembly without the attribute keeps showing its keys, which is what a missing translation does anyway.
@@ -182,31 +198,38 @@ namespace io.github.ykysnk.Localization.Editor
         // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
         public void UILocalize(VisualElement elem, bool addLanguagePopup = true, int spaceHeight = 8)
         {
-            WalkTree(elem);
+            // One scheduled pass for the whole tree: scheduling a callback per element made large windows heavy.
+            // Without the delay call, the bind will not be set correctly.
+            elem.schedule.Execute(() => LocalizeTree(elem));
+
             if (!addLanguagePopup) return;
             SelectLanguageElement(elem, spaceHeight);
         }
 
-        private void WalkTree(VisualElement elem)
+        private void LocalizeTree(VisualElement elem)
         {
-            var clemType = elem.GetType();
-
-            // Without the delay call, the bind will not be set correctly.
-            elem.schedule.Execute(() => TryLocalize(elem, clemType));
+            TryLocalize(elem, elem.GetType());
 
             foreach (var child in elem.Children())
             {
                 if (SkipName.Contains(child.name) || child.ClassListContains("localize-skip")) continue;
-                WalkTree(child);
+                LocalizeTree(child);
             }
         }
 
         private void TryLocalize(VisualElement elem, Type type)
         {
-            if (SkipClass.Any(elem.ClassListContains)) return;
-            var textProperty = type.GetProperty("text");
-            var labelProperty = type.GetProperty("label");
-            var headerTitleProperty = type.GetProperty("headerTitle");
+            foreach (var skipped in SkipClass)
+                if (elem.ClassListContains(skipped))
+                    return;
+
+            // Reflection per element is what made a large window crawl; the properties only depend on the type.
+            if (!PropertyCache.TryGetValue(type, out var properties))
+                PropertyCache[type] = properties = new(type);
+
+            var textProperty = properties.Text;
+            var labelProperty = properties.Label;
+            var headerTitleProperty = properties.HeaderTitle;
             string? key = null;
             PropertyInfo? keyProperty = null;
 

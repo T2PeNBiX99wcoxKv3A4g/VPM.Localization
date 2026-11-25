@@ -10,11 +10,22 @@ namespace io.github.ykysnk.Localization.Editor
     [CustomPropertyDrawer(typeof(BasicTranslate))]
     public class BasicTranslateDrawer : PropertyDrawer
     {
+        private const string UxmlGuid = "666a4a69b697dcd45bfe25da3d5636a6";
+
+        private static VisualTreeAsset? _uxml;
+
+        private static VisualTreeAsset? Uxml
+        {
+            get
+            {
+                if (_uxml != null) return _uxml;
+                return _uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(AssetDatabase.GUIDToAssetPath(UxmlGuid));
+            }
+        }
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var uxml =
-                AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                    AssetDatabase.GUIDToAssetPath("666a4a69b697dcd45bfe25da3d5636a6"));
+            var uxml = Uxml;
 
             if (uxml == null) return BasicEditor.CreateUxmlImportErrorUI();
 
@@ -63,8 +74,13 @@ namespace io.github.ykysnk.Localization.Editor
             };
 
             var pasteButton = tree.Q<Button>("paste");
-            pasteButton.schedule.Execute(() => { pasteButton.SetEnabled(TranslateClipboard.TryRead(out _, out _)); })
-                .Every(1000);
+
+            // One clipboard check when the row is built and one when the pointer enters it; polling it every second
+            // per row kept parsing the clipboard in the background.
+            void UpdatePasteButton() => pasteButton.SetEnabled(TranslateClipboard.HasEntry());
+
+            UpdatePasteButton();
+            tree.RegisterCallback<PointerEnterEvent>(_ => UpdatePasteButton());
 
             pasteButton.clicked += () =>
             {
