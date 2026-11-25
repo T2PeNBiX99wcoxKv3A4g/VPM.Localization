@@ -24,6 +24,7 @@ namespace io.github.ykysnk.Localization.Editor
         private PopupField<int>? _popup;
         private GlobalLocalization.LocalizationUpdated? _reloadHandler;
 
+        /// <summary>Creates the picker for one localization id. Prefer <see cref="LocalizationHelper.CreateLanguagePicker" />.</summary>
         public LanguagePicker(string localizationID)
         {
             _localizationID = localizationID;

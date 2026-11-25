@@ -7,6 +7,10 @@ using UnityEngine.UIElements;
 
 namespace io.github.ykysnk.Localization.Editor
 {
+    /// <summary>
+    ///     Draws one <see cref="BasicTranslate" /> entry: key, translated text, the optional tooltip fields and the
+    ///     copy/paste buttons.
+    /// </summary>
     [CustomPropertyDrawer(typeof(BasicTranslate))]
     public class BasicTranslateDrawer : PropertyDrawer
     {
@@ -23,6 +27,7 @@ namespace io.github.ykysnk.Localization.Editor
             }
         }
 
+        /// <summary>Builds the UI for one translation entry.</summary>
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var uxml = Uxml;

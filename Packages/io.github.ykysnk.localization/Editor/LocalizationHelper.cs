@@ -13,8 +13,10 @@ namespace io.github.ykysnk.Localization.Editor
     [PublicAPI]
     public class LocalizationHelper
     {
+        /// <summary>Receives the language that was just selected.</summary>
         public delegate void LocalizationChanged(string newLanguage);
 
+        /// <summary>Raised when the localization assets were loaded again.</summary>
         public delegate void LocalizationUpdated();
 
         private static readonly HashSet<string> WarnedUnityKeys = new();
@@ -57,6 +59,10 @@ namespace io.github.ykysnk.Localization.Editor
         private LocalizationChanged? _localizationChanged;
         private bool _subscribed;
 
+        /// <summary>
+        ///     Creates a helper for one localization id. Prefer <see cref="For(Assembly)" /> or <see cref="For(Type)" />,
+        ///     which read the id from the assembly's <see cref="LocalizationPackageAttribute" />.
+        /// </summary>
         public LocalizationHelper(string localizationID) => _localizationID = localizationID;
 
         /// <summary>
@@ -91,6 +97,10 @@ namespace io.github.ykysnk.Localization.Editor
             GlobalLocalization.OnLocalizationChanged -= OnLocalizationChangedInternal;
         }
 
+        /// <summary>
+        ///     Language id that is selected now, for example <c>ja-JP</c>. Setting it switches the language and updates
+        ///     every element that was localized through <see cref="UILocalize" /> or <see cref="UpdateRegister" />.
+        /// </summary>
         public string SelectedLanguage
         {
             get => GlobalLocalization.GetSelectedLanguage(_localizationID);
@@ -138,26 +148,58 @@ namespace io.github.ykysnk.Localization.Editor
             _localizationChanged?.Invoke(newLanguage);
         }
 
+        /// <summary>Draws the IMGUI language picker (an <c>EditorGUILayout.Popup</c>) for this localization.</summary>
         public void SelectLanguageGUI() => GlobalLocalization.SelectLanguageGUI(_localizationID);
 
+        /// <summary>
+        ///     Appends a UI Toolkit language picker to <paramref name="element" />. Prefer
+        ///     <see cref="CreateLanguagePicker" /> when the control has to be placed or styled.
+        /// </summary>
+        /// <param name="element">Container the picker is added to.</param>
+        /// <param name="spaceHeight">Height of the gap inserted before the picker.</param>
         public void SelectLanguageElement(VisualElement element, int spaceHeight = 8) =>
             GlobalLocalization.SelectLanguageElement(_localizationID, element, spaceHeight);
 
+        /// <summary>
+        ///     Calls <paramref name="callback" /> now and again whenever the language changes or the assets are
+        ///     reloaded. Dispose the handle when the element it updates goes away.
+        /// </summary>
+        /// <param name="localizeKey">Key whose label and <c>:tooltip</c> entry are reported.</param>
+        /// <param name="callback">Receives the new label and tooltip.</param>
         public UpdateHelper UpdateRegister(string localizeKey, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, localizeKey, callback);
 
+        /// <summary>
+        ///     Same as <see cref="UpdateRegister(string, UpdateHelper.Callback)" /> for the key derived from
+        ///     <paramref name="property" /> (its target type and field name).
+        /// </summary>
         public UpdateHelper UpdateRegister(SerializedProperty property, UpdateHelper.Callback callback) =>
             UpdateHelper.Register(_localizationID, property, callback);
 
+        /// <summary>Snapshot of every key and text pair of one language.</summary>
+        /// <param name="language">Language id, for example <c>en-US</c>.</param>
         public Dictionary<string, string> GetLanguageLocalization(string language) =>
             GlobalLocalization.GetLanguageLocalization(_localizationID, language);
 
+        /// <summary>
+        ///     Text of <paramref name="key" /> in the selected language. Falls back to English, then to
+        ///     <paramref name="defaultValue" />, then to the key itself, so a missing translation never throws.
+        /// </summary>
         public string S(string key, string? defaultValue = null) =>
             GlobalLocalization.S(_localizationID, key, defaultValue);
 
+        /// <summary>
+        ///     Looks up <paramref name="key" /> without falling back to the key itself; returns false when it has no
+        ///     text in any language.
+        /// </summary>
         public bool S(string key, out string? localizationString) =>
             GlobalLocalization.S(_localizationID, key, out localizationString);
 
+        /// <summary>
+        ///     <see cref="S(string, string?)" /> of <paramref name="key" /> run through <see cref="string.Format" />.
+        ///     A format string that does not match the arguments is returned with the arguments appended instead of
+        ///     throwing.
+        /// </summary>
         public string Sf(string key, params object?[] args)
         {
             var get = S(key);
@@ -172,29 +214,49 @@ namespace io.github.ykysnk.Localization.Editor
             }
         }
 
+        /// <summary>GUIContent with the text of <paramref name="key" /> and its tooltip.</summary>
         public GUIContent G(string key) => G(key, null);
+
+        /// <summary>GUIContent with the text of <paramref name="key" />, an image and its tooltip.</summary>
         public GUIContent G(string key, Texture? image) => G(key, image, key + GlobalLocalization.TooltipExt);
 
+        /// <summary>
+        ///     GUIContent with the text of <paramref name="key" />, an image and the tooltip stored under
+        ///     <paramref name="tooltip" />.
+        /// </summary>
         public GUIContent G(string key, Texture? image, string? tooltip) =>
             GlobalLocalization.G(_localizationID, key, image, tooltip);
 
+        /// <summary>Text for the key derived from <paramref name="property" />: <c>label.{Type}.{field}</c>.</summary>
         public string S(SerializedProperty property) =>
             S(
                 $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
 
+        /// <summary>GUIContent for the key derived from <paramref name="property" />.</summary>
         public GUIContent G(SerializedProperty property) =>
             G(
                 $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}");
 
+        /// <summary>Tooltip of <paramref name="key" />, that is the entry stored with the <c>:tooltip</c> suffix.</summary>
         public string Tooltip(string key, string? defaultValue = null) =>
             S(key + GlobalLocalization.TooltipExt, defaultValue);
 
+        /// <summary>Looks up the tooltip of <paramref name="key" /> without a fallback.</summary>
         public bool Tooltip(string key, out string? tooltip) => S(key + GlobalLocalization.TooltipExt, out tooltip);
 
+        /// <summary>Tooltip for the key derived from <paramref name="property" />.</summary>
         public string Tooltip(SerializedProperty property) => S(
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",
             "");
 
+        /// <summary>
+        ///     Replaces the keys in <paramref name="elem" />'s tree with their translations and keeps them up to date:
+        ///     <c>text</c>, <c>label</c> and <c>headerTitle</c> attributes, plus tooltips. Call it before binding the
+        ///     tree; the second, delayed pass repairs values that the binding put back.
+        /// </summary>
+        /// <param name="elem">Root of the tree to localize.</param>
+        /// <param name="addLanguagePopup">Also append the language picker to <paramref name="elem" />.</param>
+        /// <param name="spaceHeight">Height of the gap before the appended picker.</param>
         // Refs: nadena.dev.modular_avatar.core.editor.UIElementLocalizer
         public void UILocalize(VisualElement elem, bool addLanguagePopup = true, int spaceHeight = 8)
         {

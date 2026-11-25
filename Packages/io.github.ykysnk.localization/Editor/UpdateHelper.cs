@@ -13,6 +13,7 @@ namespace io.github.ykysnk.Localization.Editor
     [PublicAPI]
     public class UpdateHelper : IDisposable
     {
+        /// <summary>Receives the new label and tooltip of the registered key.</summary>
         public delegate void Callback(string newLabel, string newTooltip);
 
         private static readonly Dictionary<string, List<UpdateHelper>> UpdateHelpers = new();

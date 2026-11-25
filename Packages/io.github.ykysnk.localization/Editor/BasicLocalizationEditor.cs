@@ -13,6 +13,10 @@ using Object = UnityEngine.Object;
 
 namespace io.github.ykysnk.Localization.Editor
 {
+    /// <summary>
+    ///     Inspector of a <see cref="BasicLocalization" /> asset: the asset settings, the format conversion tools and
+    ///     the list of translation entries.
+    /// </summary>
     [CustomEditor(typeof(BasicLocalization))]
     [CanEditMultipleObjects]
     public class BasicLocalizationEditor : BasicEditor

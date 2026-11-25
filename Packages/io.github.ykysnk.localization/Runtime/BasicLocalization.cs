@@ -15,6 +15,7 @@ namespace io.github.ykysnk.Localization
     [CreateAssetMenu(fileName = "en-US", menuName = "Localization/Basic Localization")]
     public class BasicLocalization : ScriptableObject
     {
+        /// <summary>Called after this asset changed, with its localization id and asset name.</summary>
         public delegate void LocalizationFileUpdated(string localizationID, string localizationName);
 
         private const string DefaultDisplayName = "English";
@@ -43,6 +44,7 @@ namespace io.github.ykysnk.Localization
         /// <summary>Sidecar PO written by <c>Export PO</c> in the inspector.</summary>
         public Object? poFile;
 
+        /// <summary>Keeps the display name filled and tells the loader that this asset changed.</summary>
         protected virtual void OnValidate()
         {
             if (string.IsNullOrEmpty(displayName))
@@ -50,6 +52,7 @@ namespace io.github.ykysnk.Localization
             OnLocalizationFileUpdated?.Invoke(localizationID, name);
         }
 
+        /// <summary>Raised when this asset changed, so the editor reloads the translations.</summary>
         public static event LocalizationFileUpdated? OnLocalizationFileUpdated;
     }
 }

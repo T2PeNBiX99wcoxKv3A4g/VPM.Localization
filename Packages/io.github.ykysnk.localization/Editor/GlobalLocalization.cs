@@ -13,8 +13,10 @@ namespace io.github.ykysnk.Localization.Editor
     [InitializeOnLoad]
     public static class GlobalLocalization
     {
+        /// <summary>Receives the localization that changed and the language that is selected now.</summary>
         public delegate void LocalizationChanged(string localizationID, string newLanguage);
 
+        /// <summary>Raised after the localization assets were loaded again.</summary>
         public delegate void LocalizationUpdated();
 
         /// <summary>Suffix that marks a key as the tooltip of another key.</summary>
@@ -52,7 +54,10 @@ namespace io.github.ykysnk.Localization.Editor
 
         static GlobalLocalization() => EditorApplication.delayCall += DelayLoad;
 
+        /// <summary>Raised after the assets were (re)loaded, so every label can be refreshed.</summary>
         public static event LocalizationUpdated? OnLocalizationReload;
+
+        /// <summary>Raised when the selected language of one localization changes.</summary>
         public static event LocalizationChanged? OnLocalizationChanged;
 
         internal static string GetSelectedLanguage(string localizationID) => !LanguageDictionary.ContainsKey(localizationID)

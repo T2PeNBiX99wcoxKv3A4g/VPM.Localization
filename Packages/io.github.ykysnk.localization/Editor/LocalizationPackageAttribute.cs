@@ -17,6 +17,7 @@ namespace io.github.ykysnk.Localization.Editor
     [PublicAPI]
     public sealed class LocalizationPackageAttribute : Attribute
     {
+        /// <summary>Declares the localization id of the assembly this attribute is placed on.</summary>
         public LocalizationPackageAttribute(string localizationID) => LocalizationID = localizationID;
 
         /// <summary>Localization id whose assets hold this assembly's translations.</summary>
