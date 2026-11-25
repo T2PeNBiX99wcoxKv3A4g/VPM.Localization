@@ -185,7 +185,7 @@ namespace io.github.ykysnk.Localization.Editor
             // For dumb null check
             if (keyProperty != null && key != null && !string.IsNullOrWhiteSpace(key))
             {
-                if (key.StartsWith(UnityPrefix))
+                if (key.StartsWith(UnityPrefix, StringComparison.Ordinal))
                 {
                     keyProperty.SetValue(elem, L10n.Tr(S(key)));
                     if (!elem.ClassListContains("localize-tooltip"))
@@ -215,7 +215,7 @@ namespace io.github.ykysnk.Localization.Editor
             if (!elem.ClassListContains("localize-tooltip")) return;
 
             var tooltipKey = elem.tooltip;
-            if (tooltipKey.StartsWith(UnityPrefix))
+            if (tooltipKey.StartsWith(UnityPrefix, StringComparison.Ordinal))
             {
                 elem.tooltip = L10n.Tr(S(tooltipKey));
                 return;
