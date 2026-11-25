@@ -1,4 +1,8 @@
-/* Shared look for the Localization inspectors. Theme-neutral: only translucent greys, so light and dark both work. */
+/*
+ * Localization inspectors.
+ * Same visual language as the toolkit windows: translucent greys plus one accent, rounded cards and a flat button
+ * set, so the inspector reads the same in the light and the dark editor theme.
+ */
 
 .localization-root {
     flex-grow: 1;
@@ -8,7 +12,7 @@
 /* ---------- cards ---------- */
 
 .loc-card {
-    padding: 8px;
+    padding: 10px;
     margin: 0 0 8px 0;
     background-color: rgba(128, 128, 128, 0.07);
     border-width: 1px;
@@ -16,28 +20,134 @@
     border-radius: 6px;
 }
 
-/* The language picker is appended to this slot by the editor. */
-.loc-language {
-    margin-top: 2px;
-}
+/* ---------- fields ---------- */
 
 .localization-field {
     flex-direction: column;
     margin: 0 0 6px 0;
 }
 
-.localization-search {
-    /* The toolbar search field ships with a fixed width; stretch it across the inspector. No flex-grow here: the
-       root is a column, so growing would stretch the height instead. */
-    align-self: stretch;
-    width: auto;
-    min-height: 20px;
-    margin: 0 0 6px 0;
+/* The language picker is appended to this slot by the editor. */
+.loc-language {
+    margin-top: 2px;
 }
 
-/* Format conversion section above the list. */
+/* Inputs share the card radius, so they do not look like sharp holes punched in it. */
+.localization-root .unity-base-text-field__input,
+.localization-root .unity-base-popup-field__input,
+.localization-root .unity-object-field__input {
+    border-radius: 4px;
+}
+
+/* ---------- buttons ---------- */
+
+.convert-button,
+.convert-pick,
+.translate-button,
+.list-header__button {
+    background-image: none;
+    background-color: rgba(128, 128, 128, 0.16);
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.45);
+    border-radius: 4px;
+}
+
+.convert-button:hover,
+.convert-pick:hover,
+.translate-button:hover,
+.list-header__button:hover {
+    background-color: rgba(76, 141, 255, 0.24);
+    border-color: rgba(76, 141, 255, 0.85);
+}
+
+.convert-button:active,
+.convert-pick:active,
+.translate-button:active,
+.list-header__button:active {
+    background-color: rgba(76, 141, 255, 0.34);
+}
+
+/* The one action that creates something is the only filled button in the inspector. */
+.list-header__button--primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(76, 141, 255);
+    border-color: rgb(60, 122, 238);
+}
+
+.list-header__button--primary:hover {
+    background-color: rgb(94, 155, 255);
+    border-color: rgb(94, 155, 255);
+}
+
+.list-header__button--primary:active {
+    background-color: rgb(66, 126, 235);
+}
+
+.list-header__button:disabled {
+    opacity: 0.4;
+}
+
+/* ---------- search ---------- */
+
+.localization-search {
+    /* The toolbar search field ships with a fixed width and a plain dark box; stretch it and give it the card look. */
+    align-self: stretch;
+    width: auto;
+    min-height: 22px;
+    margin: 0 0 6px 0;
+    background-color: rgba(128, 128, 128, 0.10);
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.28);
+    border-radius: 4px;
+}
+
+.localization-search .unity-base-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+}
+
+/* ---------- format conversion ---------- */
+
+/* The foldout is the card's heading: a tinted band with the accent arrow, and the fields below it. */
 .convert-section {
     margin: 0;
+}
+
+.convert-section .unity-foldout__toggle {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.convert-section .unity-foldout__input {
+    flex-grow: 1;
+    min-height: 22px;
+    padding: 2px 6px;
+    background-color: rgba(76, 141, 255, 0.10);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.convert-section .unity-foldout__input:hover {
+    background-color: rgba(76, 141, 255, 0.18);
+}
+
+.convert-section .unity-foldout__checkmark {
+    -unity-background-image-tint-color: rgb(120, 165, 255);
+}
+
+.convert-section .unity-foldout__text {
+    margin-left: 2px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: rgb(120, 165, 255);
+}
+
+/* The fields belong to the card, not to the foldout's default indent. */
+.convert-section .unity-foldout__content {
+    margin: 6px 0 0 0;
+    padding: 0 2px;
 }
 
 .convert-row {
@@ -87,25 +197,35 @@
     margin: 4px 0 0 0;
     font-size: 10px;
     color: rgba(128, 128, 128, 0.9);
+    white-space: normal;
 }
 
-/* Header above the translate list: title, count pill, add/remove. */
+/* ---------- translation list ---------- */
+
+/* Header band of the list: title, count pill, add/remove. */
 .list-header {
     flex-direction: row;
     align-items: center;
-    margin: 6px 0 3px 0;
-    padding: 0 2px;
+    margin: 0;
+    padding: 4px 6px;
+    background-color: rgba(76, 141, 255, 0.10);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(76, 141, 255, 0.35);
 }
 
 .list-header__title {
     -unity-font-style: bold;
+    color: rgb(120, 165, 255);
 }
 
 .list-header__count {
-    margin-left: 6px;
-    padding: 0 6px;
+    margin-left: 8px;
+    padding: 0 7px;
     font-size: 10px;
-    background-color: rgba(128, 128, 128, 0.22);
+    color: rgb(255, 255, 255);
+    background-color: rgb(76, 141, 255);
     border-radius: 8px;
 }
 
@@ -123,27 +243,30 @@
     -unity-text-align: middle-center;
 }
 
-.list-header__button:disabled {
-    opacity: 0.4;
-}
-
-/* The editor grows this list to the height the inspector actually shows. The fixed height is only the starting
-   point for the first layout, before that measurement runs. */
+/* The editor sizes this list to the height the inspector shows; 420 is only the first-layout value. */
 .localization-list {
     height: 420px;
     min-height: 140px;
     margin: 0;
+    border-top-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.localization-list .unity-collection-view__item--selected,
+.localization-list .unity-list-view__item--selected {
+    background-color: rgba(76, 141, 255, 0.22);
 }
 
 /* One translate entry inside the ListView. */
 .translate-root {
-    padding: 6px 6px 8px 6px;
+    padding: 6px 8px 8px 8px;
     border-bottom-width: 1px;
-    border-bottom-color: rgba(128, 128, 128, 0.25);
+    border-bottom-color: rgba(128, 128, 128, 0.20);
 }
 
 .translate-root:hover {
-    background-color: rgba(128, 128, 128, 0.07);
+    background-color: rgba(76, 141, 255, 0.07);
 }
 
 .translate-field {
@@ -164,7 +287,10 @@
 .translate-buttons {
     flex-direction: row;
     align-items: center;
-    margin: 4px 0 4px 0;
+    margin: 4px 0 2px 0;
+    padding: 2px 6px;
+    background-color: rgba(128, 128, 128, 0.06);
+    border-radius: 4px;
 }
 
 .translate-buttons__spacer {
