@@ -11,6 +11,10 @@
 }
 
 .localization-search {
+    /* The toolbar search field ships with a fixed width; stretch it across the inspector. No flex-grow here: the
+       root is a column, so growing would stretch the height instead. */
+    align-self: stretch;
+    width: auto;
     margin: 0 0 4px 0;
 }
 
