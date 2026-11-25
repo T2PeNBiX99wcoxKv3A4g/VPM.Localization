@@ -41,6 +41,10 @@ namespace io.github.ykysnk.Localization.Editor
             if (languageSlot != null)
                 languageSlot.Add(LocalizationHelper.For(typeof(LocalizationHelper)).CreateLanguagePicker());
 
+            // Keep the sidecar pickers to their own file type: .json is a TextAsset, .po is Unity's LocalizationAsset.
+            tree.Q<ObjectField>("jsonFile").objectType = typeof(TextAsset);
+            tree.Q<ObjectField>("poFile").objectType = typeof(LocalizationAsset);
+
             _translatesList = tree.Q<ListView>("translates");
             _translatesList.showBoundCollectionSize = false;
             _translatesList.makeItem = () => new()
