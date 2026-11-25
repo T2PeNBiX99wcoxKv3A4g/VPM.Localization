@@ -16,6 +16,8 @@ namespace io.github.ykysnk.Localization.Editor
     [CanEditMultipleObjects]
     public class BasicLocalizationEditor : BasicEditor
     {
+        private const string ConvertFoldoutKey = "io.github.ykysnk.Localization.BasicLocalizationEditor.convert";
+
         [SerializeField] private VisualTreeAsset? uxml;
 
         private readonly List<int> _visibleIndices = new();
@@ -78,11 +80,17 @@ namespace io.github.ykysnk.Localization.Editor
 
             _countLabel = tree.Q<Label>("translatesCount");
 
+            var convert = tree.Q<Foldout>("convert");
+            convert.value = EditorPrefs.GetBool(ConvertFoldoutKey);
+            convert.RegisterValueChangedCallback(evt => EditorPrefs.SetBool(ConvertFoldoutKey, evt.newValue));
+
             tree.Q<Button>("exportJson").clicked += () => Export(".json", LocalizationConverter.ToJson);
             tree.Q<Button>("importJson").clicked +=
                 () => Import("jsonFile", ".json", LocalizationConverter.TryImportJson);
             tree.Q<Button>("exportPo").clicked += () => Export(".po", LocalizationConverter.ToPo);
             tree.Q<Button>("importPo").clicked += () => Import("poFile", ".po", LocalizationConverter.TryImportPo);
+            tree.Q<Button>("pickJson").clicked += () => PickSidecar("jsonFile", ".json");
+            tree.Q<Button>("pickPo").clicked += () => PickSidecar("poFile", ".po");
 
             _translatesList.itemsSource = _visibleIndices;
             RefreshList();
@@ -268,17 +276,50 @@ namespace io.github.ykysnk.Localization.Editor
                 return;
             }
 
+            AssignSidecar(extension == ".json" ? "jsonFile" : "poFile", filePath);
+
+            Utils.Log(nameof(BasicLocalizationEditor), $"Exported {localization.name} to {filePath}");
+        }
+
+        private void PickSidecar(string fieldName, string extension)
+        {
+            if (!(target is BasicLocalization localization)) return;
+
+            var source = EditorUtility.OpenFilePanel($"Select a {extension} file", "", extension.TrimStart('.'));
+            if (string.IsNullOrEmpty(source)) return;
+
+            var assetPath = AssetDatabase.GetAssetPath(localization);
+            if (string.IsNullOrEmpty(assetPath)) return;
+
+            // A reference can only point inside the project, so the picked file is copied next to the asset.
+            var destination = Path.ChangeExtension(assetPath, extension);
+
+            try
+            {
+                if (!string.Equals(Path.GetFullPath(source), Path.GetFullPath(destination),
+                        StringComparison.OrdinalIgnoreCase))
+                    File.Copy(source, destination, true);
+            }
+            catch (Exception e)
+            {
+                Utils.LogError(nameof(BasicLocalizationEditor), $"Failed to copy {source}: {e.Message}");
+                return;
+            }
+
+            AssignSidecar(fieldName, destination);
+
+            Utils.Log(nameof(BasicLocalizationEditor), $"Assigned {destination}");
+        }
+
+        private void AssignSidecar(string fieldName, string filePath)
+        {
             AssetDatabase.ImportAsset(filePath, ImportAssetOptions.ForceUpdate);
-            // .po is not imported as a TextAsset, so the field holds a plain Object and the import reads the file.
-            var fileObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(filePath);
 
             // Assign through the SerializedObject: setting the field on the object alone is overwritten by the next
             // binding pass and never marks the asset dirty.
-            var field = serializedObject.FindProperty(extension == ".json" ? "jsonFile" : "poFile");
-            field.objectReferenceValue = fileObject;
+            var field = serializedObject.FindProperty(fieldName);
+            field.objectReferenceValue = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(filePath);
             serializedObject.ApplyModifiedProperties();
-
-            Utils.Log(nameof(BasicLocalizationEditor), $"Exported {localization.name} to {filePath}");
         }
 
         private void Import(string fieldName, string extension, ImportAction importer)

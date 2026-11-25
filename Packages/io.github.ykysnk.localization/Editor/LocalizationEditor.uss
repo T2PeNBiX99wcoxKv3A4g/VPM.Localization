@@ -14,7 +14,7 @@
     margin: 0 0 4px 0;
 }
 
-/* Format conversion section under the list. */
+/* Format conversion section above the list. */
 .convert-section {
     margin: 0 0 6px 0;
 }
@@ -29,7 +29,19 @@
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 0;
-    margin: 0 6px 0 0;
+    margin: 0;
+}
+
+/* "JSON ファイル" is short; a fixed label width leaves the value field room for "None (Object)". */
+.convert-field .unity-base-field__label {
+    flex-basis: 100px;
+    min-width: 100px;
+}
+
+.convert-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 2px 0 0 0;
 }
 
 .convert-button {
@@ -37,6 +49,15 @@
     margin: 0 0 0 4px;
     padding: 1px 8px;
     font-size: 11px;
+}
+
+.convert-pick {
+    width: 28px;
+    min-width: 28px;
+    margin: 0 0 0 4px;
+    padding: 0;
+    font-size: 13px;
+    -unity-text-align: middle-center;
 }
 
 .convert-hint {

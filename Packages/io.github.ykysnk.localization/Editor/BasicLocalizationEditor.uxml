@@ -10,12 +10,18 @@
             <ui:VisualElement class="convert-row">
                 <uie:ObjectField name="jsonFile" binding-path="jsonFile"
                                  label="label.basic_localization.json_file" class="convert-field"/>
-                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
-                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
+                <ui:Button name="pickJson" text="…" class="convert-pick"
+                           tooltip="Copy a JSON file from disk next to this asset and assign it"/>
             </ui:VisualElement>
             <ui:VisualElement class="convert-row">
                 <uie:ObjectField name="poFile" binding-path="poFile"
                                  label="label.basic_localization.po_file" class="convert-field"/>
+                <ui:Button name="pickPo" text="…" class="convert-pick"
+                           tooltip="Copy a PO file from disk next to this asset and assign it"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="convert-actions">
+                <ui:Button name="exportJson" text="label.basic_localization.export_json" class="convert-button"/>
+                <ui:Button name="importJson" text="label.basic_localization.import_json" class="convert-button"/>
                 <ui:Button name="exportPo" text="label.basic_localization.export_po" class="convert-button"/>
                 <ui:Button name="importPo" text="label.basic_localization.import_po" class="convert-button"/>
             </ui:VisualElement>
