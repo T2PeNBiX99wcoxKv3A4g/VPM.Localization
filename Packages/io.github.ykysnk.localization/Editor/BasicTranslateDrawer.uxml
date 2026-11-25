@@ -5,11 +5,12 @@
                       class="translate-field"/>
         <ui:TextField picking-mode="Ignore" label="label.basic_translate.translate" name="translate" multiline="true"
                       binding-path="translate" class="translate-field translate-textarea"/>
-        <ui:Foldout text="label.basic_translate.misc" value="false" name="misc" class="translate-misc">
-            <ui:TextField picking-mode="Ignore" label="label.basic_translate.tooltip" name="tooltip" multiline="true"
-                          binding-path="tooltip" class="translate-field translate-textarea"/>
-        </ui:Foldout>
+        <ui:TextField picking-mode="Ignore" label="label.basic_translate.tooltip" name="tooltip" multiline="true"
+                      binding-path="tooltip" class="translate-field translate-textarea translate-tooltip-field"/>
         <ui:VisualElement class="translate-buttons">
+            <ui:Button name="tooltipToggle" text="label.basic_translate.tooltip" class="translate-tooltip-toggle"
+                       tooltip="Show or hide the tooltip of this entry"/>
+            <ui:VisualElement class="translate-buttons__spacer"/>
             <ui:Button text="label.basic_translate.copy" name="copy" class="translate-button"/>
             <ui:Button text="label.basic_translate.paste" name="paste" class="translate-button"/>
         </ui:VisualElement>

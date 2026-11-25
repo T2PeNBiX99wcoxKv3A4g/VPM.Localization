@@ -10,6 +10,44 @@
     margin: 0 0 6px 0;
 }
 
+/* Header above the translate list: title, count pill, add/remove. */
+.list-header {
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 0 3px 0;
+    padding: 0 2px;
+}
+
+.list-header__title {
+    -unity-font-style: bold;
+}
+
+.list-header__count {
+    margin-left: 6px;
+    padding: 0 6px;
+    font-size: 10px;
+    background-color: rgba(128, 128, 128, 0.22);
+    border-radius: 8px;
+}
+
+.list-header__spacer {
+    flex-grow: 1;
+}
+
+.list-header__button {
+    width: 24px;
+    height: 20px;
+    margin: 0 0 0 4px;
+    padding: 0;
+    font-size: 14px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.list-header__button:disabled {
+    opacity: 0.4;
+}
+
 .localization-list {
     flex-grow: 1;
     min-height: 140px;
@@ -23,6 +61,10 @@
     border-bottom-color: rgba(128, 128, 128, 0.25);
 }
 
+.translate-root:hover {
+    background-color: rgba(128, 128, 128, 0.07);
+}
+
 .translate-field {
     flex-direction: column;
     margin: 0 0 4px 0;
@@ -33,14 +75,19 @@
     white-space: normal;
 }
 
-.translate-misc {
-    margin: 2px 0 2px 0;
+/* Hidden for entries without a tooltip; shown by the drawer. */
+.translate-tooltip-field {
+    min-height: 44px;
 }
 
 .translate-buttons {
     flex-direction: row;
-    justify-content: flex-end;
+    align-items: center;
     margin: 4px 0 0 0;
+}
+
+.translate-buttons__spacer {
+    flex-grow: 1;
 }
 
 .translate-button {
@@ -48,4 +95,16 @@
     margin: 0 0 0 6px;
     padding: 1px 10px;
     font-size: 11px;
+}
+
+.translate-tooltip-toggle {
+    min-width: 24px;
+    margin: 0;
+    padding: 1px 8px;
+    font-size: 11px;
+}
+
+.translate-tooltip-toggle--active {
+    -unity-font-style: bold;
+    background-color: rgba(128, 128, 128, 0.3);
 }

@@ -15,6 +15,17 @@ namespace io.github.ykysnk.Localization.Editor
     {
         [SerializeField] private VisualTreeAsset? uxml;
 
+        private Label? _countLabel;
+
+        private void UpdateCount()
+        {
+            if (_countLabel == null) return;
+
+            _countLabel.text = target is BasicLocalization localization
+                ? localization.translates.Count.ToString()
+                : Translates.arraySize.ToString();
+        }
+
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var tree = uxml!.CloneTree();
@@ -22,6 +33,7 @@ namespace io.github.ykysnk.Localization.Editor
             tree.Bind(serializedObject);
 
             var translatesList = tree.Q<ListView>("translates");
+            translatesList.showBoundCollectionSize = false;
             translatesList.AddManipulator(new ContextualMenuManipulator(evt =>
             {
                 var selectedList = translatesList.selectedIndices.OrderBy(i => i).ToList();
@@ -39,9 +51,20 @@ namespace io.github.ykysnk.Localization.Editor
                 evt.menu.AppendAction("label.basic_translate.remove".S(), _ => RemoveSelected(selectedList));
             }));
 
-            var addButton = translatesList.Q<Button>("unity-list-view__add-button");
-            addButton.clickable = null;
+            var addButton = tree.Q<Button>("addTranslate");
             addButton.clicked += AddTranslate;
+
+            var removeButton = tree.Q<Button>("removeTranslate");
+            removeButton.clicked += () => RemoveSelected(translatesList.selectedIndices.OrderBy(i => i).ToList());
+
+            void UpdateRemoveButton() => removeButton.SetEnabled(translatesList.selectedIndices.Any());
+
+            translatesList.selectionChanged += _ => UpdateRemoveButton();
+            UpdateRemoveButton();
+
+            var countLabel = tree.Q<Label>("translatesCount");
+            _countLabel = countLabel;
+            UpdateCount();
 
             return tree;
         }
@@ -87,6 +110,7 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             serializedObject.ApplyModifiedProperties();
+            UpdateCount();
         }
 
         private void RemoveSelected(List<int> selected)
@@ -101,6 +125,7 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             serializedObject.ApplyModifiedProperties();
+            UpdateCount();
         }
 
         private void AddTranslate()
@@ -114,6 +139,7 @@ namespace io.github.ykysnk.Localization.Editor
             element.FindPropertyRelative("tooltip").stringValue = "";
 
             serializedObject.ApplyModifiedProperties();
+            UpdateCount();
         }
     }
 }

@@ -5,11 +5,22 @@
                       binding-path="localizationID" class="localization-field"/>
         <ui:TextField picking-mode="Ignore" label="label.basic_localization.display_name" name="displayName"
                       binding-path="displayName" class="localization-field"/>
+
+        <ui:VisualElement class="list-header">
+            <ui:Label text="label.basic_localization.translates" class="list-header__title"/>
+            <ui:Label text="0" name="translatesCount" class="list-header__count"/>
+            <ui:VisualElement class="list-header__spacer"/>
+            <ui:Button name="removeTranslate" text="-" class="list-header__button"
+                       tooltip="Remove the selected translations"/>
+            <ui:Button name="addTranslate" text="+" class="list-header__button"
+                       tooltip="Add a translation"/>
+        </ui:VisualElement>
+
         <ui:ListView name="translates" selection-type="Multiple" fixed-item-height="120"
-                     virtualization-method="DynamicHeight" horizontal-scrolling="false" show-foldout-header="true"
-                     reorder-mode="Animated" show-alternating-row-backgrounds="ContentOnly" reorderable="true"
-                     show-add-remove-footer="true" picking-mode="Ignore" usage-hints="None" show-border="true"
-                     binding-path="translates" header-title="label.basic_localization.translates"
-                     class="localization-list"/>
+                     virtualization-method="DynamicHeight" horizontal-scrolling="false"
+                     show-foldout-header="false" show-bound-collection-size="false" reorder-mode="Animated"
+                     show-alternating-row-backgrounds="ContentOnly" reorderable="true"
+                     show-add-remove-footer="false" picking-mode="Ignore" usage-hints="None" show-border="true"
+                     binding-path="translates" class="localization-list"/>
     </ui:VisualElement>
 </ui:UXML>

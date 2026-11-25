@@ -25,6 +25,35 @@ namespace io.github.ykysnk.Localization.Editor
             var keyField = tree.Q<TextField>("key");
             var translateField = tree.Q<TextField>("translate");
             var tooltipField = tree.Q<TextField>("tooltip");
+            var tooltipToggle = tree.Q<Button>("tooltipToggle");
+            var tooltipProperty = property.FindPropertyRelative("tooltip");
+
+            // Tooltips are usually unused, so the field stays collapsed until the entry has one or the toggle is
+            // pressed. The class on the toggle shows that an entry carries a tooltip while it is collapsed.
+            bool? expandedOverride = null;
+
+            void ApplyTooltipVisibility()
+            {
+                var hasTooltip = !string.IsNullOrEmpty(tooltipField.value) ||
+                                 !string.IsNullOrEmpty(tooltipProperty.stringValue);
+                var open = expandedOverride ?? false;
+
+                tooltipField.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
+                tooltipToggle.EnableInClassList("translate-tooltip-toggle--active", hasTooltip);
+            }
+
+            tooltipToggle.clicked += () =>
+            {
+                expandedOverride = !(expandedOverride ?? false);
+                if (expandedOverride.Value)
+                    tooltipField.schedule.Execute(() => tooltipField.Focus());
+
+                ApplyTooltipVisibility();
+            };
+
+            tooltipField.RegisterValueChangedCallback(_ => ApplyTooltipVisibility());
+
+            ApplyTooltipVisibility();
 
             var copyButton = tree.Q<Button>("copy");
             copyButton.clicked += () =>
