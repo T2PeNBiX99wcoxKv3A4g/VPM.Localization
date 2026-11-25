@@ -38,10 +38,10 @@ namespace io.github.ykysnk.Localization
         };
 
         /// <summary>Sidecar JSON written by <c>Export JSON</c> in the inspector.</summary>
-        public TextAsset? jsonFile;
+        public Object? jsonFile;
 
         /// <summary>Sidecar PO written by <c>Export PO</c> in the inspector.</summary>
-        public TextAsset? poFile;
+        public Object? poFile;
 
         protected virtual void OnValidate()
         {

@@ -269,13 +269,14 @@ namespace io.github.ykysnk.Localization.Editor
             }
 
             AssetDatabase.ImportAsset(filePath, ImportAssetOptions.ForceUpdate);
-            var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
+            // .po is not imported as a TextAsset, so the field holds a plain Object and the import reads the file.
+            var fileObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(filePath);
 
-            if (extension == ".json") localization.jsonFile = textAsset;
-            else localization.poFile = textAsset;
-
-            EditorUtility.SetDirty(localization);
-            serializedObject.Update();
+            // Assign through the SerializedObject: setting the field on the object alone is overwritten by the next
+            // binding pass and never marks the asset dirty.
+            var field = serializedObject.FindProperty(extension == ".json" ? "jsonFile" : "poFile");
+            field.objectReferenceValue = fileObject;
+            serializedObject.ApplyModifiedProperties();
 
             Utils.Log(nameof(BasicLocalizationEditor), $"Exported {localization.name} to {filePath}");
         }
@@ -284,25 +285,37 @@ namespace io.github.ykysnk.Localization.Editor
         {
             if (!(target is BasicLocalization localization)) return;
 
-            var textAsset = serializedObject.FindProperty(fieldName).objectReferenceValue as TextAsset;
-            if (textAsset == null)
+            var reference = serializedObject.FindProperty(fieldName).objectReferenceValue;
+            var filePath = reference == null ? string.Empty : AssetDatabase.GetAssetPath(reference);
+
+            if (string.IsNullOrEmpty(filePath))
             {
                 var assetPath = AssetDatabase.GetAssetPath(localization);
-                var filePath = Path.ChangeExtension(assetPath, extension);
-                textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
+                filePath = Path.ChangeExtension(assetPath, extension);
             }
 
-            if (textAsset == null)
+            string text;
+            try
             {
-                Utils.LogWarning(nameof(BasicLocalizationEditor),
-                    $"No {extension} file is assigned for {localization.name}.");
+                if (!File.Exists(filePath))
+                {
+                    Utils.LogWarning(nameof(BasicLocalizationEditor),
+                        $"No {extension} file is assigned for {localization.name}.");
+                    return;
+                }
+
+                text = File.ReadAllText(filePath);
+            }
+            catch (Exception e)
+            {
+                Utils.LogError(nameof(BasicLocalizationEditor), $"Failed to read {filePath}: {e.Message}");
                 return;
             }
 
-            if (!importer(localization, textAsset.text, out var exception))
+            if (!importer(localization, text, out var exception))
             {
                 Utils.LogError(nameof(BasicLocalizationEditor),
-                    $"Failed to import {textAsset.name}: {exception?.Message}\n{exception?.StackTrace}");
+                    $"Failed to import {filePath}: {exception?.Message}\n{exception?.StackTrace}");
                 return;
             }
 
@@ -310,7 +323,7 @@ namespace io.github.ykysnk.Localization.Editor
             serializedObject.Update();
             RefreshList();
 
-            Utils.Log(nameof(BasicLocalizationEditor), $"Imported {textAsset.name}");
+            Utils.Log(nameof(BasicLocalizationEditor), $"Imported {filePath}");
         }
 
         private delegate bool ImportAction(BasicLocalization localization, string? text, out Exception? exception);
