@@ -43,13 +43,20 @@ namespace io.github.ykysnk.Localization.Editor
             return builder.ToString();
         }
 
-        /// <summary>Writes a PO file with one msgid/msgstr pair per key, tooltips included.</summary>
+        /// <summary>
+        ///     Writes a PO file with one msgid/msgstr pair per key, tooltips included. The header carries the language,
+        ///     because Unity's own PO importer rejects a file without it and leaves only an import error behind.
+        /// </summary>
         public static string ToPo(BasicLocalization localization)
         {
             var builder = new StringBuilder();
             builder.Append("msgid \"\"\n");
             builder.Append("msgstr \"\"\n");
-            builder.Append("\"Content-Type: text/plain; charset=UTF-8\\n\"\n\n");
+            builder.Append("\"Project-Id-Version: \\n\"\n");
+            builder.Append("\"MIME-Version: 1.0\\n\"\n");
+            builder.Append("\"Content-Type: text/plain; charset=UTF-8\\n\"\n");
+            builder.Append("\"Content-Transfer-Encoding: 8bit\\n\"\n");
+            builder.Append("\"Language: ").Append(localization.name).Append("\\n\"\n\n");
 
             foreach (var pair in Flatten(localization))
             {

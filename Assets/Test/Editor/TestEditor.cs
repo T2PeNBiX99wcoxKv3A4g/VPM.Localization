@@ -10,6 +10,9 @@ namespace Test.Editor
     {
         private const string TextProp = "text";
 
+        // A consumer of the package brings its own id and helper; the package's own id is internal to it.
+        private static readonly LocalizationHelper Helper = new("io.github.ykysnk.localization");
+
         private SerializedProperty? _text;
 
         protected override void OnEnable()
@@ -19,9 +22,9 @@ namespace Test.Editor
 
         protected override void OnErrorHandleInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_text, GlobalLocalization.Helper.G(_text!));
-            EditorGUILayout.PropertyField(_text, GlobalLocalization.Helper.G("Do not exist"));
-            GlobalLocalization.SelectLanguageGUI(GlobalLocalization.LocalizationID);
+            EditorGUILayout.PropertyField(_text, Helper.G(_text!));
+            EditorGUILayout.PropertyField(_text, Helper.G("Do not exist"));
+            Helper.SelectLanguageGUI();
         }
     }
 }

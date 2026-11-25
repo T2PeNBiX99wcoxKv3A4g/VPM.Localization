@@ -127,4 +127,4 @@ MonoBehaviour:
     useTooltip: 0
     tooltipSuffix: :tooltip
   jsonFile: {fileID: 4900000, guid: 9a633e111776874418eff4f386119b37, type: 3}
-  poFile: {fileID: 102900000, guid: f6ed9b3306d9cac42bd9164197e92f91, type: 3}
+  poFile: {fileID: 9010515335742159986, guid: f6ed9b3306d9cac42bd9164197e92f91, type: 3}

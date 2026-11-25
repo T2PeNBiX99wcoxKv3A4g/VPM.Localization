@@ -22,14 +22,7 @@ namespace io.github.ykysnk.Localization.Editor
 
         public const string LanguageLabelKey = "label.language";
         public const string DefaultLangKey = "en-US";
-
-        /// <summary>Localization id this package uses for its own editor strings.</summary>
-        public const string LocalizationID = "io.github.ykysnk.localization";
-
         public const string Null = "--null--";
-
-        /// <summary>Helper bound to <see cref="LocalizationID" />; the editor UI of this package localizes through it.</summary>
-        public static LocalizationHelper Helper { get; } = new(LocalizationID);
 
         private static Dictionary<string, string[]> _languageKeyList = new();
         private static Dictionary<string, string[]> _languageKeyNames = new();
