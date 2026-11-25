@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using io.github.ykysnk.utils;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
@@ -32,11 +33,36 @@ namespace io.github.ykysnk.Localization.Editor
 
         private readonly string _localizationID;
 
+        private static readonly Dictionary<Assembly, LocalizationHelper> AssemblyHelpers = new();
+
+        // An assembly without the attribute keeps showing its keys, which is what a missing translation does anyway.
+        private static readonly LocalizationHelper Unbound = new("");
+
         public LocalizationHelper(string localizationID)
         {
             _localizationID = localizationID;
             GlobalLocalization.OnLocalizationChanged += OnLocalizationChangedInternal;
         }
+
+        /// <summary>Helper declared by <paramref name="assembly" />'s <see cref="LocalizationPackageAttribute" />.</summary>
+        public static LocalizationHelper For(Assembly assembly)
+        {
+            if (AssemblyHelpers.TryGetValue(assembly, out var helper)) return helper;
+
+            var localizationID = assembly.GetCustomAttribute<LocalizationPackageAttribute>()?.LocalizationID;
+
+            if (localizationID == null)
+            {
+                Utils.LogWarning(nameof(LocalizationHelper),
+                    $"{assembly.GetName().Name} has no [assembly: LocalizationPackage(\"...\")], so its keys are shown as they are.");
+                return AssemblyHelpers[assembly] = Unbound;
+            }
+
+            return AssemblyHelpers[assembly] = new LocalizationHelper(localizationID);
+        }
+
+        /// <summary>Helper declared by the assembly that contains <paramref name="type" />.</summary>
+        public static LocalizationHelper For(Type type) => For(type.Assembly);
 
         public string SelectedLanguage
         {
@@ -104,7 +130,6 @@ namespace io.github.ykysnk.Localization.Editor
             S(key + GlobalLocalization.TooltipExt, defaultValue);
 
         public bool Tooltip(string key, out string? tooltip) => S(key + GlobalLocalization.TooltipExt, out tooltip);
-        public string TooltipF(string key, params object?[] args) => Sf(key + GlobalLocalization.TooltipExt, args);
 
         public string Tooltip(SerializedProperty property) => S(
             $"label.{GlobalLocalization.NameToLocalizationName(property.serializedObject.targetObject.GetType().Name)}.{GlobalLocalization.NameToLocalizationName(property.name)}{GlobalLocalization.TooltipExt}",

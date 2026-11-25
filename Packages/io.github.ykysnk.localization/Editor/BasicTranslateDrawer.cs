@@ -65,12 +65,12 @@ namespace io.github.ykysnk.Localization.Editor
             var pasteButton = tree.Q<Button>("paste");
             pasteButton.schedule.Execute(() =>
             {
-                pasteButton.SetEnabled(InternalLocalizationExtensions.TryPasteTranslate(out _, out _));
+                pasteButton.SetEnabled(TranslateClipboard.TryRead(out _, out _));
             }).Every(1000);
 
             pasteButton.clicked += () =>
             {
-                if (InternalLocalizationExtensions.TryPasteTranslate(out var pasteBasicTranslate, out var exception))
+                if (TranslateClipboard.TryRead(out var pasteBasicTranslate, out var exception))
                 {
                     keyField.value = pasteBasicTranslate.key;
                     translateField.value = pasteBasicTranslate.translate;

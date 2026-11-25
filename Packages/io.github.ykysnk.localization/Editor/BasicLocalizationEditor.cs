@@ -51,7 +51,7 @@ namespace io.github.ykysnk.Localization.Editor
 
                 evt.menu.AppendAction("label.basic_translate.copy".S(), _ => CopySelected(selected));
 
-                var canBePaste = InternalLocalizationExtensions.TryPasteTranslate(out _, out _);
+                var canBePaste = TranslateClipboard.TryRead(out _, out _);
                 evt.menu.AppendAction("label.basic_translate.paste".S(), _ => PasteSelected(selected),
                     canBePaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
 
@@ -191,7 +191,7 @@ namespace io.github.ykysnk.Localization.Editor
 
         private void PasteSelected(List<int> selected)
         {
-            if (!InternalLocalizationExtensions.TryPasteTranslate(out var pasted, out var exception))
+            if (!TranslateClipboard.TryRead(out var pasted, out var exception))
             {
                 Utils.LogWarning(nameof(BasicLocalizationEditor),
                     $"Failed to paste: {exception?.Message}\n{exception?.StackTrace}");

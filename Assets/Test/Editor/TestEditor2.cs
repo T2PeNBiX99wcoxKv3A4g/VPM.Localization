@@ -11,14 +11,12 @@ namespace Test.Editor
     [CanEditMultipleObjects]
     public class TestEditor2 : BasicEditor
     {
-        private static readonly LocalizationHelper Helper = new("io.github.ykysnk.localization");
-
         [SerializeField] private VisualTreeAsset? uxml;
 
         protected override VisualElement? CreateErrorHandleInspectorGUI()
         {
             var tree = uxml!.CloneTree();
-            Helper.UILocalize(tree);
+            tree.UILocalize(); // the helper comes from [assembly: LocalizationPackage] in TestEditor.cs
             tree.Bind(serializedObject);
             return tree;
         }

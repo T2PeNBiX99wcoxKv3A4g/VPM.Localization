@@ -1,40 +1,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace io.github.ykysnk.Localization.Editor
 {
-    internal static class InternalLocalizationExtensions
+    /// <summary>Clipboard handling for translation entries, shared by the inspector and the row drawer.</summary>
+    [PublicAPI]
+    public static class TranslateClipboard
     {
-        // Only this package localizes with this id; consumers bring their own assets and id.
-        internal static LocalizationHelper Helper { get; } = new("io.github.ykysnk.localization");
-
-        internal static string S(this string key) => Helper.S(key);
-        internal static string S(this SerializedProperty property) => Helper.S(property);
-
-        internal static string Sf(this string key, params object?[] args) =>
-            Helper.Sf(key, args);
-
-        internal static GUIContent G(this string key) => Helper.G(key);
-        internal static GUIContent G(this SerializedProperty property) => Helper.G(property);
-
-        internal static string Tooltip(this string key) => Helper.Tooltip(key);
-
-        internal static string Tooltip(this SerializedProperty property) =>
-            Helper.Tooltip(property);
-
-        internal static void UILocalize(this VisualElement element, bool addLanguagePopup = true,
-            int spaceHeight = 8) =>
-            Helper.UILocalize(element, addLanguagePopup, spaceHeight);
-
-        internal static UpdateHelper Register(this SerializedProperty property, UpdateHelper.Callback callback) =>
-            Helper.UpdateRegister(property, callback);
-
-        internal static UpdateHelper Register(this string localizeKey, UpdateHelper.Callback callback) =>
-            Helper.UpdateRegister(localizeKey, callback);
-
         /// <summary>
         ///     Tries to read a <see cref="BasicTranslate" /> from the clipboard. The text must parse as JSON and carry a
         ///     key and a translation, so an empty clipboard or an unrelated JSON object is rejected instead of
@@ -43,9 +18,7 @@ namespace io.github.ykysnk.Localization.Editor
         /// <param name="basicTranslate">The parsed entry when the method returns true; otherwise null.</param>
         /// <param name="exception">The parse or validation error, or null when the clipboard was simply empty.</param>
         /// <returns>True when a usable entry was read.</returns>
-        internal static bool TryPasteTranslate(
-            [NotNullWhen(true)] out BasicTranslate? basicTranslate,
-            out Exception? exception)
+        public static bool TryRead([NotNullWhen(true)] out BasicTranslate? basicTranslate, out Exception? exception)
         {
             basicTranslate = null;
             exception = null;
