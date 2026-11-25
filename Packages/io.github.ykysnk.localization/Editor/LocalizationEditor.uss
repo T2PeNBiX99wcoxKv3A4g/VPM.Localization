@@ -134,8 +134,8 @@
 }
 
 .translate-tooltip-toggle {
-    align-self: flex-start;
-    margin: 0 0 4px 0;
+    align-self: center;
+    margin: 0;
     font-size: 11px;
 }
 
