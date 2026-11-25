@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.2](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.1..0.10.2) - 2026-11-25
+
+### 🐛 Bug Fixes
+
+- Only keep the language change subscription while something listens - ([291b82c](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/291b82cf7567def9d46985cfd46ceee9fa05c025))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.10.2 - ([44e61ff](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/44e61ffd9f2aebf3b28c924644b0a35a195fb5f2))
+
+### Action
+
+- Update `CHANGELOG.md` - ([541b4f3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/541b4f3da8a275a617e90cb188f78c7ad1cbe999))
+
+
 ## [0.10.1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.0..0.10.1) - 2026-11-25
 
 ### 🐛 Bug Fixes
