@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.11.1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.11.0..0.11.1) - 2026-11-26
+
+### 🐛 Bug Fixes
+
+- Do not register already-localized texts as keys - ([05975d1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/05975d1b1ebd879bec708f007943a6c6f771c4fc))
+
+### 🚜 Refactor
+
+- Clean up localization code formatting - ([3b84124](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/3b84124fcb4abf5b115440bf73b610c86c32d1c4))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.11.1 - ([d8addbf](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/d8addbf69bb4e463268f5d2e2d656bf64c0a5281))
+
+### Action
+
+- Update `CHANGELOG.md` - ([4517352](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/45173521b97a54ea34256ce6a8e52ab1bcc0e9e6))
+
+
 ## [0.11.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.10.3..0.11.0) - 2026-11-25
 
 ### ⛰️  Features
