@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.11.1..1.0.0) - 2026-11-26
+
+### ⚙️ Miscellaneous Tasks
+
+- Release 1.0.0 - ([3910158](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/3910158faf5e43d1e19182d7256156176170e06f))
+
+### Action
+
+- Update `CHANGELOG.md` - ([9e8d583](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/9e8d58370473a2665b81cb63e13d6b60dcbb482f))
+
+
 ## [0.11.1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.11.0..0.11.1) - 2026-11-26
 
 ### 🐛 Bug Fixes
