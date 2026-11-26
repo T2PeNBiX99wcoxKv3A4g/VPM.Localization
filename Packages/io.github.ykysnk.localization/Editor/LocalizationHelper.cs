@@ -321,7 +321,11 @@ namespace io.github.ykysnk.Localization.Editor
                 }
                 else
                 {
-                    keyProperty.SetValue(elem, S(key));
+                    // A text that is not a key is already localized (a second pass) or a literal. Registering it
+                    // would store the translated text as a key and put it back on the next language change.
+                    if (!S(key, out var localizedText)) return;
+
+                    keyProperty.SetValue(elem, localizedText);
                     if (!elem.ClassListContains("localize-tooltip"))
                         elem.tooltip = Tooltip(key, elem.tooltip);
 
