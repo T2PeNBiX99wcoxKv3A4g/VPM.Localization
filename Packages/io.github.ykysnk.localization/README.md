@@ -3,7 +3,7 @@
 Key-based editor localization for VPM and Unity packages: every label, button and tooltip is a key, each language is
 one asset, and switching the language rewrites the open windows immediately.
 
-[Documentation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Overview)
+[Documentation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Overview.html)
 
 ## Installation
 
@@ -66,12 +66,12 @@ The selected language is stored per id in `EditorPrefs`, so each package remembe
 
 The documentation site walks through the assets, the inspector and the runtime API:
 
-- [Overview](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Overview) - how the pieces fit together
-- [Installation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Installation) - assets, translations and the JSON/PO round trip
-- [Inspector](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Inspector) - editing the translation list
-- [Unity keys](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Unity-Keys) - translating Unity's own strings
-- [API](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/API) - every public type and member
-- [Troubleshooting](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Troubleshooting) - keys that stay untranslated
+- [Overview](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Overview.html) - how the pieces fit together
+- [Installation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Installation.html) - assets, translations and the JSON/PO round trip
+- [Inspector](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Inspector.html) - editing the translation list
+- [Unity keys](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Unity-Keys.html) - translating Unity's own strings
+- [API](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/API.html) - every public type and member
+- [Troubleshooting](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Troubleshooting.html) - keys that stay untranslated
 
 The site is available in English, Japanese, Simplified Chinese and Traditional Chinese; the links above open the
 English text and the language picker in the corner switches the rest.
