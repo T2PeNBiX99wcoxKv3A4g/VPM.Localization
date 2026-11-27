@@ -1,7 +1,7 @@
 {
   "name": "io.github.ykysnk.localization",
   "displayName": "Localization",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "unity": "2022.3",
   "documentationUrl": "https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Overview",
   "description": "Key-based editor localization for VPM and Unity: one asset per language, keys in UXML, live language switching, and JSON/PO import and export.",
