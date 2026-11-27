@@ -3,10 +3,7 @@
 Key-based editor localization for VPM and Unity packages: every label, button and tooltip is a key, each language is
 one asset, and switching the language rewrites the open windows immediately.
 
-[Documentation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Overview) ·
-[日本語](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/?lang=ja#/localization/Overview) ·
-[简体中文](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/?lang=zh-CN#/localization/Overview) ·
-[繁體中文](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/?lang=zh-TW#/localization/Overview)
+[Documentation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/#/localization/Overview)
 
 ## Installation
 
