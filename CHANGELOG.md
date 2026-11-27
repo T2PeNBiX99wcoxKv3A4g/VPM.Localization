@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.1](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.0..1.0.1) - 2026-11-27
+
+### 📚 Documentation
+
+- Describe the package and link the documentation site - ([176aa43](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/176aa43379c586d8eaae32baf2fff3c77713a948))
+
+### Action
+
+- Update `CHANGELOG.md` - ([9883aa9](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/9883aa9b874be32d11af7f7214b82b86407849d5))
+
+
 ## [1.0.0](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/0.11.1..1.0.0) - 2026-11-26
 
 ### ⚙️ Miscellaneous Tasks
