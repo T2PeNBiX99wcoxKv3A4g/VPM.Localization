@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.4](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.3..1.0.4) - 2026-11-27
+
+### 📚 Documentation
+
+- Use a neutral package id in the localization sample - ([88ae317](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/88ae31738b4b45c559955bf7f6f23f2dfdcf25d6))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 1.0.4 - ([dbbf21e](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/dbbf21e4ab59c60e3ac6a70edabdb7439edacc48))
+
+### Action
+
+- Update `CHANGELOG.md` - ([ea0dbfa](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/ea0dbfa0d03fca96135867b7aea1892062e395be))
+
+
 ## [1.0.3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.2..1.0.3) - 2026-11-27
 
 ### 📚 Documentation
