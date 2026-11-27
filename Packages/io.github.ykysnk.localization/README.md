@@ -70,7 +70,7 @@ The documentation site walks through the assets, the inspector and the runtime A
 - [Installation](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Installation.html) - assets, translations and the JSON/PO round trip
 - [Inspector](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Inspector.html) - editing the translation list
 - [Unity keys](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Unity-Keys.html) - translating Unity's own strings
-- [API](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/API.html) - every public type and member
+- [API reference](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/) - every public type on its own page
 - [Troubleshooting](https://t2penbix99wcoxkv3a4g.github.io/VPM-Docs/en-US/localization/Troubleshooting.html) - keys that stay untranslated
 
 The site is available in English, Japanese, Simplified Chinese and Traditional Chinese; the links above open the
