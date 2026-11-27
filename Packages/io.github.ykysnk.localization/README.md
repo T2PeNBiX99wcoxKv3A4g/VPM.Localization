@@ -18,12 +18,12 @@ It depends on `io.github.ykysnk.utils`, which VPM resolves automatically. Unity 
 language. The file name is the language id (`en-US`, `ja-JP`, `zh-Hans`, `zh-Hant`, ...) and every asset of one
 package carries the same **Localization ID**.
 
-**2. Declare the id once per editor assembly.**
+**2. Declare the id of your package once per editor assembly.**
 
 ```csharp
 using io.github.ykysnk.Localization.Editor;
 
-[assembly: LocalizationPackage("io.github.ykysnk.my-package")]
+[assembly: LocalizationPackage("com.example.my-package")]
 ```
 
 **3. Write keys in the UXML and localize the tree before binding it.**
