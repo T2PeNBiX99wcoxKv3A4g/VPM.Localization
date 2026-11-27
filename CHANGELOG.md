@@ -1,14 +1,19 @@
 # Changelog
 
-## [unreleased]
+## [1.0.5](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.4..1.0.5) - 2026-11-27
 
 ### 📚 Documentation
 
 - Point the package at the current documentation URLs - ([863e878](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/863e878cbc7acbb3082bc26ac724a6ad4495e115))
 - Link the VitePress pages - ([5c40f40](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/5c40f40508c40689f8896493c181d07511bb3cbf))
 
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 1.0.5 - ([bb9948d](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/bb9948d7171af72bb0642bccfde7ed1afff2f057))
+
 ### Action
 
+- Update `CHANGELOG.md` - ([def93b2](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/def93b28693d6f1ea6dd04ffa8feb6d9e5a13e3d))
 - Update `CHANGELOG.md` - ([a412a24](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/a412a2426c156e49cccc6ee473d20711569cc8d0))
 
 
