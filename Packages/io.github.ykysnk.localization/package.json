@@ -1,9 +1,9 @@
 {
   "name": "io.github.ykysnk.localization",
   "displayName": "Localization",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2022.3",
-  "description": "Simple localization library",
+  "description": "Key-based editor localization for VPM and Unity: one asset per language, keys in UXML, live language switching, and JSON/PO import and export.",
   "gitDependencies": {},
   "vpmDependencies": {
     "io.github.ykysnk.utils": ">=0.33.2"
