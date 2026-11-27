@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.3](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.2..1.0.3) - 2026-11-27
+
+### 📚 Documentation
+
+- Leave only the documentation link above the readme - ([db7f7b4](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/db7f7b41fcdd0ec615f8d68470dc0b4127feffd2))
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 1.0.3 - ([dee9e0c](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/dee9e0cd3dfde425087b8530dd2d981d0af3214a))
+
+### Action
+
+- Update `CHANGELOG.md` - ([c378199](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/commit/c3781990c0033967b6e857245da23e49b4725ef8))
+
+
 ## [1.0.2](https://github.com/T2PeNBiX99wcoxKv3A4g/VPM.Localization/compare/1.0.1..1.0.2) - 2026-11-27
 
 ### ⛰️  Features
